@@ -8,6 +8,7 @@ import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Shield, Log
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import PostSpinOverlay from "@/components/casino/PostSpinOverlay";
+import CampaignCountdown, { CAMPAIGN_END } from "@/components/casino/CampaignCountdown";
 import confetti from "canvas-confetti";
 
 const DISPLAY_MAX = 100;

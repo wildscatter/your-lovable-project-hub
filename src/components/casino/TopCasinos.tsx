@@ -1,4 +1,4 @@
-import { Star, Crown, Sparkles, Trophy, Zap, Clock } from "lucide-react";
+import { Star, Crown, Sparkles, Trophy, Zap, Clock, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import { useIsMobile } from "@/hooks/use-mobile";

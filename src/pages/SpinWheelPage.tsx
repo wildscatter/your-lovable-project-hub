@@ -130,6 +130,7 @@ const SpinWheelPage = () => {
 
   // Guest demo spin — visual only, no points
   const handleGuestSpin = async (): Promise<SpinResult | null> => {
+    if (campaignEnded) return null;
     setIsSpinning(true);
     const randomIndex = Math.floor(Math.random() * SEGMENT_VALUES.length);
     const fakeResult: SpinResult = {

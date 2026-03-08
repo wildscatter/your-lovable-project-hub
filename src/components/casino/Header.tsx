@@ -88,7 +88,7 @@ const Header = () => {
               className="border-primary/30 text-primary hover:bg-primary/10 font-semibold min-h-[44px] rounded-lg"
             >
               <LogIn className="h-4 w-4 mr-1.5" />
-              შესვლა
+              Sign In
             </Button>
           )}
         </div>

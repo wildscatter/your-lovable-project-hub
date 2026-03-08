@@ -46,6 +46,7 @@ const Index = () => {
     <FloatingCTA />
     <Chatbot />
   </div>
-);
+  );
+};
 
 export default Index;

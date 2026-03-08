@@ -110,11 +110,11 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
           {/* Countdown digits inside ring */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="flex items-baseline gap-0.5 font-mono">
-              <span className="text-lg font-extrabold text-foreground">{pad(countdown.h)}</span>
-              <span className="text-sm text-primary font-bold animate-pulse">:</span>
-              <span className="text-lg font-extrabold text-foreground">{pad(countdown.m)}</span>
-              <span className="text-sm text-primary font-bold animate-pulse">:</span>
-              <span className="text-lg font-extrabold text-foreground">{pad(countdown.s)}</span>
+              <span className="text-base font-extrabold text-foreground">{pad(countdown.h)}</span>
+              <span className="text-xs text-primary font-bold animate-pulse">:</span>
+              <span className="text-base font-extrabold text-foreground">{pad(countdown.m)}</span>
+              <span className="text-xs text-primary font-bold animate-pulse">:</span>
+              <span className="text-base font-extrabold text-foreground">{pad(countdown.s)}</span>
             </div>
             <span className="text-[8px] text-muted-foreground/60 uppercase tracking-widest mt-1">
               until next spin

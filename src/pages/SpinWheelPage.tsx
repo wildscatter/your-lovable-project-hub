@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Copy, Check, Users, Sparkles, Trophy, Star, Zap } from "lucide-react";
+import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import confetti from "canvas-confetti";
@@ -176,11 +176,6 @@ const SpinWheelPage = () => {
 
   const progressPercent = Math.min((totalPoints / MAX_POINTS) * 100, 100);
 
-  // Calculate countdown ring progress (24h = 100%)
-  const countdownTotalSeconds = countdown.h * 3600 + countdown.m * 60 + countdown.s;
-  const countdownProgress = countdownActive ? (countdownTotalSeconds / 86400) * 100 : 0;
-  const circumference = 2 * Math.PI * 54;
-  const strokeDashoffset = circumference - (countdownProgress / 100) * circumference;
 
   if (loading || !dataLoaded) {
     return (
@@ -208,123 +203,62 @@ const SpinWheelPage = () => {
   const pad = (n: number) => n.toString().padStart(2, "0");
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-[100dvh] bg-background flex flex-col">
       {/* Ambient BG */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[radial-gradient(ellipse_at_center,hsl(38_95%_58%/0.05),transparent_70%)]" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-[radial-gradient(ellipse_at_center,hsl(280_60%_42%/0.03),transparent_60%)]" />
       </div>
 
-      {/* Sticky Header */}
+      {/* Compact Header with progress */}
       <div className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground -ml-2">
-            <ArrowLeft className="h-4 w-4 mr-1" /> Back
+        <div className="max-w-lg mx-auto px-3 py-2 flex items-center justify-between">
+          <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground -ml-2 h-8 px-2">
+            <ArrowLeft className="h-4 w-4" />
           </Button>
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-1.5">
+            <Sparkles className="h-3.5 w-3.5 text-primary" />
             <span className="font-bold text-foreground text-sm">Spin & Win</span>
           </div>
-          <div className="flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1">
+          <div className="flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-0.5">
             <Star className="h-3 w-3 text-primary" />
             <span className="text-xs font-bold text-primary">{totalPoints}</span>
           </div>
         </div>
-      </div>
-
-      <div className="max-w-lg mx-auto px-4 py-6 space-y-6 relative z-10">
-        {/* Progress Card */}
-        <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-5 space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Trophy className="h-4 w-4 text-primary" />
-              </div>
-              <span className="text-sm font-semibold text-foreground">Progress</span>
+        {/* Inline progress bar in header */}
+        <div className="max-w-lg mx-auto px-3 pb-2">
+          <div className="flex items-center gap-2">
+            <div className="flex-1 relative">
+              <Progress value={progressPercent} className="h-2 bg-secondary/40" />
             </div>
-            <div className="text-right">
-              <span className="text-xl font-extrabold text-primary">{totalPoints}</span>
-              <span className="text-xs text-muted-foreground">/{MAX_POINTS}</span>
-            </div>
-          </div>
-          <div className="relative">
-            <Progress value={progressPercent} className="h-3 bg-secondary/60" />
-            <div className="absolute inset-0 flex items-center">
-              {[25, 50, 75].map((mark) => (
-                <div
-                  key={mark}
-                  className="absolute h-3 w-px bg-background/50"
-                  style={{ left: `${mark}%` }}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="flex justify-between text-[10px] text-muted-foreground/60 uppercase tracking-wider">
-            <span>Start</span>
-            <span>Goal</span>
+            <span className="text-[10px] font-bold text-primary whitespace-nowrap">{totalPoints}/{MAX_POINTS}</span>
           </div>
         </div>
+      </div>
 
-        {/* Countdown Timer - Circular Ring */}
+      <div className="max-w-lg mx-auto px-3 py-3 space-y-3 relative z-10 flex-1 flex flex-col">
+        {/* Compact Countdown Timer - inline bar style */}
         {!canSpin && countdownActive && (
-          <div className="flex justify-center animate-fade-in">
-            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 flex flex-col items-center gap-4 w-full max-w-[300px]">
-              <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">Next spin available in</p>
-              <div className="relative w-[130px] h-[130px]">
-                {/* Background ring */}
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
-                  <circle
-                    cx="60" cy="60" r="54"
-                    fill="none"
-                    stroke="hsl(var(--secondary))"
-                    strokeWidth="6"
-                    opacity="0.3"
-                  />
-                  <circle
-                    cx="60" cy="60" r="54"
-                    fill="none"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    className="transition-all duration-1000 ease-linear"
-                    style={{
-                      filter: "drop-shadow(0 0 6px hsl(var(--primary) / 0.4))",
-                    }}
-                  />
-                </svg>
-                {/* Center time display */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-2xl font-mono font-extrabold text-foreground tracking-tight">
-                    {pad(countdown.h)}:{pad(countdown.m)}
-                  </span>
-                  <span className="text-lg font-mono font-bold text-primary">
-                    {pad(countdown.s)}
-                  </span>
-                </div>
-              </div>
-              {/* Segmented time blocks */}
-              <div className="flex gap-3">
-                {[
-                  { label: "HRS", val: pad(countdown.h) },
-                  { label: "MIN", val: pad(countdown.m) },
-                  { label: "SEC", val: pad(countdown.s) },
-                ].map((t) => (
-                  <div key={t.label} className="flex flex-col items-center">
-                    <div className="bg-secondary/60 border border-border/40 rounded-lg px-3 py-1.5 min-w-[48px] text-center">
-                      <span className="text-base font-mono font-bold text-foreground">{t.val}</span>
-                    </div>
-                    <span className="text-[9px] text-muted-foreground/60 mt-1 uppercase tracking-wider">{t.label}</span>
+          <div className="bg-card/80 border border-border/50 rounded-xl px-4 py-2.5 flex items-center justify-between animate-fade-in">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Next spin</span>
+            <div className="flex items-center gap-1.5">
+              {[
+                { val: pad(countdown.h), label: "h" },
+                { val: pad(countdown.m), label: "m" },
+                { val: pad(countdown.s), label: "s" },
+              ].map((t, i) => (
+                <div key={t.label} className="flex items-center gap-1.5">
+                  {i > 0 && <span className="text-muted-foreground/40 text-xs font-mono">:</span>}
+                  <div className="bg-secondary/60 border border-border/40 rounded-md px-2 py-1 min-w-[36px] text-center">
+                    <span className="text-sm font-mono font-bold text-foreground">{t.val}</span>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Wheel */}
-        <div className="bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-4 sm:p-6">
+        {/* Wheel - takes up main space */}
+        <div className="bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3 flex-shrink-0">
           <SpinWheelCanvas
             canSpin={canSpin && !isSpinning}
             onRequestSpin={handleSpin}
@@ -332,30 +266,30 @@ const SpinWheelPage = () => {
           />
         </div>
 
-        {/* Result Card */}
+        {/* Result Card - compact */}
         {showResult && spinResult && (() => {
           const style = tierStyles[spinResult.tier] || tierStyles.small;
           return (
             <div
               ref={resultRef}
-              className={`animate-scale-in ${style.bg} border ${style.border} rounded-2xl p-5 text-center shadow-lg ${style.glow}`}
+              className={`animate-scale-in ${style.bg} border ${style.border} rounded-xl p-3 text-center shadow-lg ${style.glow}`}
             >
-              <p className={`text-lg font-extrabold ${style.text}`}>{spinResult.message}</p>
+              <p className={`text-sm font-extrabold ${style.text}`}>{spinResult.message}</p>
               {spinResult.actualPoints > 0 && (
-                <div className="mt-3 inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 animate-fade-in">
+                <div className="mt-2 inline-flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 animate-fade-in">
                   <Zap className="h-3 w-3 text-primary" />
-                  <span className="text-sm font-bold text-primary">+{spinResult.actualPoints} pts</span>
+                  <span className="text-xs font-bold text-primary">+{spinResult.actualPoints} pts</span>
                 </div>
               )}
               {spinResult.tier === "invite" && (
-                <div className="mt-3">
+                <div className="mt-2">
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={copyReferralLink}
-                    className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10"
+                    className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 h-7 text-xs"
                   >
-                    <Copy className="h-3 w-3 mr-1.5" />
+                    <Copy className="h-3 w-3 mr-1" />
                     Copy Invite Link
                   </Button>
                 </div>
@@ -364,55 +298,35 @@ const SpinWheelPage = () => {
           );
         })()}
 
-        {/* Referral Card */}
-        <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-5 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-              <Users className="h-5 w-5 text-emerald-400" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-foreground font-bold text-sm">Invite Friends</h3>
-              <p className="text-[11px] text-muted-foreground">
-                +{REFERRAL_POINTS} pts per invite
-              </p>
-            </div>
-            <div className="text-right">
-              <span className="text-lg font-bold text-emerald-400">{referralCount}</span>
-              <span className="text-xs text-muted-foreground">/{MAX_REFERRALS}</span>
-            </div>
+        {/* Compact Referral Row */}
+        <div className="bg-card/80 border border-border/50 rounded-xl p-3 flex items-center gap-3">
+          <div className="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+            <Users className="h-4 w-4 text-emerald-400" />
           </div>
-
-          <div className="flex items-center gap-2">
-            {[...Array(MAX_REFERRALS)].map((_, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
-                <div className={`h-2.5 w-full rounded-full transition-all duration-500 ${
-                  i < referralCount
-                    ? "bg-emerald-500 shadow-sm shadow-emerald-500/30"
-                    : "bg-secondary/60"
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-xs font-semibold text-foreground">Invite Friends</span>
+              <span className="text-xs text-emerald-400 font-bold">{referralCount}/{MAX_REFERRALS}</span>
+            </div>
+            <div className="flex gap-1">
+              {[...Array(MAX_REFERRALS)].map((_, i) => (
+                <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
+                  i < referralCount ? "bg-emerald-500" : "bg-secondary/60"
                 }`} />
-                <span className="text-[9px] text-muted-foreground/50">
-                  {i < referralCount ? "✓" : `+${REFERRAL_POINTS}`}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-
           {referralCount < MAX_REFERRALS && (
             <Button
               onClick={copyReferralLink}
+              size="sm"
               variant="outline"
-              className="w-full border-emerald-500/20 hover:bg-emerald-500/5 hover:border-emerald-500/40 text-foreground transition-all"
+              className="border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10 h-8 px-3 text-xs flex-shrink-0"
             >
-              {copied ? (
-                <><Check className="h-4 w-4 mr-2 text-emerald-400" /> Copied!</>
-              ) : (
-                <><Copy className="h-4 w-4 mr-2" /> Copy Invite Link</>
-              )}
+              {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
             </Button>
           )}
         </div>
-
-        <div className="h-8" />
       </div>
     </div>
   );

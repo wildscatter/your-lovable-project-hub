@@ -44,7 +44,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
   return (
     <div className="absolute inset-0 z-30 flex items-center justify-center animate-fade-in">
       {/* Semi-transparent backdrop */}
-      <div className="absolute inset-0 bg-background/70 backdrop-blur-sm rounded-2xl" />
+      <div className="absolute inset-0 bg-background/85 backdrop-blur-md rounded-2xl" />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center gap-5 px-4 py-6 max-w-[320px] w-full">
@@ -57,11 +57,11 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
         </div>
 
         {/* Title */}
-        <div className="text-center space-y-1">
-          <h3 className="text-lg font-extrabold text-foreground tracking-tight">
+        <div className="text-center space-y-2">
+          <h3 className="text-2xl font-extrabold text-foreground tracking-tight drop-shadow-lg">
             Come Back Tomorrow!
           </h3>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm font-medium text-foreground/80">
             Your next spin is waiting for you
           </p>
         </div>

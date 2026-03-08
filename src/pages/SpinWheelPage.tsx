@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
+import PostSpinOverlay from "@/components/casino/PostSpinOverlay";
 import confetti from "canvas-confetti";
 
 const DISPLAY_MAX = 100;
@@ -257,33 +258,20 @@ const SpinWheelPage = () => {
           </div>
         </div>
 
-        {/* Countdown Timer */}
-        {!canSpin && countdownActive && (
-          <div className="bg-card/80 border border-border/50 rounded-xl px-4 py-2.5 flex items-center justify-between animate-fade-in">
-            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Next spin</span>
-            <div className="flex items-center gap-1.5">
-              {[
-                { val: pad(countdown.h), label: "h" },
-                { val: pad(countdown.m), label: "m" },
-                { val: pad(countdown.s), label: "s" },
-              ].map((t, i) => (
-                <div key={t.label} className="flex items-center gap-1.5">
-                  {i > 0 && <span className="text-muted-foreground/40 text-xs font-mono">:</span>}
-                  <div className="bg-secondary/60 border border-border/40 rounded-md px-2 py-1 min-w-[36px] text-center">
-                    <span className="text-sm font-mono font-bold text-foreground">{t.val}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Countdown is now shown in the post-spin overlay on the wheel */}
 
         {/* Wheel */}
-        <div className="bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3">
-          <SpinWheelCanvas
-            canSpin={canSpin && !isSpinning}
-            onRequestSpin={handleSpin}
-            onSpinComplete={handleSpinComplete}
+        <div className="relative bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3">
+          <div className={`transition-all duration-700 ${!canSpin && !isSpinning ? "blur-[3px] pointer-events-none" : ""}`}>
+            <SpinWheelCanvas
+              canSpin={canSpin && !isSpinning}
+              onRequestSpin={handleSpin}
+              onSpinComplete={handleSpinComplete}
+            />
+          </div>
+          <PostSpinOverlay
+            nextSpinTime={nextSpinTime}
+            visible={!canSpin && !isSpinning && countdownActive}
           />
         </div>
 

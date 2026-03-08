@@ -7,6 +7,7 @@ import SafePlayTips from "@/components/casino/SafePlayTips";
 import FAQ from "@/components/casino/FAQ";
 import ResponsibleGambling from "@/components/casino/ResponsibleGambling";
 import TrustBanner from "@/components/casino/TrustBanner";
+import SpinWheel from "@/components/casino/SpinWheel";
 import Footer from "@/components/casino/Footer";
 import CookieConsent from "@/components/casino/CookieConsent";
 import FloatingCTA from "@/components/casino/FloatingCTA";
@@ -18,6 +19,7 @@ const Index = () => (
     <main>
       <Hero />
       <TopCasinos />
+      <SpinWheel />
       <HowWeRate />
       <WhyTrustUs />
       <SafePlayTips />

@@ -317,7 +317,7 @@ const SpinWheelPage = () => {
                     <Sparkles className="h-10 w-10 text-primary" />
                     <h3 className="text-2xl font-extrabold text-foreground drop-shadow-lg">Sign up to earn real points!</h3>
                     <p className="text-base text-foreground/80 font-medium">Create an account to save your spins and collect rewards.</p>
-                    <Button onClick={() => navigate("/auth?returnTo=/spin")} className="bg-primary text-primary-foreground font-bold px-8 py-5 text-base rounded-xl">
+                    <Button onClick={() => navigate("/auth?view=signup&returnTo=/spin")} className="bg-primary text-primary-foreground font-bold px-8 py-5 text-base rounded-xl">
                       Create Account
                     </Button>
                   </div>

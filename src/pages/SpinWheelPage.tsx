@@ -50,6 +50,7 @@ const SpinWheelPage = () => {
   const [showResult, setShowResult] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [guestSpinDone, setGuestSpinDone] = useState(false);
+  const [campaignEnded, setCampaignEnded] = useState(CAMPAIGN_END.getTime() <= Date.now());
   const resultRef = useRef<HTMLDivElement>(null);
 
   const loadUserData = useCallback(async () => {

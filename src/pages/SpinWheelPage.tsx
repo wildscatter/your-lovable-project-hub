@@ -345,9 +345,12 @@ const SpinWheelPage = () => {
           <ul className="text-[11px] text-muted-foreground/70 space-y-2 list-disc list-inside">
             <li>You can spin the wheel once every 24 hours. Points are tracked per account.</li>
             <li>Invite friends for +5 points each, up to 3 friends (15 pts max).</li>
+            <li>Points are capped — the backend adjusts spins to enforce the limit.</li>
+            <li>Wheel results must exactly match the points awarded. Any discrepancy is considered invalid.</li>
             <li>Reach 100 points to unlock the 100 Free Spins Promo Code.</li>
-            <li>Invalid or fraudulent attempts (multiple accounts, false referrals) will not count. Follow instructions to claim prizes properly.</li>
-            <li>All decisions by site admin are final regarding prize eligibility. Spin results are randomized; progression is controlled for fairness.</li>
+            <li>Invalid or fraudulent attempts (multiple accounts, false referrals, incorrect point claims) will not be counted.</li>
+            <li>Users must follow instructions to claim prizes properly; failing to do so may result in disqualification.</li>
+            <li>All decisions by the site admin are final regarding prize eligibility.</li>
           </ul>
         </div>
 

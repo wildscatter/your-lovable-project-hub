@@ -4,55 +4,55 @@
 
 @layer base {
   :root {
-    /* Rich charcoal base — luxury, not harsh */
-    --background: 220 18% 8%;
-    --foreground: 40 10% 90%;
+    /* Deep rich base */
+    --background: 230 20% 7%;
+    --foreground: 45 20% 95%;
 
-    --card: 220 15% 12%;
-    --card-foreground: 40 10% 90%;
+    --card: 230 18% 11%;
+    --card-foreground: 45 20% 95%;
 
-    --popover: 220 15% 12%;
-    --popover-foreground: 40 10% 90%;
+    --popover: 230 18% 11%;
+    --popover-foreground: 45 20% 95%;
 
-    /* Warm gold primary — refined, not neon */
-    --primary: 42 65% 55%;
-    --primary-foreground: 220 18% 8%;
+    /* Vivid amber-gold primary — punchy & alive */
+    --primary: 38 95% 58%;
+    --primary-foreground: 230 20% 7%;
 
-    --secondary: 220 14% 18%;
-    --secondary-foreground: 40 10% 80%;
+    --secondary: 230 16% 18%;
+    --secondary-foreground: 45 15% 85%;
 
-    --muted: 220 12% 15%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 230 14% 15%;
+    --muted-foreground: 225 12% 52%;
 
-    /* Rose copper accent — warm luxury highlight */
-    --accent: 350 55% 58%;
+    /* Hot coral-red accent — energy & excitement */
+    --accent: 4 85% 62%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 12% 18%;
-    --input: 220 12% 18%;
-    --ring: 42 65% 55%;
+    --border: 230 14% 19%;
+    --input: 230 14% 19%;
+    --ring: 38 95% 58%;
 
     --radius: 0.75rem;
 
-    /* Multi-color luxury tokens */
-    --gold: 42 65% 55%;
-    --gold-dim: 42 45% 38%;
-    --gold-bright: 42 80% 68%;
-    --rose: 350 55% 58%;
-    --emerald: 160 50% 45%;
-    --slate-blue: 215 40% 55%;
+    /* Multi-color vibrant tokens */
+    --gold: 38 95% 58%;
+    --gold-dim: 38 70% 42%;
+    --gold-bright: 42 100% 70%;
+    --rose: 4 85% 62%;
+    --emerald: 155 75% 48%;
+    --slate-blue: 215 55% 60%;
 
-    --sidebar-background: 220 18% 10%;
-    --sidebar-foreground: 40 10% 90%;
-    --sidebar-primary: 42 65% 55%;
-    --sidebar-primary-foreground: 220 18% 8%;
-    --sidebar-accent: 220 14% 18%;
-    --sidebar-accent-foreground: 40 10% 90%;
-    --sidebar-border: 220 12% 18%;
-    --sidebar-ring: 42 65% 55%;
+    --sidebar-background: 230 20% 9%;
+    --sidebar-foreground: 45 20% 95%;
+    --sidebar-primary: 38 95% 58%;
+    --sidebar-primary-foreground: 230 20% 7%;
+    --sidebar-accent: 230 16% 18%;
+    --sidebar-accent-foreground: 45 20% 95%;
+    --sidebar-border: 230 14% 19%;
+    --sidebar-ring: 38 95% 58%;
   }
 }
 

@@ -53,16 +53,6 @@ const Header = () => {
               </button>
             ))}
           </nav>
-          <a
-            href={telegramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-accent text-accent-foreground font-semibold text-sm px-5 py-2.5 transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-accent/20 hover:opacity-90 min-h-[44px]"
-            aria-label="Join our Telegram"
-          >
-            <Send className="h-4 w-4" />
-            <span>Telegram</span>
-          </a>
         </div>
 
         <div className="flex md:hidden items-center gap-2">

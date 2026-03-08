@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Copy, Check, Users, Clock, Sparkles, Gift, Trophy, Star, Zap } from "lucide-react";
+import { ArrowLeft, Copy, Check, Users, Sparkles, Trophy, Star, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import confetti from "canvas-confetti";
@@ -35,7 +35,8 @@ const SpinWheelPage = () => {
   const [totalPoints, setTotalPoints] = useState(0);
   const [canSpin, setCanSpin] = useState(true);
   const [nextSpinTime, setNextSpinTime] = useState<Date | null>(null);
-  const [countdown, setCountdown] = useState("");
+  const [countdown, setCountdown] = useState({ h: 0, m: 0, s: 0 });
+  const [countdownActive, setCountdownActive] = useState(false);
   const [referralCount, setReferralCount] = useState(0);
   const [copied, setCopied] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -90,20 +91,24 @@ const SpinWheelPage = () => {
 
   // Countdown
   useEffect(() => {
-    if (!nextSpinTime) return;
+    if (!nextSpinTime) {
+      setCountdownActive(false);
+      return;
+    }
+    setCountdownActive(true);
     const interval = setInterval(() => {
       const diff = nextSpinTime.getTime() - Date.now();
       if (diff <= 0) {
         setCanSpin(true);
         setNextSpinTime(null);
-        setCountdown("");
+        setCountdownActive(false);
         clearInterval(interval);
         return;
       }
       const h = Math.floor(diff / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
-      setCountdown(`${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`);
+      setCountdown({ h, m, s });
     }, 1000);
     return () => clearInterval(interval);
   }, [nextSpinTime]);
@@ -171,6 +176,12 @@ const SpinWheelPage = () => {
 
   const progressPercent = Math.min((totalPoints / MAX_POINTS) * 100, 100);
 
+  // Calculate countdown ring progress (24h = 100%)
+  const countdownTotalSeconds = countdown.h * 3600 + countdown.m * 60 + countdown.s;
+  const countdownProgress = countdownActive ? (countdownTotalSeconds / 86400) * 100 : 0;
+  const circumference = 2 * Math.PI * 54;
+  const strokeDashoffset = circumference - (countdownProgress / 100) * circumference;
+
   if (loading || !dataLoaded) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -193,6 +204,8 @@ const SpinWheelPage = () => {
     tryagain: { bg: "bg-accent/5", border: "border-accent/20", text: "text-accent", glow: "" },
     invite: { bg: "bg-emerald-500/5", border: "border-emerald-500/20", text: "text-emerald-400", glow: "" },
   };
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
 
   return (
     <div className="min-h-screen bg-background">
@@ -252,12 +265,61 @@ const SpinWheelPage = () => {
           </div>
         </div>
 
-        {/* Cooldown Banner */}
-        {!canSpin && countdown && (
-          <div className="bg-card/60 border border-border/40 rounded-xl px-4 py-3 flex items-center justify-center gap-3 animate-fade-in">
-            <Clock className="h-4 w-4 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Next spin in:</span>
-            <span className="text-base font-mono font-bold text-primary tracking-wider">{countdown}</span>
+        {/* Countdown Timer - Circular Ring */}
+        {!canSpin && countdownActive && (
+          <div className="flex justify-center animate-fade-in">
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 flex flex-col items-center gap-4 w-full max-w-[300px]">
+              <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">Next spin available in</p>
+              <div className="relative w-[130px] h-[130px]">
+                {/* Background ring */}
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                  <circle
+                    cx="60" cy="60" r="54"
+                    fill="none"
+                    stroke="hsl(var(--secondary))"
+                    strokeWidth="6"
+                    opacity="0.3"
+                  />
+                  <circle
+                    cx="60" cy="60" r="54"
+                    fill="none"
+                    stroke="hsl(var(--primary))"
+                    strokeWidth="6"
+                    strokeLinecap="round"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={strokeDashoffset}
+                    className="transition-all duration-1000 ease-linear"
+                    style={{
+                      filter: "drop-shadow(0 0 6px hsl(var(--primary) / 0.4))",
+                    }}
+                  />
+                </svg>
+                {/* Center time display */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-2xl font-mono font-extrabold text-foreground tracking-tight">
+                    {pad(countdown.h)}:{pad(countdown.m)}
+                  </span>
+                  <span className="text-lg font-mono font-bold text-primary">
+                    {pad(countdown.s)}
+                  </span>
+                </div>
+              </div>
+              {/* Segmented time blocks */}
+              <div className="flex gap-3">
+                {[
+                  { label: "HRS", val: pad(countdown.h) },
+                  { label: "MIN", val: pad(countdown.m) },
+                  { label: "SEC", val: pad(countdown.s) },
+                ].map((t) => (
+                  <div key={t.label} className="flex flex-col items-center">
+                    <div className="bg-secondary/60 border border-border/40 rounded-lg px-3 py-1.5 min-w-[48px] text-center">
+                      <span className="text-base font-mono font-bold text-foreground">{t.val}</span>
+                    </div>
+                    <span className="text-[9px] text-muted-foreground/60 mt-1 uppercase tracking-wider">{t.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
@@ -278,7 +340,6 @@ const SpinWheelPage = () => {
               ref={resultRef}
               className={`animate-scale-in ${style.bg} border ${style.border} rounded-2xl p-5 text-center shadow-lg ${style.glow}`}
             >
-              <p className="text-4xl mb-2">{spinResult.visualIcon}</p>
               <p className={`text-lg font-extrabold ${style.text}`}>{spinResult.message}</p>
               {spinResult.actualPoints > 0 && (
                 <div className="mt-3 inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 animate-fade-in">
@@ -349,19 +410,6 @@ const SpinWheelPage = () => {
               )}
             </Button>
           )}
-        </div>
-
-        {/* Rules */}
-        <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-3">
-          <h4 className="text-xs font-bold text-foreground flex items-center gap-2 uppercase tracking-wider">
-            <Gift className="h-3.5 w-3.5 text-primary" /> Rules
-          </h4>
-          <ul className="text-[11px] text-muted-foreground/70 space-y-1.5">
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> You can spin the wheel once every 24 hours</li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> Your first spin is always a welcome bonus</li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> Invite friends for extra bonus points</li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> Collect points and unlock exclusive rewards</li>
-          </ul>
         </div>
 
         <div className="h-8" />

@@ -102,15 +102,15 @@ const CampaignCountdown = ({ onExpired }: CampaignCountdownProps) => {
             <Clock className="h-2.5 w-2.5" />
             Ends in
           </p>
-          <div className="flex items-center gap-1">
+          <div className="flex items-baseline gap-1">
             {units.map((u, i) => (
-              <div key={u.label} className="flex items-center gap-1">
+              <div key={u.label} className="flex items-baseline gap-1">
                 <div className="flex flex-col items-center">
                   <span className="text-xs font-extrabold text-foreground font-mono leading-none tabular-nums">{u.value}</span>
                   <span className="text-[6px] text-muted-foreground/50 uppercase tracking-wider">{u.label}</span>
                 </div>
                 {i < units.length - 1 && (
-                  <span className="text-primary/40 font-bold text-[10px] mb-2 animate-pulse">:</span>
+                  <span className="text-primary/40 font-bold text-[10px] leading-none animate-pulse">:</span>
                 )}
               </div>
             ))}

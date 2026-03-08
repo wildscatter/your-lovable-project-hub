@@ -120,7 +120,7 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
               <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
                 Our team will analyze your wagering profile and send you the best available casino offers.
               </p>
-              <Button onClick={handleClose} className="mt-2 glow-pulse-btn bg-gradient-to-r from-primary to-violet-dim text-primary-foreground font-bold px-8 py-5 rounded-xl hover:opacity-90 min-h-[48px] active:scale-[0.98] transition-all">
+              <Button onClick={handleClose} className="mt-2 glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold px-8 py-5 rounded-xl hover:opacity-90 min-h-[48px] active:scale-[0.98] transition-all">
                 Back to Casinos
               </Button>
             </div>

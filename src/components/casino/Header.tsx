@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 
@@ -32,7 +32,7 @@ const Header = () => {
   const telegramUrl = "YOUR_TELEGRAM_LINK_HERE";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-primary/10 bg-background/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-primary/10 bg-background/95 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <button onClick={() => navigate("/")} className="group flex items-center gap-2 bg-transparent border-none cursor-pointer">
           <span className="text-2xl">🎰</span>
@@ -42,13 +42,13 @@ const Header = () => {
           </span>
         </button>
 
-        <div className="hidden md:flex items-center gap-8">
-          <nav className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
+          <nav className="flex items-center gap-6">
             {navLinks.map((link) => (
               <button
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 bg-transparent border-none cursor-pointer"
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200 bg-transparent border-none cursor-pointer py-1"
               >
                 {link.label}
               </button>
@@ -59,64 +59,52 @@ const Header = () => {
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-[hsl(200_80%_50%)] hover:bg-[hsl(200_80%_45%)] text-foreground font-semibold text-sm px-4 py-2.5 transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-[hsl(200_80%_50%/0.3)]"
             aria-label="Join our Telegram"
           >
-            <img
-              src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/telegram.svg"
-              alt="Telegram"
-              className="w-5 h-5"
-              style={{filter: 'brightness(0) saturate(100%) invert(62%) sepia(98%) saturate(1604%) hue-rotate(360deg) brightness(102%) contrast(101%)'}}
-            />
+            <Send className="h-4 w-4" />
+            <span>Telegram</span>
           </a>
         </div>
 
-        <div className="flex md:hidden items-center gap-2">
+        <div className="flex md:hidden items-center gap-3">
           <a
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[hsl(200_80%_50%)] hover:bg-[hsl(200_80%_45%)] text-foreground font-semibold text-xs px-3 py-2 transition-all duration-200"
             aria-label="Join our Telegram"
           >
-            <img
-              src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/telegram.svg"
-              alt="Telegram"
-              className="w-5 h-5"
-              style={{filter: 'brightness(0) saturate(100%) invert(62%) sepia(98%) saturate(1604%) hue-rotate(360deg) brightness(102%) contrast(101%)'}}
-            />
+            <Send className="h-3.5 w-3.5" />
+            <span>Telegram</span>
           </a>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-foreground">
-                <Menu className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="text-foreground h-11 w-11">
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-background border-border">
+            <SheetContent side="right" className="bg-background border-border w-72">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-              <nav className="flex flex-col gap-6 mt-8">
+              <nav className="flex flex-col gap-1 mt-8">
                 {navLinks.map((link) => (
                   <button
                     key={link.href}
                     onClick={() => { handleNavClick(link.href); setOpen(false); }}
-                    className="text-lg font-medium text-foreground hover:text-primary transition-colors bg-transparent border-none cursor-pointer text-left"
+                    className="text-base font-medium text-foreground hover:text-primary hover:bg-primary/5 transition-colors bg-transparent border-none cursor-pointer text-left py-3 px-3 rounded-lg"
                   >
                     {link.label}
                   </button>
                 ))}
+                <div className="border-t border-border my-3" />
                 <a
                   href={telegramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-lg font-medium text-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-base font-semibold text-foreground bg-[hsl(200_80%_50%)] hover:bg-[hsl(200_80%_45%)] transition-colors py-3 px-3 rounded-lg justify-center"
                   onClick={() => setOpen(false)}
                 >
-                  <img
-                    src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/telegram.svg"
-                    alt="Telegram"
-                    className="w-5 h-5"
-                    style={{filter: 'brightness(0) saturate(100%) invert(62%) sepia(98%) saturate(1604%) hue-rotate(360deg) brightness(102%) contrast(101%)'}}
-                  />
+                  <Send className="h-5 w-5" />
                   Join Telegram
                 </a>
               </nav>

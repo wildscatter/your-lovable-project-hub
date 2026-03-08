@@ -15,18 +15,21 @@ const faqs = [
 ];
 
 const FAQ = () => (
-  <section id="faq" className="py-10 md:py-14">
+  <section id="faq" className="py-12 md:py-16">
     <div className="container mx-auto px-4 max-w-2xl">
-      <h2 className="text-2xl md:text-3xl font-extrabold text-center mb-6">
+      <h2 className="text-2xl md:text-3xl font-extrabold text-center mb-3">
         <span className="text-primary">Frequently</span> Asked Questions
       </h2>
-      <Accordion type="single" collapsible className="space-y-2">
+      <p className="text-sm text-muted-foreground text-center mb-8">
+        Got questions? We've got answers.
+      </p>
+      <Accordion type="single" collapsible className="space-y-3">
         {faqs.map((faq, i) => (
-          <AccordionItem key={i} value={`faq-${i}`} className="rounded-lg border border-border bg-card px-4">
-            <AccordionTrigger className="text-sm font-semibold text-foreground hover:text-primary">
+          <AccordionItem key={i} value={`faq-${i}`} className="rounded-xl border border-border bg-card px-5 hover:border-primary/20 transition-colors duration-300">
+            <AccordionTrigger className="text-sm font-semibold text-foreground hover:text-primary py-5">
               {faq.q}
             </AccordionTrigger>
-            <AccordionContent className="text-sm text-muted-foreground">
+            <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-5">
               {faq.a}
             </AccordionContent>
           </AccordionItem>

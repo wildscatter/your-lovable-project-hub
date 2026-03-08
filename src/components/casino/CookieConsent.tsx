@@ -21,14 +21,14 @@ const CookieConsent = () => {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 animate-float-up">
       <div className="container mx-auto max-w-2xl">
-        <div className="rounded-xl border border-border bg-card p-4 flex flex-col sm:flex-row items-center gap-3 shadow-lg">
-          <Cookie className="h-5 w-5 text-primary shrink-0" />
-          <p className="text-xs text-muted-foreground text-center sm:text-left flex-1">
+        <div className="rounded-xl border border-border bg-card p-5 flex flex-col sm:flex-row items-center gap-4 shadow-xl shadow-background/50">
+          <Cookie className="h-6 w-6 text-primary shrink-0" />
+          <p className="text-sm text-muted-foreground text-center sm:text-left flex-1 leading-relaxed">
             We use cookies to improve your experience. By continuing, you agree to our use of cookies.
           </p>
-          <Button size="sm" onClick={accept} className="bg-primary text-primary-foreground hover:bg-primary/90 text-xs px-4">
+          <Button onClick={accept} className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 py-2.5 shrink-0">
             Accept
           </Button>
         </div>

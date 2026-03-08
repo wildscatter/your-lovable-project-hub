@@ -100,7 +100,7 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               {submitted ? "Complete" : `Step ${step} of 3`}
             </span>
-            <Sparkles className="h-4 w-4 text-primary" />
+            
           </div>
           <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
             <div

@@ -34,7 +34,6 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-primary/10 bg-background/95 backdrop-blur-xl">
       <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4">
-        {/* Logo */}
         <button onClick={() => navigate("/")} className="group flex items-center bg-transparent border-none cursor-pointer min-h-[44px]">
           <span className="text-lg sm:text-2xl font-extrabold tracking-tight italic">
             <span className="text-primary">Wild</span>
@@ -42,7 +41,6 @@ const Header = () => {
           </span>
         </button>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
           <nav className="flex items-center gap-5 lg:gap-6">
             {navLinks.map((link) => (
@@ -59,7 +57,7 @@ const Header = () => {
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-[hsl(200_80%_50%)] hover:bg-[hsl(200_80%_45%)] text-foreground font-semibold text-sm px-5 py-2.5 transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-[hsl(200_80%_50%/0.3)] min-h-[44px]"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent text-accent-foreground font-semibold text-sm px-5 py-2.5 transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-accent/20 hover:opacity-90 min-h-[44px]"
             aria-label="Join our Telegram"
           >
             <Send className="h-4 w-4" />
@@ -67,13 +65,12 @@ const Header = () => {
           </a>
         </div>
 
-        {/* Mobile nav */}
         <div className="flex md:hidden items-center gap-2">
           <a
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[hsl(200_80%_50%)] hover:bg-[hsl(200_80%_45%)] text-foreground font-semibold text-xs px-3.5 py-2.5 transition-all duration-200 min-h-[44px] active:scale-95"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent text-accent-foreground font-semibold text-xs px-3.5 py-2.5 transition-all duration-200 min-h-[44px] active:scale-95"
             aria-label="Join our Telegram"
           >
             <Send className="h-4 w-4" />
@@ -88,18 +85,12 @@ const Header = () => {
             <SheetContent side="right" className="bg-background border-border w-[85vw] max-w-[320px] p-0">
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <div className="flex flex-col h-full">
-                {/* Mobile menu header */}
                 <div className="px-5 pt-6 pb-4 border-b border-border">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">🎰</span>
-                    <span className="text-lg font-extrabold italic">
-                      <span className="text-primary">Wild</span>
-                      <span className="text-foreground">Scatter</span>
-                    </span>
-                  </div>
+                  <span className="text-lg font-extrabold italic">
+                    <span className="text-primary">Wild</span>
+                    <span className="text-foreground">Scatter</span>
+                  </span>
                 </div>
-                
-                {/* Nav links */}
                 <nav className="flex flex-col gap-1 px-3 py-4 flex-1">
                   {navLinks.map((link) => (
                     <button
@@ -111,14 +102,12 @@ const Header = () => {
                     </button>
                   ))}
                 </nav>
-                
-                {/* Telegram CTA at bottom */}
                 <div className="px-4 pb-6 pt-2 border-t border-border mt-auto">
                   <a
                     href={telegramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-3 text-base font-bold text-foreground bg-[hsl(200_80%_50%)] hover:bg-[hsl(200_80%_45%)] active:scale-[0.98] transition-all py-4 px-4 rounded-xl min-h-[52px]"
+                    className="flex items-center justify-center gap-3 text-base font-bold text-accent-foreground bg-accent hover:opacity-90 active:scale-[0.98] transition-all py-4 px-4 rounded-xl min-h-[52px]"
                     onClick={() => setOpen(false)}
                   >
                     <Send className="h-5 w-5" />

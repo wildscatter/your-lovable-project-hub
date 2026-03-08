@@ -66,7 +66,7 @@ const StarRating = ({ rating }: { rating: number }) => {
         {Array.from({ length: 5 }).map((_, i) => (
           <Star
             key={i}
-            className={`h-4 w-4 ${i < full ? "fill-primary text-primary" : i === full && half ? "fill-primary/50 text-primary" : "text-muted-foreground/30"}`}
+            className={`h-4 w-4 ${i < full ? "fill-accent text-accent" : i === full && half ? "fill-accent/50 text-accent" : "text-muted-foreground/30"}`}
           />
         ))}
       </div>
@@ -80,12 +80,10 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
 
   return (
     <div className={`card-casino rounded-xl border bg-card p-5 sm:p-6 flex flex-col items-center text-center gap-3 min-w-0 relative ${isFeatured ? "card-featured border-primary/50" : "border-border"} ${casino.isComingSoon ? "opacity-70" : ""}`}>
-      {/* Rank badge */}
       <div className={`absolute top-3 left-3 text-xs font-bold px-2.5 py-1 rounded-md ${isFeatured ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>
         #{index + 1}
       </div>
 
-      {/* Tag badge */}
       <div className={`absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full ${isFeatured ? "bg-primary/15 text-primary border border-primary/30" : "bg-secondary text-muted-foreground"}`}>
         {casino.tag}
       </div>
@@ -103,7 +101,7 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
           Coming Soon
         </Button>
       ) : (
-        <Button className="w-full mt-auto glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground hover:opacity-90 font-bold min-h-[48px] text-sm sm:text-base rounded-lg shadow-md shadow-primary/15 active:scale-[0.98] transition-all" asChild>
+        <Button className="w-full mt-auto glow-pulse-btn bg-gradient-to-r from-primary to-teal-dim text-primary-foreground hover:opacity-90 font-bold min-h-[48px] text-sm sm:text-base rounded-lg shadow-md shadow-primary/15 active:scale-[0.98] transition-all" asChild>
           <a href={casino.link} target="_blank" rel="noopener noreferrer nofollow">
             Claim Bonus →
           </a>
@@ -138,7 +136,7 @@ const TopCasinos = () => {
     <section id="top-casinos" className="py-10 sm:py-12 md:py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-semibold text-accent mb-4">
             🔥 Today's Deals
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3">
@@ -160,7 +158,6 @@ const TopCasinos = () => {
                 ))}
               </div>
             </div>
-            {/* Dot indicators */}
             <div className="flex items-center justify-center gap-2 mt-5">
               {casinos.map((_, i) => (
                 <button

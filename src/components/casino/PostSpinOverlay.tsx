@@ -67,7 +67,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
         </div>
 
         {/* Countdown ring */}
-        <div className="relative w-[140px] h-[140px]">
+        <div className="relative w-[110px] h-[110px]">
           {/* Glow behind ring */}
           <div
             className="absolute inset-0 rounded-full"

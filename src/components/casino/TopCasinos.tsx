@@ -1,8 +1,8 @@
-import { Star, Crown, Sparkles, Trophy, Zap, Clock, Flame, Timer } from "lucide-react";
+import { Star, Crown, Sparkles, Trophy, Zap, Clock, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const casinos = [
   {
@@ -115,33 +115,10 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
   );
 };
 
-const useCountdown = () => {
-  const getTimeLeft = useCallback(() => {
-    const now = new Date();
-    const end = new Date(now);
-    end.setHours(23, 59, 59, 999);
-    const diff = end.getTime() - now.getTime();
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    return { h, m, s };
-  }, []);
-
-  const [time, setTime] = useState(getTimeLeft);
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(getTimeLeft()), 1000);
-    return () => clearInterval(interval);
-  }, [getTimeLeft]);
-
-  return time;
-};
-
 const TopCasinos = () => {
   const isMobile = useIsMobile();
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", containScroll: "trimSnaps" });
   const [activeIndex, setActiveIndex] = useState(0);
-  const { h, m, s } = useCountdown();
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -163,19 +140,6 @@ const TopCasinos = () => {
             <Flame className="h-4 w-4 animate-pulse text-accent" />
             <span>Today's Deals</span>
             <Flame className="h-4 w-4 animate-pulse text-accent" />
-          </div>
-
-          {/* Countdown timer */}
-          <div className="inline-flex items-center gap-2 mb-5">
-            <Timer className="h-4 w-4 text-accent" />
-            <span className="text-xs text-muted-foreground font-medium">Offers expire in</span>
-            <div className="flex items-center gap-1">
-              <span className="bg-accent/15 border border-accent/30 text-accent font-mono font-bold text-sm px-2 py-1 rounded-md min-w-[32px] text-center">{String(h).padStart(2, "0")}</span>
-              <span className="text-accent font-bold">:</span>
-              <span className="bg-accent/15 border border-accent/30 text-accent font-mono font-bold text-sm px-2 py-1 rounded-md min-w-[32px] text-center">{String(m).padStart(2, "0")}</span>
-              <span className="text-accent font-bold">:</span>
-              <span className="bg-accent/15 border border-accent/30 text-accent font-mono font-bold text-sm px-2 py-1 rounded-md min-w-[32px] text-center">{String(s).padStart(2, "0")}</span>
-            </div>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3">

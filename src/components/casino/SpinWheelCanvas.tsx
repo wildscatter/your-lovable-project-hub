@@ -328,11 +328,15 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
 
     const prizeIndex = result.visualIndex;
     const extraSpins = 7 + Math.random() * 3;
+    // prizeAngle is the ABSOLUTE rotation where segment prizeIndex aligns with top pointer
     const prizeAngle = (2 * Math.PI) - (prizeIndex * ARC + ARC / 2);
-    const totalRotation = extraSpins * 2 * Math.PI + prizeAngle;
+    // Target must be an absolute position, not relative offset
+    const minRotation = rotation + extraSpins * 2 * Math.PI;
+    const fullSpins = Math.ceil(minRotation / (2 * Math.PI));
+    const targetRotation = fullSpins * 2 * Math.PI + prizeAngle;
 
     startRotRef.current = rotation;
-    targetRotRef.current = rotation + totalRotation;
+    targetRotRef.current = targetRotation;
     startTimeRef.current = performance.now();
     const duration = 5500 + Math.random() * 2000;
 

@@ -7,9 +7,9 @@ import { CheckCircle, ChevronRight, ChevronLeft, Loader2, Sparkles } from "lucid
 import emailjs from "@emailjs/browser";
 
 // Replace these with your actual EmailJS credentials (all publishable/public keys)
-const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
-const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+const EMAILJS_SERVICE_ID = "service_m5m4d0i";
+const EMAILJS_TEMPLATE_ID = "template_yz7bh2o";
+const EMAILJS_PUBLIC_KEY = "uwal6zbarjqcPutjJ";
 
 interface VipOfferWizardProps {
   open: boolean;

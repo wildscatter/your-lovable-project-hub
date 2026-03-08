@@ -182,7 +182,10 @@ const SpinWheelPage = () => {
 
   const copyReferralLink = () => {
     if (!user) return;
-    navigator.clipboard.writeText(`${window.location.origin}/auth?ref=${user.id}`);
+    const baseUrl = window.location.hostname === "localhost" || window.location.hostname.includes("lovable")
+      ? "https://wildscatter.com"
+      : window.location.origin;
+    navigator.clipboard.writeText(`${baseUrl}/auth?ref=${user.id}`);
     setCopied(true);
     toast({ title: "Link copied!", description: "Share it with your friends to earn bonus points." });
     setTimeout(() => setCopied(false), 2000);

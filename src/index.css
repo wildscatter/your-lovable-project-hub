@@ -4,54 +4,54 @@
 
 @layer base {
   :root {
-    /* Deep navy base — premium crypto feel */
-    --background: 222 30% 6%;
-    --foreground: 210 20% 93%;
+    /* Deep dark base — premium crypto feel */
+    --background: 250 25% 6%;
+    --foreground: 240 10% 93%;
 
-    --card: 222 25% 10%;
-    --card-foreground: 210 20% 93%;
+    --card: 250 20% 10%;
+    --card-foreground: 240 10% 93%;
 
-    --popover: 222 25% 10%;
-    --popover-foreground: 210 20% 93%;
+    --popover: 250 20% 10%;
+    --popover-foreground: 240 10% 93%;
 
-    /* Electric teal primary — modern, techy, not gold */
-    --primary: 174 80% 46%;
-    --primary-foreground: 222 30% 6%;
+    /* Electric violet primary */
+    --primary: 270 85% 62%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 25% 16%;
-    --secondary-foreground: 210 20% 93%;
+    --secondary: 250 20% 16%;
+    --secondary-foreground: 240 10% 93%;
 
-    --muted: 222 22% 14%;
-    --muted-foreground: 215 15% 55%;
+    --muted: 250 18% 14%;
+    --muted-foreground: 245 12% 55%;
 
-    /* Emerald accent — for highlights and success states */
-    --accent: 155 65% 48%;
-    --accent-foreground: 222 30% 6%;
+    /* Hot pink/magenta accent — for CTAs and highlights */
+    --accent: 330 80% 58%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 222 22% 16%;
-    --input: 222 22% 16%;
-    --ring: 174 80% 46%;
+    --border: 250 18% 16%;
+    --input: 250 18% 16%;
+    --ring: 270 85% 62%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
-    --teal: 174 80% 46%;
-    --teal-dim: 174 60% 32%;
-    --teal-bright: 174 90% 60%;
-    --emerald-glow: 155 65% 48%;
+    --violet: 270 85% 62%;
+    --violet-dim: 270 60% 42%;
+    --violet-bright: 270 95% 75%;
+    --pink-glow: 330 80% 58%;
     --blue-glow: 220 80% 55%;
 
-    --sidebar-background: 222 30% 8%;
-    --sidebar-foreground: 210 20% 93%;
-    --sidebar-primary: 174 80% 46%;
-    --sidebar-primary-foreground: 222 30% 6%;
-    --sidebar-accent: 222 25% 16%;
-    --sidebar-accent-foreground: 210 20% 93%;
-    --sidebar-border: 222 22% 16%;
-    --sidebar-ring: 174 80% 46%;
+    --sidebar-background: 250 25% 8%;
+    --sidebar-foreground: 240 10% 93%;
+    --sidebar-primary: 270 85% 62%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 250 20% 16%;
+    --sidebar-accent-foreground: 240 10% 93%;
+    --sidebar-border: 250 18% 16%;
+    --sidebar-ring: 270 85% 62%;
   }
 }
 
@@ -81,15 +81,15 @@
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
-/* Teal glow pulse — replacing gold */
+/* Violet glow pulse */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px hsl(174 80% 46% / 0.4); }
-  50% { box-shadow: 0 0 24px hsl(174 80% 46% / 0.6), 0 0 48px hsl(174 80% 46% / 0.2); }
+  0%, 100% { box-shadow: 0 0 8px hsl(270 85% 62% / 0.4); }
+  50% { box-shadow: 0 0 24px hsl(270 85% 62% / 0.6), 0 0 48px hsl(270 85% 62% / 0.2); }
 }
 
 @keyframes glow-pulse-subtle {
-  0%, 100% { box-shadow: 0 0 6px hsl(174 80% 46% / 0.2); }
-  50% { box-shadow: 0 0 14px hsl(174 80% 46% / 0.35), 0 0 30px hsl(174 80% 46% / 0.1); }
+  0%, 100% { box-shadow: 0 0 6px hsl(270 85% 62% / 0.2); }
+  50% { box-shadow: 0 0 14px hsl(270 85% 62% / 0.35), 0 0 30px hsl(270 85% 62% / 0.1); }
 }
 
 @keyframes shimmer {
@@ -103,11 +103,11 @@
 }
 
 @keyframes lightning-bolt {
-  0%, 100% { filter: drop-shadow(0 0 2px hsl(174 80% 46% / 0.3)); }
-  15% { filter: drop-shadow(0 0 12px hsl(174 80% 46% / 1)) drop-shadow(0 0 24px hsl(174 90% 60% / 0.6)); }
-  30% { filter: drop-shadow(0 0 3px hsl(174 80% 46% / 0.3)); }
-  45% { filter: drop-shadow(0 0 8px hsl(174 80% 46% / 0.8)) drop-shadow(0 0 16px hsl(174 90% 60% / 0.4)); }
-  60% { filter: drop-shadow(0 0 2px hsl(174 80% 46% / 0.3)); }
+  0%, 100% { filter: drop-shadow(0 0 2px hsl(270 85% 62% / 0.3)); }
+  15% { filter: drop-shadow(0 0 12px hsl(270 85% 62% / 1)) drop-shadow(0 0 24px hsl(270 95% 75% / 0.6)); }
+  30% { filter: drop-shadow(0 0 3px hsl(270 85% 62% / 0.3)); }
+  45% { filter: drop-shadow(0 0 8px hsl(270 85% 62% / 0.8)) drop-shadow(0 0 16px hsl(270 95% 75% / 0.4)); }
+  60% { filter: drop-shadow(0 0 2px hsl(270 85% 62% / 0.3)); }
 }
 
 @keyframes float-up {
@@ -122,8 +122,8 @@
 }
 
 @keyframes border-glow {
-  0%, 100% { border-color: hsl(174 80% 46% / 0.3); }
-  50% { border-color: hsl(174 80% 46% / 0.6); }
+  0%, 100% { border-color: hsl(270 85% 62% / 0.3); }
+  50% { border-color: hsl(270 85% 62% / 0.6); }
 }
 
 .glow-pulse-btn {
@@ -137,11 +137,11 @@
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    hsl(174 80% 46%) 0%,
-    hsl(174 90% 65%) 25%,
-    hsl(174 95% 75%) 50%,
-    hsl(174 90% 65%) 75%,
-    hsl(174 80% 46%) 100%
+    hsl(270 85% 62%) 0%,
+    hsl(300 80% 70%) 25%,
+    hsl(330 80% 75%) 50%,
+    hsl(300 80% 70%) 75%,
+    hsl(270 85% 62%) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -159,13 +159,13 @@
 }
 
 .logo-lightning:hover {
-  filter: drop-shadow(0 0 16px hsl(174 80% 46% / 1)) drop-shadow(0 0 32px hsl(174 90% 60% / 0.8)) !important;
+  filter: drop-shadow(0 0 16px hsl(270 85% 62% / 1)) drop-shadow(0 0 32px hsl(270 95% 75% / 0.8)) !important;
 }
 
 .card-featured {
-  border-color: hsl(174 80% 46% / 0.4);
+  border-color: hsl(270 85% 62% / 0.4);
   animation: border-glow 3s ease-in-out infinite;
-  box-shadow: 0 0 20px hsl(174 80% 46% / 0.08), inset 0 1px 0 hsl(174 80% 46% / 0.08);
+  box-shadow: 0 0 20px hsl(270 85% 62% / 0.08), inset 0 1px 0 hsl(270 85% 62% / 0.08);
 }
 
 .card-casino {
@@ -176,8 +176,8 @@
 @media (hover: hover) {
   .card-casino:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 40px hsl(174 80% 46% / 0.12), 0 0 20px hsl(155 65% 48% / 0.06);
-    border-color: hsl(174 80% 46% / 0.35);
+    box-shadow: 0 12px 40px hsl(270 85% 62% / 0.12), 0 0 20px hsl(330 80% 58% / 0.06);
+    border-color: hsl(270 85% 62% / 0.35);
   }
 }
 
@@ -185,7 +185,7 @@
 @media (hover: none) {
   .card-casino:active {
     transform: scale(0.98);
-    border-color: hsl(174 80% 46% / 0.35);
+    border-color: hsl(270 85% 62% / 0.35);
   }
 }
 

@@ -40,7 +40,7 @@ const TrustBanner = () => (
         </div>
 
         <div className="text-center mt-8 sm:mt-10">
-          <Button asChild className="glow-pulse-subtle bg-gradient-to-r from-primary to-teal-dim text-primary-foreground font-bold px-8 sm:px-10 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/15 min-h-[52px] w-full sm:w-auto max-w-xs active:scale-[0.98]">
+          <Button asChild className="glow-pulse-subtle bg-gradient-to-r from-primary to-violet-dim text-primary-foreground font-bold px-8 sm:px-10 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/15 min-h-[52px] w-full sm:w-auto max-w-xs active:scale-[0.98]">
             <Link to="/support" className="flex items-center justify-center gap-2">
               <Mail className="h-4 w-4" />
               Get In Touch

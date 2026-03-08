@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Gift, Shield, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import confetti from "canvas-confetti";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Send, MessageCircle, LogIn, LogOut, Zap, User } from "lucide-react";
+import { Menu, Send, MessageCircle, LogIn, LogOut, Zap, User, Disc3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useChatbot } from "@/hooks/use-chatbot";
@@ -56,6 +56,17 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-2">
+          {/* Spin wheel icon */}
+          <button
+            onClick={() => navigate("/spin")}
+            className="relative group inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/20 hover:border-primary/30 transition-all duration-300 cursor-pointer min-h-[40px]"
+            aria-label="Spin & Win"
+            title="Spin & Win"
+          >
+            <Disc3 className="h-5 w-5 text-primary group-hover:animate-[spin_1.5s_ease-in-out]" />
+            <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-accent animate-pulse border-2 border-background" />
+          </button>
+
           <nav className="flex items-center bg-secondary/30 rounded-xl px-1.5 py-1 border border-border/30">
             {navLinks.map((link) => (
               <button
@@ -116,6 +127,14 @@ const Header = () => {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-2">
+          {/* Mobile spin icon */}
+          <button
+            onClick={() => navigate("/spin")}
+            className="relative inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 active:scale-95 transition-all duration-200 cursor-pointer min-h-[40px]"
+            aria-label="Spin & Win"
+          >
+            <Disc3 className="h-4.5 w-4.5 text-primary animate-[spin_4s_linear_infinite]" style={{ animationDuration: '4s' }} />
+          </button>
           <button
             onClick={() => openChat(true)}
             className="relative inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-xs px-4 py-2.5 transition-all duration-300 min-h-[40px] active:scale-95 shadow-md shadow-primary/20"

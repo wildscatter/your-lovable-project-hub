@@ -383,9 +383,9 @@ const Auth = () => {
             </>
           ) : (
             <>
-              <Sparkles className="h-3 w-3" />
-              <span className="text-[10px] uppercase tracking-[0.2em]">Free forever · No credit card</span>
-              <Sparkles className="h-3 w-3" />
+              <Shield className="h-3 w-3" />
+              <span className="text-[10px] uppercase tracking-[0.2em]">Secure & encrypted</span>
+              <Shield className="h-3 w-3" />
             </>
           )}
         </div>

@@ -64,7 +64,6 @@ const Hero = () => {
               >
                 <Gift className="h-4 w-4 mr-2" />
                 Get Personalized Offers
-                <span className="ml-2 inline-flex items-center rounded-full bg-emerald-500/20 border border-emerald-500/30 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">VIP</span>
               </Button>
             </div>
 

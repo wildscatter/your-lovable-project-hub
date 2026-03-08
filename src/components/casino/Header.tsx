@@ -87,7 +87,8 @@ const Header = () => {
                     href={telegramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-3 text-base font-bold text-accent-foreground bg-accent hover:opacity-90 active:scale-[0.98] transition-all py-4 px-4 rounded-xl min-h-[52px]"
+                    className="flex items-center justify-center gap-3 text-base font-bold text-white hover:opacity-90 active:scale-[0.98] transition-all py-4 px-4 rounded-xl min-h-[52px]"
+                    style={{ backgroundColor: "#2AABEE" }}
                     onClick={() => setOpen(false)}
                   >
                     <Send className="h-5 w-5" />

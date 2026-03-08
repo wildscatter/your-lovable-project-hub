@@ -48,7 +48,7 @@ const Auth = () => {
       if (view === "login") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        toast({ title: "Signed in successfully!" });
+        
         navigate("/");
       } else {
         const { error } = await supabase.auth.signUp({

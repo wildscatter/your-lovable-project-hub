@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, ArrowRight, Loader2 } from "lucide-react";
+import { X, Send, MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useChatbot } from "@/hooks/use-chatbot";
 
 type Message = {
   id: string;
@@ -107,7 +108,7 @@ const KEYWORD_MAP: Record<string, string> = {
 const generateId = () => Math.random().toString(36).slice(2, 10);
 
 const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen } = useChatbot();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -121,6 +122,15 @@ const Chatbot = () => {
     }
   }, [messages, isTyping]);
 
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      addBotMessage("greeting");
+    }
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 300);
+    }
+  }, [isOpen]);
+
   const addBotMessage = (key: string) => {
     setIsTyping(true);
     const response = RESPONSES[key] || RESPONSES.fallback;
@@ -131,14 +141,6 @@ const Chatbot = () => {
       ]);
       setIsTyping(false);
     }, 600 + Math.random() * 400);
-  };
-
-  const handleOpen = () => {
-    setIsOpen(true);
-    if (messages.length === 0) {
-      addBotMessage("greeting");
-    }
-    setTimeout(() => inputRef.current?.focus(), 300);
   };
 
   const handleOptionClick = (action: string) => {
@@ -159,125 +161,106 @@ const Chatbot = () => {
     if (!text) return;
     setInput("");
     setMessages((prev) => [...prev, { id: generateId(), role: "user", text }]);
-
     const lower = text.toLowerCase();
     const matchedKey = Object.entries(KEYWORD_MAP).find(([kw]) => lower.includes(kw))?.[1] || "fallback";
     addBotMessage(matchedKey);
   };
 
+  if (!isOpen) return null;
+
   return (
-    <>
-      {/* Chat toggle button */}
-      {!isOpen && (
-        <button
-          onClick={handleOpen}
-          className="fixed bottom-6 left-4 z-50 flex items-center gap-2 rounded-full bg-primary text-primary-foreground font-bold text-sm pl-4 pr-5 py-3 shadow-lg shadow-primary/25 hover:shadow-xl active:scale-95 transition-all duration-200 min-h-[48px] sm:bottom-8 sm:left-6"
-          aria-label="Open chat"
-        >
-          <MessageCircle className="h-5 w-5" />
-          <span className="hidden sm:inline">Chat</span>
-        </button>
-      )}
-
-      {/* Chat window */}
-      {isOpen && (
-        <div className="fixed bottom-4 left-4 z-50 w-[calc(100vw-2rem)] max-w-[380px] h-[min(520px,80vh)] rounded-2xl border border-border bg-card shadow-2xl shadow-black/40 flex flex-col overflow-hidden animate-fade-in sm:bottom-6 sm:left-6">
-          {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-secondary/50">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                <MessageCircle className="h-4 w-4 text-primary" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-foreground leading-tight">WildScatter Bot</p>
-                <p className="text-[10px] text-emerald font-medium flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald inline-block" />
-                  Online
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-lg hover:bg-secondary min-h-[36px] min-w-[36px] flex items-center justify-center"
-              aria-label="Close chat"
-            >
-              <X className="h-5 w-5" />
-            </button>
+    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-50 w-auto sm:w-[380px] h-[min(520px,80vh)] rounded-2xl border border-border bg-card shadow-2xl shadow-black/40 flex flex-col overflow-hidden animate-fade-in sm:bottom-6 sm:right-6">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-secondary/50">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+            <MessageCircle className="h-4 w-4 text-primary" />
           </div>
-
-          {/* Messages */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3 scroll-smooth">
-            {messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-primary text-primary-foreground rounded-br-md"
-                    : "bg-secondary text-foreground rounded-bl-md"
-                }`}>
-                  {msg.text.split("\n").map((line, i) => (
-                    <p key={i} className={i > 0 ? "mt-1" : ""}>
-                      {line.split(/(\*\*.*?\*\*)/).map((part, j) =>
-                        part.startsWith("**") && part.endsWith("**")
-                          ? <strong key={j} className="font-bold">{part.slice(2, -2)}</strong>
-                          : part
-                      )}
-                    </p>
-                  ))}
-                  {msg.options && msg.role === "bot" && (
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {msg.options.map((opt) => (
-                        <button
-                          key={opt.action}
-                          onClick={() => handleOptionClick(opt.action)}
-                          className="text-xs font-medium bg-card hover:bg-muted border border-border text-foreground rounded-lg px-3 py-1.5 transition-colors active:scale-95 min-h-[32px]"
-                        >
-                          {opt.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {isTyping && (
-              <div className="flex justify-start">
-                <div className="bg-secondary rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-muted-foreground/50 animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="w-2 h-2 rounded-full bg-muted-foreground/50 animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <span className="w-2 h-2 rounded-full bg-muted-foreground/50 animate-bounce" style={{ animationDelay: "300ms" }} />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Input */}
-          <div className="border-t border-border px-3 py-3 bg-secondary/30">
-            <form
-              onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-              className="flex items-center gap-2"
-            >
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type a message..."
-                className="flex-1 bg-card border border-border rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 min-h-[44px]"
-              />
-              <button
-                type="submit"
-                disabled={!input.trim()}
-                className="bg-primary text-primary-foreground rounded-xl p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:opacity-90 active:scale-95 transition-all disabled:opacity-40"
-                aria-label="Send message"
-              >
-                <Send className="h-4 w-4" />
-              </button>
-            </form>
+          <div>
+            <p className="text-sm font-bold text-foreground leading-tight">WildScatter Support</p>
+            <p className="text-[10px] text-emerald font-medium flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald inline-block" />
+              Online 24/7
+            </p>
           </div>
         </div>
-      )}
-    </>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-lg hover:bg-secondary min-h-[36px] min-w-[36px] flex items-center justify-center"
+          aria-label="Close chat"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3 scroll-smooth">
+        {messages.map((msg) => (
+          <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+              msg.role === "user"
+                ? "bg-primary text-primary-foreground rounded-br-md"
+                : "bg-secondary text-foreground rounded-bl-md"
+            }`}>
+              {msg.text.split("\n").map((line, i) => (
+                <p key={i} className={i > 0 ? "mt-1" : ""}>
+                  {line.split(/(\*\*.*?\*\*)/).map((part, j) =>
+                    part.startsWith("**") && part.endsWith("**")
+                      ? <strong key={j} className="font-bold">{part.slice(2, -2)}</strong>
+                      : part
+                  )}
+                </p>
+              ))}
+              {msg.options && msg.role === "bot" && (
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {msg.options.map((opt) => (
+                    <button
+                      key={opt.action}
+                      onClick={() => handleOptionClick(opt.action)}
+                      className="text-xs font-medium bg-card hover:bg-muted border border-border text-foreground rounded-lg px-3 py-1.5 transition-colors active:scale-95 min-h-[32px]"
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {isTyping && (
+          <div className="flex justify-start">
+            <div className="bg-secondary rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-muted-foreground/50 animate-bounce" style={{ animationDelay: "0ms" }} />
+              <span className="w-2 h-2 rounded-full bg-muted-foreground/50 animate-bounce" style={{ animationDelay: "150ms" }} />
+              <span className="w-2 h-2 rounded-full bg-muted-foreground/50 animate-bounce" style={{ animationDelay: "300ms" }} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <div className="border-t border-border px-3 py-3 bg-secondary/30">
+        <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex items-center gap-2">
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+            className="flex-1 bg-card border border-border rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 min-h-[44px]"
+          />
+          <button
+            type="submit"
+            disabled={!input.trim()}
+            className="bg-primary text-primary-foreground rounded-xl p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:opacity-90 active:scale-95 transition-all disabled:opacity-40"
+            aria-label="Send message"
+          >
+            <Send className="h-4 w-4" />
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

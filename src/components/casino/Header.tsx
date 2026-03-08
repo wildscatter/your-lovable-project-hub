@@ -142,7 +142,7 @@ const Header = () => {
                       className="text-base font-medium text-muted-foreground hover:text-accent active:bg-accent/10 transition-colors bg-transparent border-none cursor-pointer text-left py-3.5 px-4 rounded-xl min-h-[48px] flex items-center gap-2"
                     >
                       <LogOut className="h-5 w-5" />
-                      გასვლა
+                      Sign Out
                     </button>
                   ) : (
                     <button

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "@/components/casino/Header";
 import Hero from "@/components/casino/Hero";
 import TopCasinos from "@/components/casino/TopCasinos";
@@ -13,7 +15,19 @@ import CookieConsent from "@/components/casino/CookieConsent";
 import FloatingCTA from "@/components/casino/FloatingCTA";
 import Chatbot from "@/components/casino/Chatbot";
 
-const Index = () => (
+const Index = () => {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        el?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [hash]);
+
+  return (
   <div className="min-h-screen bg-background">
     <Header />
     <main>

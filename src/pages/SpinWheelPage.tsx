@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Shield, LogIn } from "lucide-react";
+import InlineAuth from "@/components/casino/InlineAuth";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import PostSpinOverlay from "@/components/casino/PostSpinOverlay";
@@ -48,6 +49,7 @@ const SpinWheelPage = () => {
   const [showResult, setShowResult] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [guestSpinDone, setGuestSpinDone] = useState(false);
+  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
 
   const loadUserData = useCallback(async () => {
@@ -228,7 +230,7 @@ const SpinWheelPage = () => {
           {isGuest ? (
             <Button
               size="sm"
-              onClick={() => navigate("/auth?returnTo=/spin")}
+              onClick={() => setShowAuthOverlay(true)}
               className="h-8 px-3 text-xs bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 font-semibold"
               variant="ghost"
             >
@@ -301,7 +303,7 @@ const SpinWheelPage = () => {
             </div>
             <Button
               size="sm"
-              onClick={() => navigate("/auth?returnTo=/spin")}
+              onClick={() => setShowAuthOverlay(true)}
               className="bg-primary text-primary-foreground font-bold text-xs h-8 px-3 rounded-lg hover:opacity-90 flex-shrink-0"
             >
               Sign Up
@@ -319,43 +321,11 @@ const SpinWheelPage = () => {
                 onSpinComplete={handleGuestSpinComplete}
               />
               {/* Guest post-spin overlay */}
-              {guestSpinDone && !isSpinning && (
+              {(guestSpinDone && !isSpinning || showAuthOverlay) && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center animate-fade-in">
-                  <div className="absolute inset-0 bg-background/80 backdrop-blur-md rounded-2xl" />
-                  <div className="relative z-10 flex flex-col items-center gap-4 px-4 py-6 max-w-[300px] w-full">
-                    <div className="relative">
-                      <div className="absolute -inset-3 rounded-full bg-primary/10 animate-pulse" />
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-[hsl(42,100%,65%)] flex items-center justify-center shadow-lg shadow-primary/30">
-                        <LogIn className="h-5 w-5 text-primary-foreground" />
-                      </div>
-                    </div>
-                    <div className="text-center space-y-2">
-                      <h3 className="text-2xl font-extrabold text-foreground tracking-tight drop-shadow-lg">
-                        Ready to Win?
-                      </h3>
-                      <p className="text-sm font-medium text-foreground/80">
-                        Sign in to spin for real points and prizes!
-                      </p>
-                    </div>
-                    <div className="w-full flex items-center gap-3">
-                      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-                      <Sparkles className="h-3 w-3 text-primary/40" />
-                      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-                    </div>
-                    <Button
-                      size="lg"
-                      onClick={() => navigate("/auth?returnTo=/spin")}
-                      className="w-full glow-pulse-btn bg-gradient-to-r from-primary via-[hsl(42,100%,65%)] to-primary text-primary-foreground font-bold text-sm px-6 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 border border-primary/30"
-                    >
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Sign In to Play
-                    </Button>
-                    <button
-                      onClick={() => setGuestSpinDone(false)}
-                      className="text-[10px] text-muted-foreground/50 hover:text-muted-foreground transition-colors"
-                    >
-                      Try another demo spin
-                    </button>
+                  <div className="absolute inset-0 bg-background/85 backdrop-blur-md rounded-2xl" />
+                  <div className="relative z-10 w-full max-w-[320px] px-4 py-5">
+                    <InlineAuth onBack={() => { setShowAuthOverlay(false); setGuestSpinDone(false); }} />
                   </div>
                 </div>
               )}

@@ -12,7 +12,9 @@ import { useAuth } from "@/contexts/AuthContext";
 type AuthView = "login" | "signup" | "forgot";
 
 const Auth = () => {
-  const [view, setView] = useState<AuthView>("login");
+  const [searchParams] = useSearchParams();
+  const referrerId = searchParams.get("ref");
+  const [view, setView] = useState<AuthView>(referrerId ? "signup" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [resetEmail, setResetEmail] = useState("");
@@ -23,8 +25,19 @@ const Auth = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) navigate("/", { replace: true });
-  }, [user, navigate]);
+    if (user) {
+      // If user just signed up via referral link, process it
+      if (referrerId) {
+        supabase.functions.invoke("process-referral", {
+          body: { referrerId },
+        }).then(() => {
+          navigate("/", { replace: true });
+        });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [user, navigate, referrerId]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();

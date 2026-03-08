@@ -289,7 +289,7 @@ const SpinWheelPage = () => {
 
         {/* Result Card */}
         {showResult && spinResult && (() => {
-          const style = tierStyles[spinResult.tier] || tierStyles.small;
+          const style = tierStyles[spinResult.tier] || tierStyles.tryagain;
           return (
             <div ref={resultRef} className={`animate-scale-in ${style.bg} border ${style.border} rounded-xl p-3 text-center shadow-lg ${style.glow}`}>
               <p className={`text-sm font-extrabold ${style.text}`}>{spinResult.message}</p>
@@ -297,14 +297,6 @@ const SpinWheelPage = () => {
                 <div className="mt-2 inline-flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 animate-fade-in">
                   <Zap className="h-3 w-3 text-primary" />
                   <span className="text-xs font-bold text-primary">+{spinResult.actualPoints} pts</span>
-                </div>
-              )}
-              {spinResult.tier === "invite" && (
-                <div className="mt-2">
-                  <Button size="sm" variant="outline" onClick={copyReferralLink}
-                    className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 h-7 text-xs">
-                    <Copy className="h-3 w-3 mr-1" /> Copy Invite Link
-                  </Button>
                 </div>
               )}
             </div>

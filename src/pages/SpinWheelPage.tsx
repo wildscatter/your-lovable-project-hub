@@ -3,19 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap } from "lucide-react";
+import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Gift, Shield, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import confetti from "canvas-confetti";
 
-const MAX_POINTS = 100;
+const DISPLAY_MAX = 100;
 const REFERRAL_POINTS = 5;
 const MAX_REFERRALS = 3;
 
 interface SpinResult {
-  visualPrize: string;
-  visualIcon: string;
+  visualIndex: number;
   actualPoints: number;
   totalPoints: number;
   isFirstSpin: boolean;
@@ -58,9 +56,7 @@ const SpinWheelPage = () => {
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (points) {
-      setTotalPoints(points.total_points);
-    }
+    if (points) setTotalPoints(points.total_points);
 
     const { data: lastSpin } = await supabase
       .from("spin_history")
@@ -89,26 +85,20 @@ const SpinWheelPage = () => {
 
   useEffect(() => { loadUserData(); }, [loadUserData]);
 
-  // Countdown
   useEffect(() => {
-    if (!nextSpinTime) {
-      setCountdownActive(false);
-      return;
-    }
+    if (!nextSpinTime) { setCountdownActive(false); return; }
     setCountdownActive(true);
     const interval = setInterval(() => {
       const diff = nextSpinTime.getTime() - Date.now();
       if (diff <= 0) {
-        setCanSpin(true);
-        setNextSpinTime(null);
-        setCountdownActive(false);
-        clearInterval(interval);
-        return;
+        setCanSpin(true); setNextSpinTime(null); setCountdownActive(false);
+        clearInterval(interval); return;
       }
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      setCountdown({ h, m, s });
+      setCountdown({
+        h: Math.floor(diff / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      });
     }, 1000);
     return () => clearInterval(interval);
   }, [nextSpinTime]);
@@ -131,14 +121,10 @@ const SpinWheelPage = () => {
 
   const handleSpin = async () => {
     if (!user || !canSpin || isSpinning) return;
-    setIsSpinning(true);
-    setShowResult(false);
-    setSpinResult(null);
-
+    setIsSpinning(true); setShowResult(false); setSpinResult(null);
     try {
       const { data, error } = await supabase.functions.invoke("spin-wheel");
       if (error) throw error;
-
       const result = data as SpinResult;
       setSpinResult(result);
       return result;
@@ -154,11 +140,7 @@ const SpinWheelPage = () => {
     setTotalPoints(result.totalPoints);
     setReferralCount(result.referralCount);
     setCanSpin(result.canSpinAgain);
-    if (result.nextSpinAt) {
-      setNextSpinTime(new Date(result.nextSpinAt));
-      setCanSpin(false);
-    }
-
+    if (result.nextSpinAt) { setNextSpinTime(new Date(result.nextSpinAt)); setCanSpin(false); }
     setTimeout(() => {
       setShowResult(true);
       fireConfetti(result.tier);
@@ -174,8 +156,13 @@ const SpinWheelPage = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const progressPercent = Math.min((totalPoints / MAX_POINTS) * 100, 100);
+  const progressPercent = Math.min((totalPoints / DISPLAY_MAX) * 100, 100);
+  const pad = (n: number) => n.toString().padStart(2, "0");
 
+  // Progress ring calculations
+  const ringRadius = 52;
+  const ringCircumference = 2 * Math.PI * ringRadius;
+  const ringOffset = ringCircumference - (progressPercent / 100) * ringCircumference;
 
   if (loading || !dataLoaded) {
     return (
@@ -200,16 +187,15 @@ const SpinWheelPage = () => {
     invite: { bg: "bg-emerald-500/5", border: "border-emerald-500/20", text: "text-emerald-400", glow: "" },
   };
 
-  const pad = (n: number) => n.toString().padStart(2, "0");
+  const reachedMax = totalPoints >= 85;
 
   return (
-    <div className="min-h-[100dvh] bg-background flex flex-col">
-      {/* Ambient BG */}
+    <div className="min-h-[100dvh] bg-background">
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[radial-gradient(ellipse_at_center,hsl(38_95%_58%/0.05),transparent_70%)]" />
       </div>
 
-      {/* Compact Header with progress */}
+      {/* Header */}
       <div className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-lg mx-auto px-3 py-2 flex items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground -ml-2 h-8 px-2">
@@ -224,19 +210,54 @@ const SpinWheelPage = () => {
             <span className="text-xs font-bold text-primary">{totalPoints}</span>
           </div>
         </div>
-        {/* Inline progress bar in header */}
-        <div className="max-w-lg mx-auto px-3 pb-2">
-          <div className="flex items-center gap-2">
-            <div className="flex-1 relative">
-              <Progress value={progressPercent} className="h-2 bg-secondary/40" />
-            </div>
-            <span className="text-[10px] font-bold text-primary whitespace-nowrap">{totalPoints}/{MAX_POINTS}</span>
-          </div>
-        </div>
       </div>
 
-      <div className="max-w-lg mx-auto px-3 py-3 space-y-3 relative z-10 flex-1 flex flex-col">
-        {/* Compact Countdown Timer - inline bar style */}
+      <div className="max-w-lg mx-auto px-3 py-4 space-y-4 relative z-10">
+
+        {/* Circular Progress + Prize Display */}
+        <div className="flex items-center gap-4">
+          {/* Circular progress ring */}
+          <div className="relative w-[120px] h-[120px] flex-shrink-0">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r={ringRadius} fill="none" stroke="hsl(var(--secondary))" strokeWidth="7" opacity="0.3" />
+              <circle
+                cx="60" cy="60" r={ringRadius}
+                fill="none"
+                stroke={reachedMax ? "hsl(155, 65%, 45%)" : "hsl(var(--primary))"}
+                strokeWidth="7"
+                strokeLinecap="round"
+                strokeDasharray={ringCircumference}
+                strokeDashoffset={ringOffset}
+                className="transition-all duration-1000 ease-out"
+                style={{ filter: `drop-shadow(0 0 8px ${reachedMax ? "hsl(155 65% 45% / 0.5)" : "hsl(var(--primary) / 0.4)"})` }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-2xl font-extrabold text-foreground">{totalPoints}</span>
+              <span className="text-[9px] text-muted-foreground/60 uppercase tracking-wider">/ {DISPLAY_MAX}</span>
+            </div>
+          </div>
+
+          {/* Prize goal card */}
+          <div className={`flex-1 rounded-xl p-3 border transition-all duration-500 ${
+            reachedMax 
+              ? "bg-gradient-to-br from-primary/15 to-emerald-500/10 border-primary/40 shadow-lg shadow-primary/10" 
+              : "bg-card/60 border-border/40"
+          }`}>
+            <div className="flex items-center gap-2 mb-1.5">
+              <Trophy className={`h-4 w-4 ${reachedMax ? "text-primary" : "text-muted-foreground/50"}`} />
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Ultimate Prize</span>
+            </div>
+            <p className={`text-sm font-extrabold ${reachedMax ? "text-primary" : "text-foreground/70"}`}>
+              🎰 100 Free Spins
+            </p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">
+              {reachedMax ? "🎉 You've unlocked the prize!" : "Reach 100 pts to claim"}
+            </p>
+          </div>
+        </div>
+
+        {/* Countdown Timer */}
         {!canSpin && countdownActive && (
           <div className="bg-card/80 border border-border/50 rounded-xl px-4 py-2.5 flex items-center justify-between animate-fade-in">
             <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Next spin</span>
@@ -257,8 +278,8 @@ const SpinWheelPage = () => {
           </div>
         )}
 
-        {/* Wheel - takes up main space */}
-        <div className="bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3 flex-shrink-0">
+        {/* Wheel */}
+        <div className="bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3">
           <SpinWheelCanvas
             canSpin={canSpin && !isSpinning}
             onRequestSpin={handleSpin}
@@ -266,14 +287,11 @@ const SpinWheelPage = () => {
           />
         </div>
 
-        {/* Result Card - compact */}
+        {/* Result Card */}
         {showResult && spinResult && (() => {
           const style = tierStyles[spinResult.tier] || tierStyles.small;
           return (
-            <div
-              ref={resultRef}
-              className={`animate-scale-in ${style.bg} border ${style.border} rounded-xl p-3 text-center shadow-lg ${style.glow}`}
-            >
+            <div ref={resultRef} className={`animate-scale-in ${style.bg} border ${style.border} rounded-xl p-3 text-center shadow-lg ${style.glow}`}>
               <p className={`text-sm font-extrabold ${style.text}`}>{spinResult.message}</p>
               {spinResult.actualPoints > 0 && (
                 <div className="mt-2 inline-flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 animate-fade-in">
@@ -283,14 +301,9 @@ const SpinWheelPage = () => {
               )}
               {spinResult.tier === "invite" && (
                 <div className="mt-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={copyReferralLink}
-                    className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 h-7 text-xs"
-                  >
-                    <Copy className="h-3 w-3 mr-1" />
-                    Copy Invite Link
+                  <Button size="sm" variant="outline" onClick={copyReferralLink}
+                    className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 h-7 text-xs">
+                    <Copy className="h-3 w-3 mr-1" /> Copy Invite Link
                   </Button>
                 </div>
               )}
@@ -298,7 +311,7 @@ const SpinWheelPage = () => {
           );
         })()}
 
-        {/* Compact Referral Row */}
+        {/* Referral Row */}
         <div className="bg-card/80 border border-border/50 rounded-xl p-3 flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
             <Users className="h-4 w-4 text-emerald-400" />
@@ -317,16 +330,47 @@ const SpinWheelPage = () => {
             </div>
           </div>
           {referralCount < MAX_REFERRALS && (
-            <Button
-              onClick={copyReferralLink}
-              size="sm"
-              variant="outline"
-              className="border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10 h-8 px-3 text-xs flex-shrink-0"
-            >
+            <Button onClick={copyReferralLink} size="sm" variant="outline"
+              className="border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10 h-8 px-3 text-xs flex-shrink-0">
               {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
             </Button>
           )}
         </div>
+
+        {/* Rules Section */}
+        <div className="bg-card/60 border border-border/30 rounded-xl p-4 space-y-3">
+          <h4 className="text-xs font-bold text-foreground flex items-center gap-2 uppercase tracking-wider">
+            <Shield className="h-3.5 w-3.5 text-primary" /> Game Rules
+          </h4>
+          <ul className="text-[11px] text-muted-foreground/70 space-y-2">
+            <li className="flex items-start gap-2">
+              <Gift className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+              <span>Your first spin automatically awards <strong className="text-foreground/80">30 bonus points</strong> as a welcome gift.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <Star className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+              <span>You can spin the wheel <strong className="text-foreground/80">once every 24 hours</strong>. Points are tracked per account.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <Users className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+              <span>Invite friends for <strong className="text-foreground/80">+5 points each</strong>, up to 3 friends (15 pts max).</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <Trophy className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+              <span>Reach <strong className="text-foreground/80">100 points</strong> to unlock the <strong className="text-foreground/80">100 Free Spins Promo Code</strong>.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <AlertTriangle className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
+              <span>Invalid or fraudulent attempts (multiple accounts, false referrals) <strong className="text-foreground/80">will not count</strong>. Follow instructions to claim prizes properly.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <Shield className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
+              <span>All decisions by site admin are <strong className="text-foreground/80">final</strong> regarding prize eligibility. Spin results are randomized; progression is controlled for fairness.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="h-6" />
       </div>
     </div>
   );

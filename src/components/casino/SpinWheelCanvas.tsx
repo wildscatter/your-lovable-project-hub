@@ -26,8 +26,7 @@ const RADIUS = WHEEL_SIZE / 2 - 8;
 const ARC = (2 * Math.PI) / PRIZES.length;
 
 interface SpinResult {
-  visualPrize: string;
-  visualIcon: string;
+  visualIndex: number;
   actualPoints: number;
   totalPoints: number;
   isFirstSpin: boolean;
@@ -75,7 +74,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       const startAngle = i * ARC - Math.PI / 2;
       const endAngle = startAngle + ARC;
 
-      // Segment gradient
       const grad = ctx.createRadialGradient(0, 0, 20, 0, 0, RADIUS);
       grad.addColorStop(0, prize.gradient || prize.color);
       grad.addColorStop(1, prize.color);
@@ -87,12 +85,10 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // Segment border
       ctx.strokeStyle = "hsl(230, 20%, 7%)";
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Inner highlight
       ctx.beginPath();
       ctx.arc(0, 0, RADIUS - 1, startAngle, endAngle);
       ctx.strokeStyle = "hsla(0, 0%, 100%, 0.06)";
@@ -102,36 +98,35 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       // Draw point value - large, bold, casino-style
       ctx.save();
       ctx.rotate(startAngle + ARC / 2);
-
       const textX = RADIUS * 0.58;
 
-      // Outer glow
-      ctx.shadowColor = "rgba(255,255,255,0.6)";
-      ctx.shadowBlur = 12;
+      // Glow layer
+      ctx.shadowColor = "rgba(255,255,255,0.7)";
+      ctx.shadowBlur = 15;
       ctx.fillStyle = "#ffffff";
-      ctx.font = "bold 32px 'Georgia', 'Times New Roman', serif";
+      ctx.font = "bold 34px 'Georgia', 'Times New Roman', serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(prize.label, textX, 0);
 
-      // Second pass for crisp text
-      ctx.shadowColor = "rgba(0,0,0,0.5)";
-      ctx.shadowBlur = 4;
+      // Drop shadow layer
+      ctx.shadowColor = "rgba(0,0,0,0.6)";
+      ctx.shadowBlur = 5;
       ctx.shadowOffsetY = 2;
       ctx.fillStyle = "#ffffff";
       ctx.fillText(prize.label, textX, 0);
 
-      // Top highlight pass
+      // Highlight
       ctx.shadowColor = "transparent";
       ctx.shadowBlur = 0;
       ctx.shadowOffsetY = 0;
-      ctx.fillStyle = "rgba(255,255,255,0.15)";
+      ctx.fillStyle = "rgba(255,255,255,0.12)";
       ctx.fillText(prize.label, textX, -1);
 
       ctx.restore();
     });
 
-    // LED dots around the rim
+    // LED dots
     for (let i = 0; i < 40; i++) {
       const angle = (i / 40) * Math.PI * 2;
       const x = Math.cos(angle) * (RADIUS - 5);
@@ -156,7 +151,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     ctx.lineWidth = 3;
     ctx.stroke();
 
-    // Inner hub
     ctx.beginPath();
     ctx.arc(0, 0, 18, 0, 2 * Math.PI);
     const innerGrad = ctx.createRadialGradient(0, 0, 2, 0, 0, 18);
@@ -168,7 +162,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // SPIN text
     ctx.fillStyle = "hsl(38, 95%, 60%)";
     ctx.font = "bold 10px system-ui";
     ctx.textAlign = "center";
@@ -194,11 +187,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
 
   const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
-  const getVisualIndex = (prize: string): number => {
-    const idx = PRIZES.findIndex((p) => p.label === prize);
-    return idx >= 0 ? idx : Math.floor(Math.random() * PRIZES.length);
-  };
-
   const spin = useCallback(async () => {
     if (spinning || !canSpin) return;
 
@@ -208,7 +196,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     setSpinning(true);
     setGlowIntensity(1);
 
-    const prizeIndex = getVisualIndex(result.visualPrize);
+    const prizeIndex = result.visualIndex;
     const extraSpins = 6 + Math.random() * 3;
     const prizeAngle = (2 * Math.PI) - (prizeIndex * ARC + ARC / 2);
     const totalRotation = extraSpins * 2 * Math.PI + prizeAngle;
@@ -247,9 +235,8 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
   }, []);
 
   return (
-    <div className="flex flex-col items-center gap-5">
+    <div className="flex flex-col items-center gap-4">
       <div className="relative">
-        {/* Pointer */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1.5 z-20">
           <div
             className="w-0 h-0"
@@ -263,7 +250,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
           />
         </div>
 
-        {/* Glow ring */}
         <div
           className="absolute -inset-4 rounded-full transition-all duration-300"
           style={{
@@ -286,7 +272,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
         size="lg"
         onClick={spin}
         disabled={spinning || !canSpin}
-        className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base px-10 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-40 disabled:animate-none w-full max-w-[260px]"
+        className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base px-10 py-5 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-40 disabled:animate-none w-full max-w-[260px]"
       >
         {spinning ? (
           <><RotateCcw className="h-5 w-5 mr-2 animate-spin" /> Spinning...</>

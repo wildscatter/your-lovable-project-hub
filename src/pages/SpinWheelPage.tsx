@@ -309,11 +309,12 @@ const SpinWheelPage = () => {
         )}
 
         {/* Wheel */}
-        <div className="relative bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3 pb-0 overflow-hidden">
-          {/* Campaign Countdown - bottom of wheel card */}
-          <div className="relative z-20 -mx-3 mt-0">
+        <div className="relative bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl overflow-hidden">
+          {/* Campaign Countdown - top strip */}
+          <div className="relative z-20 border-b border-border/30">
             <CampaignCountdown onExpired={() => setCampaignEnded(true)} />
           </div>
+          <div className="p-3">
           {isGuest ? (
             <>
               <SpinWheelCanvas

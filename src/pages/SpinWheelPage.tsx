@@ -351,6 +351,7 @@ const SpinWheelPage = () => {
               />
             </>
           )}
+          </div>
         </div>
 
         {/* Referral Row (auth only) */}

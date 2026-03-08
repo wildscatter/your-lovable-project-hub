@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Send, MessageCircle } from "lucide-react";
+import { Menu, Send, MessageCircle, LogIn, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useChatbot } from "@/hooks/use-chatbot";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
   { label: "Top Casinos", href: "#top-casinos" },
@@ -16,6 +17,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { setIsOpen: openChat } = useChatbot();
+  const { user, signOut } = useAuth();
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
@@ -54,7 +56,7 @@ const Header = () => {
               </button>
             ))}
           </nav>
-          {/* Support 24/7 — highlighted CTA that opens chatbot */}
+
           <button
             onClick={() => openChat(true)}
             className="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground font-bold text-sm px-5 py-2.5 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-105 min-h-[44px] active:scale-[0.98] glow-pulse-subtle"
@@ -62,10 +64,36 @@ const Header = () => {
             <MessageCircle className="h-4 w-4" />
             Support 24/7
           </button>
+
+          {/* Auth button */}
+          {user ? (
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-muted-foreground truncate max-w-[120px]">
+                {user.email}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={signOut}
+                className="text-muted-foreground hover:text-accent min-h-[44px]"
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/auth")}
+              className="border-primary/30 text-primary hover:bg-primary/10 font-semibold min-h-[44px] rounded-lg"
+            >
+              <LogIn className="h-4 w-4 mr-1.5" />
+              შესვლა
+            </Button>
+          )}
         </div>
 
         <div className="flex md:hidden items-center gap-1.5">
-          {/* Mobile support button — icon-only, pill style */}
           <button
             onClick={() => openChat(true)}
             className="relative inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground font-bold text-xs px-3.5 py-2 transition-all duration-300 min-h-[40px] active:scale-90 shadow-[0_0_12px_hsl(38_95%_58%/0.4)] hover:shadow-[0_0_18px_hsl(38_95%_58%/0.6)]"
@@ -99,7 +127,6 @@ const Header = () => {
                       {link.label}
                     </button>
                   ))}
-                  {/* Support in mobile menu */}
                   <button
                     onClick={() => { openChat(true); setOpen(false); }}
                     className="text-base font-bold text-accent hover:text-accent/80 active:bg-accent/10 transition-colors bg-transparent border-none cursor-pointer text-left py-3.5 px-4 rounded-xl min-h-[48px] flex items-center gap-2"
@@ -107,6 +134,25 @@ const Header = () => {
                     <MessageCircle className="h-5 w-5" />
                     Support 24/7
                   </button>
+
+                  {/* Auth in mobile menu */}
+                  {user ? (
+                    <button
+                      onClick={() => { signOut(); setOpen(false); }}
+                      className="text-base font-medium text-muted-foreground hover:text-accent active:bg-accent/10 transition-colors bg-transparent border-none cursor-pointer text-left py-3.5 px-4 rounded-xl min-h-[48px] flex items-center gap-2"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      გასვლა
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => { navigate("/auth"); setOpen(false); }}
+                      className="text-base font-bold text-primary hover:text-primary/80 active:bg-primary/10 transition-colors bg-transparent border-none cursor-pointer text-left py-3.5 px-4 rounded-xl min-h-[48px] flex items-center gap-2"
+                    >
+                      <LogIn className="h-5 w-5" />
+                      შესვლა / რეგისტრაცია
+                    </button>
+                  )}
                 </nav>
                 <div className="px-4 pb-6 pt-2 border-t border-border mt-auto">
                   <a

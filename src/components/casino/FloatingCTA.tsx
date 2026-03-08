@@ -24,7 +24,7 @@ const FloatingCTA = () => {
           href={telegramUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-2 rounded-full bg-accent text-accent-foreground font-bold text-sm px-5 py-3 shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/30 active:scale-95 transition-all duration-200 min-h-[48px] animate-bounce-subtle"
+          className="group flex items-center gap-2 rounded-full bg-accent text-accent-foreground font-bold text-sm px-5 py-3 shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/30 active:scale-95 transition-all duration-200 min-h-[48px]"
           aria-label="Join our Telegram"
         >
           <Send className="h-5 w-5" />

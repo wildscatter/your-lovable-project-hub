@@ -115,33 +115,10 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
   );
 };
 
-const useCountdown = () => {
-  const getTimeLeft = useCallback(() => {
-    const now = new Date();
-    const end = new Date(now);
-    end.setHours(23, 59, 59, 999);
-    const diff = end.getTime() - now.getTime();
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    return { h, m, s };
-  }, []);
-
-  const [time, setTime] = useState(getTimeLeft);
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(getTimeLeft()), 1000);
-    return () => clearInterval(interval);
-  }, [getTimeLeft]);
-
-  return time;
-};
-
 const TopCasinos = () => {
   const isMobile = useIsMobile();
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", containScroll: "trimSnaps" });
   const [activeIndex, setActiveIndex] = useState(0);
-  const { h, m, s } = useCountdown();
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;

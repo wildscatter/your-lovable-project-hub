@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, Zap, ArrowLeft, Sparkles } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, Zap, ArrowLeft, Sparkles, Shield, Gift, Trophy, Star } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 
@@ -63,17 +63,33 @@ const Auth = () => {
     }
   };
 
+  // Different background accents per mode
+  const bgGlow = isLogin
+    ? "bg-[radial-gradient(ellipse_at_center,hsl(38_95%_58%/0.07),transparent_60%)]"
+    : "bg-[radial-gradient(ellipse_at_center,hsl(155_75%_48%/0.06),transparent_60%)]";
+
+  const bgGlow2 = isLogin
+    ? "bg-[radial-gradient(ellipse_at_center,hsl(4_85%_62%/0.04),transparent_60%)]"
+    : "bg-[radial-gradient(ellipse_at_center,hsl(38_95%_58%/0.05),transparent_60%)]";
+
+  const cardGlow = isLogin
+    ? "bg-gradient-to-b from-primary/20 via-transparent to-accent/10"
+    : "bg-gradient-to-b from-[hsl(155_75%_48%/0.25)] via-transparent to-primary/10";
+
+  const submitBtnClass = isLogin
+    ? "bg-gradient-to-r from-primary via-primary to-gold-dim shadow-primary/25 hover:shadow-primary/30"
+    : "bg-gradient-to-r from-[hsl(155,75%,42%)] via-[hsl(155,70%,38%)] to-[hsl(155,65%,34%)] shadow-[hsl(155_75%_48%/0.25)] hover:shadow-[hsl(155_75%_48%/0.3)]";
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center px-4 py-12">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,hsl(38_95%_58%/0.06),transparent_60%)]" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,hsl(4_85%_62%/0.04),transparent_60%)]" />
+      {/* Animated background — different per mode */}
+      <div className="absolute inset-0 pointer-events-none transition-all duration-700">
+        <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] ${bgGlow} transition-all duration-700`} />
+        <div className={`absolute bottom-0 right-0 w-[500px] h-[500px] ${bgGlow2} transition-all duration-700`} />
         <div className="absolute top-20 left-10 w-1 h-1 rounded-full bg-primary/40 sparkle" />
         <div className="absolute top-40 right-20 w-1.5 h-1.5 rounded-full bg-primary/30 sparkle" style={{ animationDelay: "1s" }} />
         <div className="absolute bottom-32 left-1/4 w-1 h-1 rounded-full bg-accent/30 sparkle" style={{ animationDelay: "2s" }} />
         <div className="absolute top-1/3 right-1/3 w-1 h-1 rounded-full bg-primary/20 sparkle" style={{ animationDelay: "0.5s" }} />
-        {/* Decorative lines */}
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent" />
       </div>
@@ -88,7 +104,7 @@ const Auth = () => {
           Back to Home
         </button>
 
-        {/* Logo & Heading */}
+        {/* Logo & Heading — visually distinct per mode */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-6">
             <div className="relative">
@@ -102,25 +118,45 @@ const Auth = () => {
               <span className="text-foreground">Scatter</span>
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground leading-tight">
-            {isLogin ? (
-              <>Welcome <span className="text-primary italic">back</span></>
-            ) : (
-              <>Join the <span className="text-primary italic">action</span></>
-            )}
-          </h1>
-          <p className="text-muted-foreground text-sm mt-2 leading-relaxed">
-            {isLogin
-              ? "Sign in to access exclusive offers and personalized picks."
-              : "Create your free account and unlock VIP rewards."}
-          </p>
+
+          {isLogin ? (
+            <>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground leading-tight">
+                Welcome <span className="text-primary italic">back</span>
+              </h1>
+              <p className="text-muted-foreground text-sm mt-2 leading-relaxed">
+                Sign in to access exclusive offers and personalized picks.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground leading-tight">
+                Join the <span className="text-[hsl(155,75%,48%)] italic">club</span>
+              </h1>
+              <p className="text-muted-foreground text-sm mt-2 leading-relaxed">
+                Create your free account and start winning today.
+              </p>
+              {/* Sign-up perks */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                {[
+                  { icon: Gift, text: "Welcome Bonus" },
+                  { icon: Star, text: "VIP Access" },
+                  { icon: Trophy, text: "Exclusive Picks" },
+                ].map(({ icon: Icon, text }) => (
+                  <span key={text} className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[hsl(155,75%,48%)] bg-[hsl(155_75%_48%/0.08)] border border-[hsl(155_75%_48%/0.15)] rounded-full px-3 py-1">
+                    <Icon className="h-3 w-3" />
+                    {text}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Main Card */}
         <div className="relative">
-          {/* Card glow */}
-          <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-primary/20 via-transparent to-accent/10 blur-sm" />
-          
+          <div className={`absolute -inset-px rounded-2xl ${cardGlow} blur-sm transition-all duration-700`} />
+
           <div className="relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-primary/5">
             {/* Google Login */}
             <Button
@@ -135,7 +171,7 @@ const Auth = () => {
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
               </svg>
-              Continue with Google
+              {isLogin ? "Continue with Google" : "Sign up with Google"}
             </Button>
 
             {/* Divider */}
@@ -174,7 +210,7 @@ const Auth = () => {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder={isLogin ? "••••••••" : "Min. 6 characters"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-11 pr-11 py-5 rounded-xl bg-background/50 border-border/50 focus:border-primary/50 focus:bg-background/80 transition-all duration-300"
@@ -191,10 +227,17 @@ const Auth = () => {
                 </div>
               </div>
 
+              {/* Password hint for signup */}
+              {!isLogin && (
+                <p className="text-[11px] text-muted-foreground/70 pl-1">
+                  Use at least 6 characters with a mix of letters and numbers.
+                </p>
+              )}
+
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full py-6 rounded-xl bg-gradient-to-r from-primary via-primary to-gold-dim text-primary-foreground font-bold text-base hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 mt-2 group"
+                className={`w-full py-6 rounded-xl text-primary-foreground font-bold text-base hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl mt-2 group ${submitBtnClass}`}
               >
                 {loading ? (
                   <div className="h-5 w-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
@@ -218,7 +261,7 @@ const Auth = () => {
                 {isLogin ? "New here?" : "Already a member?"}{" "}
                 <button
                   onClick={() => setIsLogin(!isLogin)}
-                  className="text-primary font-semibold hover:underline underline-offset-4 transition-all"
+                  className={`font-semibold hover:underline underline-offset-4 transition-all ${isLogin ? "text-primary" : "text-[hsl(155,75%,48%)]"}`}
                 >
                   {isLogin ? "Create an account" : "Sign in instead"}
                 </button>
@@ -227,11 +270,21 @@ const Auth = () => {
           </div>
         </div>
 
-        {/* Bottom trust badge */}
+        {/* Bottom trust badge — different per mode */}
         <div className="flex items-center justify-center gap-2 mt-8 text-muted-foreground/50">
-          <Sparkles className="h-3 w-3" />
-          <span className="text-[10px] uppercase tracking-[0.2em]">Secure & encrypted</span>
-          <Sparkles className="h-3 w-3" />
+          {isLogin ? (
+            <>
+              <Shield className="h-3 w-3" />
+              <span className="text-[10px] uppercase tracking-[0.2em]">Secure & encrypted</span>
+              <Shield className="h-3 w-3" />
+            </>
+          ) : (
+            <>
+              <Sparkles className="h-3 w-3" />
+              <span className="text-[10px] uppercase tracking-[0.2em]">Free forever · No credit card</span>
+              <Sparkles className="h-3 w-3" />
+            </>
+          )}
         </div>
       </div>
     </div>

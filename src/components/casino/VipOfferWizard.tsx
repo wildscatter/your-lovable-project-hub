@@ -6,7 +6,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { CheckCircle, ChevronRight, ChevronLeft, Loader2, Sparkles } from "lucide-react";
 import emailjs from "@emailjs/browser";
 
-// Replace these with your actual EmailJS credentials (all publishable/public keys)
 const EMAILJS_SERVICE_ID = "service_m5m4d0i";
 const EMAILJS_TEMPLATE_ID = "template_yz7bh2o";
 const EMAILJS_PUBLIC_KEY = "uwal6zbarjqcPutjJ";
@@ -21,18 +20,11 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Step 1
   const [casinoName, setCasinoName] = useState("");
   const [isFirstTimer, setIsFirstTimer] = useState(false);
-
-  // Step 2
   const [wagering, setWagering] = useState("");
-
-  // Step 3
   const [email, setEmail] = useState("");
   const [agreedToEmails, setAgreedToEmails] = useState(false);
-
-  // Errors
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const resetForm = () => {
@@ -121,7 +113,6 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
       setSubmitted(true);
     } catch (error) {
       console.error("EmailJS error:", error);
-      // Still show success to user — you'll want to handle this in production
       setSubmitted(true);
     } finally {
       setSubmitting(false);
@@ -132,16 +123,16 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[480px] p-0 bg-card border-primary/20 overflow-hidden gap-0">
+      <DialogContent className="w-[calc(100vw-2rem)] max-w-[480px] p-0 bg-card border-primary/20 overflow-hidden gap-0 max-h-[90vh] overflow-y-auto rounded-2xl">
         {/* Progress Bar */}
-        <div className="px-6 pt-6 pb-2">
+        <div className="px-5 sm:px-6 pt-5 sm:pt-6 pb-2">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               {submitted ? "Complete" : `Step ${step} of 3`}
             </span>
             <Sparkles className="h-4 w-4 text-primary" />
           </div>
-          <div className="h-1.5 w-full bg-secondary rounded-full overflow-hidden">
+          <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-primary to-gold-dim rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progressWidth}%` }}
@@ -149,20 +140,20 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
           </div>
         </div>
 
-        <div className="px-6 pb-6 pt-4 min-h-[320px] flex flex-col">
+        <div className="px-5 sm:px-6 pb-6 pt-3 sm:pt-4 min-h-[300px] flex flex-col">
           {/* SUCCESS SCREEN */}
           {submitted && (
-            <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 animate-float-up">
+            <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 animate-float-up py-4">
               <div className="h-16 w-16 rounded-full bg-primary/15 flex items-center justify-center">
                 <CheckCircle className="h-8 w-8 text-primary" />
               </div>
               <h2 className="text-xl font-bold text-foreground">Request Received</h2>
-              <p className="text-sm text-muted-foreground max-w-xs">
+              <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
                 Our team will analyze your wagering profile and send you the best available casino offers.
               </p>
               <Button
                 onClick={handleClose}
-                className="mt-2 glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold px-8 rounded-xl hover:opacity-90"
+                className="mt-2 glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold px-8 py-5 rounded-xl hover:opacity-90 min-h-[48px] active:scale-[0.98] transition-all"
               >
                 Back to Casinos
               </Button>
@@ -171,10 +162,10 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
 
           {/* STEP 1 */}
           {!submitted && step === 1 && (
-            <div className="flex-1 flex flex-col gap-5 animate-float-up">
+            <div className="flex-1 flex flex-col gap-4 sm:gap-5 animate-float-up">
               <div>
-                <h2 className="text-lg font-bold text-foreground mb-1">Which casino are you currently using?</h2>
-                <p className="text-xs text-muted-foreground">Tell us where you play or if you're new to crypto casinos.</p>
+                <h2 className="text-base sm:text-lg font-bold text-foreground mb-1">Which casino are you currently using?</h2>
+                <p className="text-xs sm:text-sm text-muted-foreground">Tell us where you play or if you're new.</p>
               </div>
 
               <div className="space-y-3">
@@ -187,7 +178,7 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
                     setErrors({});
                   }}
                   disabled={isFirstTimer}
-                  className="bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12"
+                  className="bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 sm:h-12 text-base rounded-xl"
                 />
 
                 <div className="relative">
@@ -206,14 +197,14 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
                     if (!isFirstTimer) setCasinoName("");
                     setErrors({});
                   }}
-                  className={`w-full p-4 rounded-xl border-2 text-left text-sm font-medium transition-all duration-200 ${
+                  className={`w-full p-4 rounded-xl border-2 text-left text-sm font-medium transition-all duration-200 min-h-[52px] active:scale-[0.98] ${
                     isFirstTimer
                       ? "border-primary bg-primary/10 text-primary"
                       : "border-border bg-secondary/30 text-muted-foreground hover:border-primary/40 hover:bg-secondary/50"
                   }`}
                 >
                   <span className="flex items-center gap-3">
-                    <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                    <span className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors shrink-0 ${
                       isFirstTimer ? "border-primary bg-primary" : "border-muted-foreground/40"
                     }`}>
                       {isFirstTimer && <span className="h-2 w-2 rounded-full bg-primary-foreground" />}
@@ -231,25 +222,25 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
 
           {/* STEP 2 */}
           {!submitted && step === 2 && (
-            <div className="flex-1 flex flex-col gap-5 animate-float-up">
+            <div className="flex-1 flex flex-col gap-4 sm:gap-5 animate-float-up">
               <div>
-                <h2 className="text-lg font-bold text-foreground mb-1">What is your monthly wagering amount?</h2>
-                <p className="text-xs text-muted-foreground">This helps us match you with the best VIP programs.</p>
+                <h2 className="text-base sm:text-lg font-bold text-foreground mb-1">Monthly wagering amount?</h2>
+                <p className="text-xs sm:text-sm text-muted-foreground">Helps us match you with the best VIP programs.</p>
               </div>
 
               <div className="space-y-2">
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-semibold">$</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-semibold text-base">$</span>
                   <Input
                     type="number"
-                    placeholder="Enter approximate monthly wagering amount in USD"
+                    placeholder="Approximate monthly amount (USD)"
                     value={wagering}
                     onChange={(e) => {
                       setWagering(e.target.value);
                       setErrors({});
                     }}
                     min={0}
-                    className="bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 pl-8"
+                    className="bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 pl-8 text-base rounded-xl"
                   />
                 </div>
                 <p className="text-[11px] text-muted-foreground/70">
@@ -265,10 +256,10 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
 
           {/* STEP 3 */}
           {!submitted && step === 3 && (
-            <div className="flex-1 flex flex-col gap-5 animate-float-up">
+            <div className="flex-1 flex flex-col gap-4 sm:gap-5 animate-float-up">
               <div>
-                <h2 className="text-lg font-bold text-foreground mb-1">Where should we send your personalized offers?</h2>
-                <p className="text-xs text-muted-foreground">We'll send you exclusive casino deals matched to your profile.</p>
+                <h2 className="text-base sm:text-lg font-bold text-foreground mb-1">Where should we send offers?</h2>
+                <p className="text-xs sm:text-sm text-muted-foreground">Exclusive deals matched to your profile.</p>
               </div>
 
               <div className="space-y-4">
@@ -280,13 +271,13 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
                     setEmail(e.target.value.slice(0, 255));
                     setErrors({});
                   }}
-                  className="bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12"
+                  className="bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground/50 h-12 text-base rounded-xl"
                 />
                 {errors.email && (
                   <p className="text-xs text-destructive">{errors.email}</p>
                 )}
 
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 min-h-[44px]">
                   <Checkbox
                     id="agree-emails"
                     checked={agreedToEmails}
@@ -294,9 +285,9 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
                       setAgreedToEmails(checked === true);
                       setErrors((prev) => ({ ...prev, agree: "" }));
                     }}
-                    className="mt-0.5 border-muted-foreground/40 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                    className="mt-1 border-muted-foreground/40 data-[state=checked]:bg-primary data-[state=checked]:border-primary h-5 w-5"
                   />
-                  <label htmlFor="agree-emails" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
+                  <label htmlFor="agree-emails" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
                     I agree to receive personalized casino offers and promotional emails.
                   </label>
                 </div>
@@ -313,12 +304,12 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
 
           {/* Navigation Buttons */}
           {!submitted && (
-            <div className="flex items-center gap-3 mt-6 pt-4 border-t border-border">
+            <div className="flex items-center gap-3 mt-5 sm:mt-6 pt-4 border-t border-border">
               {step > 1 && (
                 <Button
                   variant="ghost"
                   onClick={handleBack}
-                  className="text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground min-h-[44px] px-4"
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
                   Back
@@ -328,7 +319,7 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
               {step < 3 ? (
                 <Button
                   onClick={handleNext}
-                  className="bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-semibold px-6 rounded-lg hover:opacity-90 transition-opacity"
+                  className="bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-semibold px-6 sm:px-8 rounded-xl hover:opacity-90 transition-all min-h-[48px] active:scale-[0.98]"
                 >
                   Continue
                   <ChevronRight className="h-4 w-4 ml-1" />
@@ -337,7 +328,7 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
                 <Button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-semibold px-6 rounded-lg hover:opacity-90 transition-opacity"
+                  className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-semibold px-6 sm:px-8 rounded-xl hover:opacity-90 transition-all min-h-[48px] active:scale-[0.98]"
                 >
                   {submitting ? (
                     <>

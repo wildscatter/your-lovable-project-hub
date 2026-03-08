@@ -28,11 +28,11 @@ const Hero = () => {
 
   return (
     <>
-      <section className="relative overflow-hidden py-10 md:py-14">
+      <section className="relative overflow-hidden py-8 sm:py-10 md:py-14">
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-secondary/15 via-transparent to-secondary/10" />
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.05),transparent_70%)]" />
 
-        <div className="w-full px-6 md:px-12 lg:px-20 relative z-10">
+        <div className="w-full px-4 sm:px-6 md:px-12 lg:px-20 relative z-10">
           {/* Desktop */}
           <div className="hidden md:flex items-center justify-between gap-10">
             <div className="flex-1 max-w-xl">
@@ -60,7 +60,7 @@ const Hero = () => {
                 variant="outline"
                 size="lg"
                 onClick={() => setWizardOpen(true)}
-                className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary font-semibold text-sm px-8 py-5 rounded-xl transition-all"
+                className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary font-semibold text-sm px-8 py-5 rounded-xl transition-all min-h-[48px]"
               >
                 <Gift className="h-4 w-4 mr-2" />
                 Get Personalized Offers
@@ -84,43 +84,48 @@ const Hero = () => {
           </div>
 
           {/* Mobile */}
-          <div className="md:hidden flex flex-col items-center text-center gap-4">
-            <h1 className="text-2xl font-extrabold tracking-tight leading-tight">
+          <div className="md:hidden flex flex-col items-center text-center gap-5">
+            <h1 className="text-[1.65rem] sm:text-3xl font-extrabold tracking-tight leading-tight px-2">
               <span className="text-primary italic">Helping players find</span>{" "}
               <span className="text-foreground">platforms they can trust</span>
             </h1>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-sm">
               Expert-picked casinos, verified bonuses &amp; transparent reviews.
             </p>
+            
+            {/* Primary CTA - full width on mobile */}
             <Button
-              className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-sm px-8 py-5 rounded-xl hover:opacity-90 shadow-lg shadow-primary/20"
+              className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base w-full max-w-xs py-6 rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all min-h-[52px]"
               asChild
             >
-              <a href="#top-casinos" className="flex items-center gap-2">
+              <a href="#top-casinos" className="flex items-center justify-center gap-2">
                 Explore Top Casinos
-                <ArrowDown className="h-3.5 w-3.5 animate-bounce" />
+                <ArrowDown className="h-4 w-4 animate-bounce" />
               </a>
             </Button>
+            
+            {/* Secondary CTA */}
             <Button
               variant="outline"
-              size="sm"
               onClick={() => setWizardOpen(true)}
-              className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary font-semibold text-xs px-6 py-4 rounded-xl transition-all"
+              className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary font-semibold text-sm w-full max-w-xs py-5 rounded-xl transition-all active:scale-[0.98] min-h-[48px]"
             >
-              <Gift className="h-3.5 w-3.5 mr-1.5" />
+              <Gift className="h-4 w-4 mr-2" />
               Get Personalized Offers
             </Button>
-            <div className="flex items-center gap-6 mt-2 bg-card/50 rounded-xl px-6 py-3 border border-border">
-              <div className="text-center">
-                <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Claimed Today</p>
-                <p className="text-xl font-extrabold text-primary italic tabular-nums">{formatClaimed(claimed)}</p>
+            
+            {/* Stats card */}
+            <div className="flex items-center gap-6 mt-1 bg-card/60 rounded-xl px-6 py-4 border border-border w-full max-w-xs">
+              <div className="text-center flex-1">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-0.5">Claimed Today</p>
+                <p className="text-2xl font-extrabold text-primary italic tabular-nums">{formatClaimed(claimed)}</p>
               </div>
-              <div className="w-px h-8 bg-border" />
-              <div className="text-center">
-                <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Online Now</p>
+              <div className="w-px h-10 bg-border" />
+              <div className="text-center flex-1">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-0.5">Online Now</p>
                 <div className="flex items-center justify-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-                  <p className="text-xl font-extrabold text-primary italic tabular-nums">{online}</p>
+                  <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                  <p className="text-2xl font-extrabold text-primary italic tabular-nums">{online}</p>
                 </div>
               </div>
             </div>

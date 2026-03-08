@@ -2,6 +2,7 @@ import { Star, Crown, Sparkles, Trophy, Zap, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useState, useEffect, useCallback } from "react";
 
 const casinos = [
   {
@@ -78,7 +79,7 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
   const isFeatured = index === 0;
 
   return (
-    <div className={`card-casino rounded-xl border bg-card p-6 flex flex-col items-center text-center gap-3.5 min-w-[260px] relative ${isFeatured ? "card-featured border-primary/50" : "border-border"} ${casino.isComingSoon ? "opacity-70" : ""}`}>
+    <div className={`card-casino rounded-xl border bg-card p-5 sm:p-6 flex flex-col items-center text-center gap-3 min-w-0 relative ${isFeatured ? "card-featured border-primary/50" : "border-border"} ${casino.isComingSoon ? "opacity-70" : ""}`}>
       {/* Rank badge */}
       <div className={`absolute top-3 left-3 text-xs font-bold px-2.5 py-1 rounded-md ${isFeatured ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>
         #{index + 1}
@@ -89,8 +90,8 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
         {casino.tag}
       </div>
 
-      <div className="text-5xl mt-4">{casino.emoji}</div>
-      <h3 className="text-xl font-bold text-foreground">{casino.name}</h3>
+      <div className="text-4xl sm:text-5xl mt-4">{casino.emoji}</div>
+      <h3 className="text-lg sm:text-xl font-bold text-foreground">{casino.name}</h3>
       <StarRating rating={casino.rating} />
 
       <p className={`text-sm font-semibold leading-snug ${isFeatured ? "text-primary" : "text-foreground"}`}>
@@ -98,11 +99,11 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
       </p>
 
       {casino.isComingSoon ? (
-        <Button className="w-full mt-auto bg-muted text-muted-foreground cursor-not-allowed h-12 text-sm" disabled>
+        <Button className="w-full mt-auto bg-muted text-muted-foreground cursor-not-allowed min-h-[48px] text-sm rounded-lg" disabled>
           Coming Soon
         </Button>
       ) : (
-        <Button className="w-full mt-auto glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground hover:opacity-90 font-bold h-12 text-sm rounded-lg shadow-md shadow-primary/15" asChild>
+        <Button className="w-full mt-auto glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground hover:opacity-90 font-bold min-h-[48px] text-sm sm:text-base rounded-lg shadow-md shadow-primary/15 active:scale-[0.98] transition-all" asChild>
           <a href={casino.link} target="_blank" rel="noopener noreferrer nofollow">
             Claim Bonus →
           </a>
@@ -118,16 +119,29 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
 
 const TopCasinos = () => {
   const isMobile = useIsMobile();
-  const [emblaRef] = useEmblaCarousel({ align: "start", containScroll: "trimSnaps" });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", containScroll: "trimSnaps" });
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on("select", onSelect);
+    onSelect();
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
 
   return (
-    <section id="top-casinos" className="py-12 md:py-16">
+    <section id="top-casinos" className="py-10 sm:py-12 md:py-16">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-10">
+        <div className="text-center mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary mb-4">
             🔥 Today's Deals
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3">
             <span className="text-primary">Top Rated</span> Casinos
           </h2>
           <p className="text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
@@ -136,15 +150,31 @@ const TopCasinos = () => {
         </div>
 
         {isMobile ? (
-          <div ref={emblaRef} className="overflow-hidden -mx-4 px-4">
-            <div className="flex gap-4">
-              {casinos.map((casino, i) => (
-                <div key={casino.name} className="flex-[0_0_82%]">
-                  <CasinoCard casino={casino} index={i} />
-                </div>
+          <div>
+            <div ref={emblaRef} className="overflow-hidden -mx-4 px-4">
+              <div className="flex gap-3">
+                {casinos.map((casino, i) => (
+                  <div key={casino.name} className="flex-[0_0_85%] min-w-0">
+                    <CasinoCard casino={casino} index={i} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Dot indicators */}
+            <div className="flex items-center justify-center gap-2 mt-5">
+              {casinos.map((_, i) => (
+                <button
+                  key={i}
+                  className={`rounded-full transition-all duration-300 ${
+                    i === activeIndex
+                      ? "w-6 h-2 bg-primary"
+                      : "w-2 h-2 bg-muted-foreground/30"
+                  }`}
+                  onClick={() => emblaApi?.scrollTo(i)}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
               ))}
             </div>
-            <p className="text-center text-xs text-muted-foreground/50 mt-4">← Swipe to see more →</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-w-6xl mx-auto">

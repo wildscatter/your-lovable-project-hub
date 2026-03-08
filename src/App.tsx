@@ -13,6 +13,7 @@ import BlogPost from "./pages/BlogPost";
 import Auth from "./pages/Auth";
 import SpinWheelPage from "./pages/SpinWheelPage";
 import ResetPassword from "./pages/ResetPassword";
+import EmailSent from "./pages/EmailSent";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/spin" element={<SpinWheelPage />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/email-sent" element={<EmailSent />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<Blog />} />

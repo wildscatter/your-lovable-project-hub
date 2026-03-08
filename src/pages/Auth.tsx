@@ -33,7 +33,7 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        toast({ title: "წარმატებით შეხვედით!" });
+        toast({ title: "Signed in successfully!" });
         navigate("/");
       } else {
         const { error } = await supabase.auth.signUp({
@@ -43,13 +43,13 @@ const Auth = () => {
         });
         if (error) throw error;
         toast({
-          title: "რეგისტრაცია წარმატებულია!",
-          description: "შეამოწმეთ ელფოსტა დასადასტურებლად.",
+          title: "Registration successful!",
+          description: "Check your email for confirmation.",
         });
       }
     } catch (error: any) {
       toast({
-        title: "შეცდომა",
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });
@@ -67,7 +67,7 @@ const Auth = () => {
       if (error) throw error;
     } catch (error: any) {
       toast({
-        title: "შეცდომა",
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });
@@ -88,12 +88,12 @@ const Auth = () => {
             </span>
           </div>
           <h1 className="text-xl font-bold text-foreground">
-            {isLogin ? "კეთილი იყოს თქვენი მობრძანება" : "შექმენით ანგარიში"}
+            {isLogin ? "Welcome Back" : "Create Account"}
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
             {isLogin
-              ? "შეხვიდეთ თქვენს ანგარიშზე"
-              : "დარეგისტრირდით უფასოდ"}
+              ? "Sign in to your account"
+              : "Register for free"}
           </p>
         </div>
 
@@ -124,13 +124,13 @@ const Auth = () => {
                 fill="#EA4335"
               />
             </svg>
-            Google-ით შესვლა
+            Sign in with Google
           </Button>
 
           {/* Divider */}
           <div className="flex items-center gap-3 mb-6">
             <div className="flex-1 h-px bg-border" />
-            <span className="text-xs text-muted-foreground uppercase tracking-wider">ან</span>
+            <span className="text-xs text-muted-foreground uppercase tracking-wider">or</span>
             <div className="flex-1 h-px bg-border" />
           </div>
 
@@ -138,7 +138,7 @@ const Auth = () => {
           <form onSubmit={handleEmailAuth} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm text-foreground">
-                ელფოსტა
+                Email
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -156,7 +156,7 @@ const Auth = () => {
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm text-foreground">
-                პაროლი
+                Password
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -190,12 +190,12 @@ const Auth = () => {
               ) : isLogin ? (
                 <>
                   <LogIn className="h-4 w-4 mr-2" />
-                  შესვლა
+                  Sign In
                 </>
               ) : (
                 <>
                   <UserPlus className="h-4 w-4 mr-2" />
-                  რეგისტრაცია
+                  Sign Up
                 </>
               )}
             </Button>
@@ -203,12 +203,12 @@ const Auth = () => {
 
           {/* Toggle */}
           <p className="text-center text-sm text-muted-foreground mt-6">
-            {isLogin ? "არ გაქვთ ანგარიში?" : "უკვე გაქვთ ანგარიში?"}{" "}
+            {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
               onClick={() => setIsLogin(!isLogin)}
               className="text-primary font-semibold hover:underline transition-all"
             >
-              {isLogin ? "რეგისტრაცია" : "შესვლა"}
+              {isLogin ? "Sign Up" : "Sign In"}
             </button>
           </p>
         </div>
@@ -219,7 +219,7 @@ const Auth = () => {
             onClick={() => navigate("/")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            ← მთავარ გვერდზე დაბრუნება
+            ← Back to Home
           </button>
         </div>
       </div>

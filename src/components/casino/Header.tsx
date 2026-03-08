@@ -88,7 +88,7 @@ const Header = () => {
               className="border-primary/30 text-primary hover:bg-primary/10 font-semibold min-h-[44px] rounded-lg"
             >
               <LogIn className="h-4 w-4 mr-1.5" />
-              შესვლა
+              Sign In
             </Button>
           )}
         </div>
@@ -142,7 +142,7 @@ const Header = () => {
                       className="text-base font-medium text-muted-foreground hover:text-accent active:bg-accent/10 transition-colors bg-transparent border-none cursor-pointer text-left py-3.5 px-4 rounded-xl min-h-[48px] flex items-center gap-2"
                     >
                       <LogOut className="h-5 w-5" />
-                      გასვლა
+                      Sign Out
                     </button>
                   ) : (
                     <button
@@ -150,7 +150,7 @@ const Header = () => {
                       className="text-base font-bold text-primary hover:text-primary/80 active:bg-primary/10 transition-colors bg-transparent border-none cursor-pointer text-left py-3.5 px-4 rounded-xl min-h-[48px] flex items-center gap-2"
                     >
                       <LogIn className="h-5 w-5" />
-                      შესვლა / რეგისტრაცია
+                      Sign In / Register
                     </button>
                   )}
                 </nav>

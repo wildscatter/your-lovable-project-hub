@@ -211,9 +211,7 @@ Deno.serve(async (req) => {
       jackpot: "🎉 Unbelievable! Jackpot!",
       great: "🔥 Amazing result!",
       good: "✨ Nice spin!",
-      small: "⭐ Points added!",
       tryagain: "😅 Try again tomorrow!",
-      invite: "👥 Invite a friend for bonus!",
     };
 
     const result: SpinResult = {

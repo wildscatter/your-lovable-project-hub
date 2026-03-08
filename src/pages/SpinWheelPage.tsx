@@ -322,7 +322,7 @@ const SpinWheelPage = () => {
               {/* Guest post-spin overlay */}
               {guestSpinDone && !isSpinning && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center animate-fade-in">
-                  <div className="absolute inset-0 bg-background/70 backdrop-blur-sm rounded-2xl" />
+                  <div className="absolute inset-0 bg-background/80 backdrop-blur-md rounded-2xl" />
                   <div className="relative z-10 flex flex-col items-center gap-4 px-4 py-6 max-w-[300px] w-full">
                     <div className="relative">
                       <div className="absolute -inset-3 rounded-full bg-primary/10 animate-pulse" />
@@ -330,11 +330,11 @@ const SpinWheelPage = () => {
                         <LogIn className="h-5 w-5 text-primary-foreground" />
                       </div>
                     </div>
-                    <div className="text-center space-y-1">
-                      <h3 className="text-lg font-extrabold text-foreground tracking-tight">
+                    <div className="text-center space-y-2">
+                      <h3 className="text-2xl font-extrabold text-foreground tracking-tight drop-shadow-lg">
                         Ready to Win?
                       </h3>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm font-medium text-foreground/80">
                         Sign in to spin for real points and prizes!
                       </p>
                     </div>

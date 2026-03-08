@@ -152,7 +152,7 @@ const TopCasinos = () => {
 
         {isMobile ? (
           <div>
-            <div ref={emblaRef} className="overflow-hidden -mx-4 px-4">
+            <div ref={emblaRef} className="overflow-hidden -mx-4 px-4 pt-2 -mt-2">
               <div className="flex gap-3">
                 {casinos.map((casino, i) => (
                   <div key={casino.name} className="flex-[0_0_85%] min-w-0">

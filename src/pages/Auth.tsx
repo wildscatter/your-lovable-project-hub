@@ -88,12 +88,12 @@ const Auth = () => {
             </span>
           </div>
           <h1 className="text-xl font-bold text-foreground">
-            {isLogin ? "კეთილი იყოს თქვენი მობრძანება" : "შექმენით ანგარიში"}
+            {isLogin ? "Welcome Back" : "Create Account"}
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
             {isLogin
-              ? "შეხვიდეთ თქვენს ანგარიშზე"
-              : "დარეგისტრირდით უფასოდ"}
+              ? "Sign in to your account"
+              : "Register for free"}
           </p>
         </div>
 

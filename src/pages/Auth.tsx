@@ -59,7 +59,7 @@ const Auth = () => {
           options: { emailRedirectTo: redirectUrl },
         });
         if (error) throw error;
-        toast({ title: "Registration successful!", description: "Check your email for confirmation." });
+        navigate(`/email-sent?type=signup&email=${encodeURIComponent(email)}`);
       }
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });

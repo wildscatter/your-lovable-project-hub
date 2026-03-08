@@ -176,11 +176,6 @@ const SpinWheelPage = () => {
 
   const progressPercent = Math.min((totalPoints / MAX_POINTS) * 100, 100);
 
-  // Calculate countdown ring progress (24h = 100%)
-  const countdownTotalSeconds = countdown.h * 3600 + countdown.m * 60 + countdown.s;
-  const countdownProgress = countdownActive ? (countdownTotalSeconds / 86400) * 100 : 0;
-  const circumference = 2 * Math.PI * 54;
-  const strokeDashoffset = circumference - (countdownProgress / 100) * circumference;
 
   if (loading || !dataLoaded) {
     return (

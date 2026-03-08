@@ -275,21 +275,6 @@ const SpinWheelPage = () => {
           />
         </div>
 
-        {/* Result Card */}
-        {showResult && spinResult && (() => {
-          const style = tierStyles[spinResult.tier] || tierStyles.tryagain;
-          return (
-            <div ref={resultRef} className={`animate-scale-in ${style.bg} border ${style.border} rounded-xl p-3 text-center shadow-lg ${style.glow}`}>
-              <p className={`text-sm font-extrabold ${style.text}`}>{spinResult.message}</p>
-              {spinResult.actualPoints > 0 && (
-                <div className="mt-2 inline-flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-3 py-1 animate-fade-in">
-                  <Zap className="h-3 w-3 text-primary" />
-                  <span className="text-xs font-bold text-primary">+{spinResult.actualPoints} pts</span>
-                </div>
-              )}
-            </div>
-          );
-        })()}
 
         {/* Referral Row */}
         <div className="bg-card/80 border border-border/50 rounded-xl p-3 flex items-center gap-3">

@@ -244,8 +244,6 @@ const SpinWheelPage = () => {
 
       <div className="max-w-lg mx-auto px-3 py-4 space-y-4 relative z-10">
 
-        {/* Campaign Countdown */}
-        <CampaignCountdown onExpired={() => setCampaignEnded(true)} />
 
         {/* Circular Progress + Prize Display (hidden for guests) */}
         {!isGuest && (

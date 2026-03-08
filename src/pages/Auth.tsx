@@ -52,9 +52,10 @@ const Auth = () => {
         
         navigate("/");
       } else {
+        const siteUrl = "https://wildscatter.com";
         const redirectUrl = referrerId 
-          ? `${window.location.origin}/auth?ref=${referrerId}${returnTo ? `&returnTo=${returnTo}` : ''}`
-          : window.location.origin;
+          ? `${siteUrl}/auth?ref=${referrerId}${returnTo ? `&returnTo=${returnTo}` : ''}`
+          : siteUrl;
         const { error } = await supabase.auth.signUp({
           email, password,
           options: { emailRedirectTo: redirectUrl },

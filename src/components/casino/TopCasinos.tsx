@@ -136,8 +136,10 @@ const TopCasinos = () => {
     <section id="top-casinos" className="py-10 sm:py-12 md:py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-semibold text-accent mb-4">
-            🔥 Today's Deals
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-primary mb-4 glow-pulse-subtle">
+            <Flame className="h-4 w-4 animate-pulse text-accent" />
+            <span>Today's Deals</span>
+            <Flame className="h-4 w-4 animate-pulse text-accent" />
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3">
             <span className="text-primary">Top Rated</span> Casinos

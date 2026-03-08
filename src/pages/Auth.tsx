@@ -219,7 +219,7 @@ const Auth = () => {
             onClick={() => navigate("/")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            ← მთავარ გვერდზე დაბრუნება
+            ← Back to Home
           </button>
         </div>
       </div>

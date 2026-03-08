@@ -203,12 +203,12 @@ const Auth = () => {
 
           {/* Toggle */}
           <p className="text-center text-sm text-muted-foreground mt-6">
-            {isLogin ? "არ გაქვთ ანგარიში?" : "უკვე გაქვთ ანგარიში?"}{" "}
+            {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
               onClick={() => setIsLogin(!isLogin)}
               className="text-primary font-semibold hover:underline transition-all"
             >
-              {isLogin ? "რეგისტრაცია" : "შესვლა"}
+              {isLogin ? "Sign Up" : "Sign In"}
             </button>
           </p>
         </div>

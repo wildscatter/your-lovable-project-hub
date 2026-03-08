@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Copy, Check, Users, Sparkles, Trophy, Star, Zap } from "lucide-react";
+import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import confetti from "canvas-confetti";

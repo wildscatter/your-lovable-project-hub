@@ -1,24 +1,27 @@
 import { useRef, useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Gift, RotateCcw, Sparkles, Trophy, X } from "lucide-react";
+import { Gift, RotateCcw, Sparkles, Trophy, LogIn } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Prize {
   label: string;
   color: string;
   textColor: string;
   icon: string;
+  points: number;
 }
 
 const PRIZES: Prize[] = [
-  { label: "50 Free Spins", color: "hsl(38, 95%, 58%)", textColor: "#1a1a2e", icon: "🎰" },
-  { label: "€10 Bonus", color: "hsl(230, 18%, 16%)", textColor: "#f5f0e0", icon: "💰" },
-  { label: "Try Again", color: "hsl(4, 85%, 52%)", textColor: "#ffffff", icon: "🔄" },
-  { label: "€25 Bonus", color: "hsl(38, 70%, 42%)", textColor: "#f5f0e0", icon: "💎" },
-  { label: "100 Free Spins", color: "hsl(155, 75%, 38%)", textColor: "#ffffff", icon: "⭐" },
-  { label: "€5 Bonus", color: "hsl(230, 18%, 22%)", textColor: "#f5f0e0", icon: "🎁" },
-  { label: "VIP Access", color: "hsl(280, 60%, 50%)", textColor: "#ffffff", icon: "👑" },
-  { label: "20 Free Spins", color: "hsl(215, 55%, 50%)", textColor: "#ffffff", icon: "🎲" },
+  { label: "500 Points", color: "hsl(38, 95%, 58%)", textColor: "#1a1a2e", icon: "⭐", points: 500 },
+  { label: "100 Points", color: "hsl(230, 18%, 16%)", textColor: "#f5f0e0", icon: "🔹", points: 100 },
+  { label: "Try Again", color: "hsl(4, 85%, 52%)", textColor: "#ffffff", icon: "🔄", points: 0 },
+  { label: "250 Points", color: "hsl(38, 70%, 42%)", textColor: "#f5f0e0", icon: "💎", points: 250 },
+  { label: "1000 Points", color: "hsl(155, 75%, 38%)", textColor: "#ffffff", icon: "🏆", points: 1000 },
+  { label: "50 Points", color: "hsl(230, 18%, 22%)", textColor: "#f5f0e0", icon: "✨", points: 50 },
+  { label: "2000 Points", color: "hsl(280, 60%, 50%)", textColor: "#ffffff", icon: "👑", points: 2000 },
+  { label: "150 Points", color: "hsl(215, 55%, 50%)", textColor: "#ffffff", icon: "🎯", points: 150 },
 ];
 
 const WHEEL_SIZE = 340;
@@ -37,6 +40,8 @@ const SpinWheel = () => {
   const startTimeRef = useRef(0);
   const startRotRef = useRef(0);
   const targetRotRef = useRef(0);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const drawWheel = useCallback((rot: number) => {
     const canvas = canvasRef.current;
@@ -58,7 +63,6 @@ const SpinWheel = () => {
       const startAngle = i * ARC - Math.PI / 2;
       const endAngle = startAngle + ARC;
 
-      // Segment
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.arc(0, 0, RADIUS, startAngle, endAngle);
@@ -66,12 +70,10 @@ const SpinWheel = () => {
       ctx.fillStyle = prize.color;
       ctx.fill();
 
-      // Border between segments
       ctx.strokeStyle = "hsl(230, 20%, 7%)";
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Text
       ctx.save();
       ctx.rotate(startAngle + ARC / 2);
       ctx.textAlign = "right";
@@ -83,7 +85,6 @@ const SpinWheel = () => {
       ctx.restore();
     });
 
-    // Center circle
     ctx.beginPath();
     ctx.arc(0, 0, 28, 0, 2 * Math.PI);
     ctx.fillStyle = "hsl(38, 95%, 58%)";
@@ -108,7 +109,6 @@ const SpinWheel = () => {
 
   useEffect(() => {
     if (open) {
-      // Small delay to ensure canvas is mounted
       setTimeout(() => drawWheel(rotation), 50);
     }
   }, [open, drawWheel, rotation]);
@@ -122,14 +122,14 @@ const SpinWheel = () => {
     setShowResult(false);
 
     const prizeIndex = Math.floor(Math.random() * PRIZES.length);
-    const extraSpins = 5 + Math.random() * 3; // 5-8 full rotations
+    const extraSpins = 5 + Math.random() * 3;
     const prizeAngle = (2 * Math.PI) - (prizeIndex * ARC + ARC / 2);
     const totalRotation = extraSpins * 2 * Math.PI + prizeAngle;
 
     startRotRef.current = rotation;
     targetRotRef.current = rotation + totalRotation;
     startTimeRef.current = performance.now();
-    const duration = 4500 + Math.random() * 1500; // 4.5-6s
+    const duration = 4500 + Math.random() * 1500;
 
     const animate = (now: number) => {
       const elapsed = now - startTimeRef.current;
@@ -164,6 +164,14 @@ const SpinWheel = () => {
     setShowResult(false);
   };
 
+  const handleOpenWheel = () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+    setOpen(true);
+  };
+
   return (
     <>
       {/* Trigger Button */}
@@ -175,20 +183,31 @@ const SpinWheel = () => {
               <div className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-primary animate-pulse" />
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-                  Spin & <span className="text-primary italic">Win</span>
+                  Spin & <span className="text-primary italic">Win Points</span>
                 </h2>
                 <Sparkles className="h-5 w-5 text-primary animate-pulse" />
               </div>
               <p className="text-muted-foreground text-sm sm:text-base max-w-md">
-                Try your luck! Spin the wheel for a chance to win exclusive bonuses, free spins, and VIP access.
+                {user
+                  ? "Try your luck! Spin the wheel to earn bonus points."
+                  : "Sign in to spin the wheel and earn bonus points!"}
               </p>
               <Button
                 size="lg"
-                onClick={() => setOpen(true)}
+                onClick={handleOpenWheel}
                 className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base px-10 py-7 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 mt-2"
               >
-                <Gift className="h-5 w-5 mr-2" />
-                Spin the Wheel
+                {user ? (
+                  <>
+                    <Gift className="h-5 w-5 mr-2" />
+                    Spin the Wheel
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="h-5 w-5 mr-2" />
+                    Sign In to Spin
+                  </>
+                )}
               </Button>
             </div>
           </div>
@@ -201,17 +220,15 @@ const SpinWheel = () => {
           <DialogHeader className="p-6 pb-2">
             <DialogTitle className="text-center text-2xl font-extrabold flex items-center justify-center gap-2">
               <Trophy className="h-5 w-5 text-primary" />
-              <span className="text-primary italic">Spin</span> & Win
+              <span className="text-primary italic">Spin</span> & Win Points
             </DialogTitle>
             <DialogDescription className="text-center text-muted-foreground text-sm">
-              Tap the button to spin — every spin wins!
+              Tap the button to spin — earn points every time!
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col items-center px-6 pb-6 gap-5">
-            {/* Wheel container */}
             <div className="relative">
-              {/* Pointer / Arrow */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-20">
                 <div
                   className="w-0 h-0"
@@ -224,7 +241,6 @@ const SpinWheel = () => {
                 />
               </div>
 
-              {/* Outer ring glow */}
               <div
                 className="absolute inset-0 rounded-full"
                 style={{
@@ -235,7 +251,6 @@ const SpinWheel = () => {
                 }}
               />
 
-              {/* Outer decorative ring */}
               <div
                 className="absolute -inset-2 rounded-full border-4 border-primary/30"
                 style={{
@@ -250,7 +265,6 @@ const SpinWheel = () => {
               />
             </div>
 
-            {/* Spin button */}
             <Button
               size="lg"
               onClick={spin}
@@ -265,18 +279,19 @@ const SpinWheel = () => {
               {spinning ? "Spinning..." : "SPIN NOW"}
             </Button>
 
-            {/* Result */}
             {showResult && result && (
               <div className="animate-scale-in text-center bg-secondary/50 border border-primary/20 rounded-xl px-6 py-4 w-full">
                 <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
-                  🎉 You Won
+                  {result.points > 0 ? "🎉 You Won" : "😅 Better luck next time!"}
                 </p>
                 <p className="text-2xl font-extrabold text-primary italic">
                   {result.icon} {result.label}
                 </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Claim your prize through our VIP support channel
-                </p>
+                {result.points > 0 && (
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Points have been added to your balance
+                  </p>
+                )}
               </div>
             )}
           </div>

@@ -4,21 +4,20 @@ import { RotateCcw, Sparkles } from "lucide-react";
 
 interface Prize {
   label: string;
+  points: number;
   color: string;
-  textColor: string;
-  icon: string;
   gradient?: string;
 }
 
 const PRIZES: Prize[] = [
-  { label: "🌟 BONUS", color: "hsl(38, 95%, 58%)", textColor: "#1a1a2e", icon: "🌟", gradient: "hsl(42, 100%, 65%)" },
-  { label: "⭐ LUCKY", color: "hsl(230, 18%, 14%)", textColor: "#c8c0b0", icon: "⭐", gradient: "hsl(230, 18%, 18%)" },
-  { label: "🔄 RETRY", color: "hsl(4, 75%, 48%)", textColor: "#ffd4d4", icon: "🔄", gradient: "hsl(4, 85%, 55%)" },
-  { label: "💎 MEGA", color: "hsl(38, 70%, 38%)", textColor: "#f5f0e0", icon: "💎", gradient: "hsl(38, 80%, 48%)" },
-  { label: "👥 INVITE", color: "hsl(155, 75%, 32%)", textColor: "#d0fff0", icon: "👥", gradient: "hsl(155, 75%, 42%)" },
-  { label: "✨ NICE", color: "hsl(230, 18%, 18%)", textColor: "#a8a0b0", icon: "✨", gradient: "hsl(230, 18%, 24%)" },
-  { label: "👑 JACKPOT", color: "hsl(280, 60%, 42%)", textColor: "#f0d0ff", icon: "👑", gradient: "hsl(280, 60%, 55%)" },
-  { label: "🎯 HIT", color: "hsl(215, 55%, 42%)", textColor: "#d0e0ff", icon: "🎯", gradient: "hsl(215, 55%, 55%)" },
+  { label: "30", points: 30, color: "hsl(38, 95%, 52%)", gradient: "hsl(42, 100%, 62%)" },
+  { label: "5", points: 5, color: "hsl(230, 18%, 14%)", gradient: "hsl(230, 18%, 20%)" },
+  { label: "20", points: 20, color: "hsl(4, 75%, 48%)", gradient: "hsl(4, 85%, 55%)" },
+  { label: "0", points: 0, color: "hsl(230, 22%, 18%)", gradient: "hsl(230, 22%, 24%)" },
+  { label: "15", points: 15, color: "hsl(155, 65%, 32%)", gradient: "hsl(155, 65%, 42%)" },
+  { label: "5", points: 5, color: "hsl(280, 50%, 38%)", gradient: "hsl(280, 50%, 48%)" },
+  { label: "10", points: 10, color: "hsl(215, 55%, 42%)", gradient: "hsl(215, 55%, 52%)" },
+  { label: "0", points: 0, color: "hsl(230, 18%, 12%)", gradient: "hsl(230, 18%, 18%)" },
 ];
 
 const WHEEL_SIZE = 320;
@@ -76,6 +75,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       const startAngle = i * ARC - Math.PI / 2;
       const endAngle = startAngle + ARC;
 
+      // Segment gradient
       const grad = ctx.createRadialGradient(0, 0, 20, 0, 0, RADIUS);
       grad.addColorStop(0, prize.gradient || prize.color);
       grad.addColorStop(1, prize.color);
@@ -87,33 +87,51 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       ctx.fillStyle = grad;
       ctx.fill();
 
+      // Segment border
       ctx.strokeStyle = "hsl(230, 20%, 7%)";
       ctx.lineWidth = 2;
       ctx.stroke();
 
+      // Inner highlight
       ctx.beginPath();
       ctx.arc(0, 0, RADIUS - 1, startAngle, endAngle);
-      ctx.strokeStyle = "hsla(0, 0%, 100%, 0.05)";
+      ctx.strokeStyle = "hsla(0, 0%, 100%, 0.06)";
       ctx.lineWidth = 1;
       ctx.stroke();
 
+      // Draw point value - large, bold, casino-style
       ctx.save();
       ctx.rotate(startAngle + ARC / 2);
-      ctx.font = "24px serif";
+
+      const textX = RADIUS * 0.58;
+
+      // Outer glow
+      ctx.shadowColor = "rgba(255,255,255,0.6)";
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 32px 'Georgia', 'Times New Roman', serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(prize.icon, RADIUS * 0.72, 0);
+      ctx.fillText(prize.label, textX, 0);
 
-      ctx.fillStyle = prize.textColor;
-      ctx.font = "bold 9px system-ui, -apple-system, sans-serif";
-      ctx.textAlign = "center";
+      // Second pass for crisp text
       ctx.shadowColor = "rgba(0,0,0,0.5)";
-      ctx.shadowBlur = 2;
-      ctx.fillText(prize.label.split(" ").pop() || "", RADIUS * 0.42, 0);
+      ctx.shadowBlur = 4;
+      ctx.shadowOffsetY = 2;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(prize.label, textX, 0);
+
+      // Top highlight pass
+      ctx.shadowColor = "transparent";
       ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.fillStyle = "rgba(255,255,255,0.15)";
+      ctx.fillText(prize.label, textX, -1);
+
       ctx.restore();
     });
 
+    // LED dots around the rim
     for (let i = 0; i < 40; i++) {
       const angle = (i / 40) * Math.PI * 2;
       const x = Math.cos(angle) * (RADIUS - 5);
@@ -125,6 +143,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       ctx.fill();
     }
 
+    // Center hub
     ctx.beginPath();
     ctx.arc(0, 0, 30, 0, 2 * Math.PI);
     const hubGrad = ctx.createRadialGradient(0, 0, 4, 0, 0, 30);
@@ -137,6 +156,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     ctx.lineWidth = 3;
     ctx.stroke();
 
+    // Inner hub
     ctx.beginPath();
     ctx.arc(0, 0, 18, 0, 2 * Math.PI);
     const innerGrad = ctx.createRadialGradient(0, 0, 2, 0, 0, 18);
@@ -148,6 +168,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
+    // SPIN text
     ctx.fillStyle = "hsl(38, 95%, 60%)";
     ctx.font = "bold 10px system-ui";
     ctx.textAlign = "center";
@@ -228,6 +249,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
   return (
     <div className="flex flex-col items-center gap-5">
       <div className="relative">
+        {/* Pointer */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1.5 z-20">
           <div
             className="w-0 h-0"
@@ -241,6 +263,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
           />
         </div>
 
+        {/* Glow ring */}
         <div
           className="absolute -inset-4 rounded-full transition-all duration-300"
           style={{

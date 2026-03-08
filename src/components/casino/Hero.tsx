@@ -48,7 +48,7 @@ const Hero = () => {
             <div className="flex flex-col items-center gap-4">
               <Button
                 size="lg"
-                className="glow-pulse-btn bg-gradient-to-r from-primary to-violet-dim text-primary-foreground font-bold text-base px-10 py-7 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
+                className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base px-10 py-7 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
                 asChild
               >
                 <a href="#top-casinos" className="flex items-center gap-2">

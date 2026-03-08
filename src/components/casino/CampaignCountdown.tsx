@@ -72,7 +72,7 @@ const CampaignCountdown = ({ onExpired }: CampaignCountdownProps) => {
   const ringOffset = ringC * (1 - progress);
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-gradient-to-r from-card/90 via-card/70 to-card/90 backdrop-blur-sm">
+    <div className="relative overflow-hidden">
       {/* Subtle animated shimmer */}
       <div
         className="absolute inset-0 pointer-events-none"

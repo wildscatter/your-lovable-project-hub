@@ -12,6 +12,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Auth from "./pages/Auth";
 import SpinWheelPage from "./pages/SpinWheelPage";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/spin" element={<SpinWheelPage />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<Blog />} />

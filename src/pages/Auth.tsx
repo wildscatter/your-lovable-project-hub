@@ -221,11 +221,34 @@ const Auth = () => {
                 </div>
               </div>
 
-              {/* Password hint for signup */}
-              {!isLogin && (
-                <p className="text-[11px] text-muted-foreground/70 pl-1">
-                  Use at least 6 characters with a mix of letters and numbers.
-                </p>
+              {/* Forgot password link */}
+              {isLogin && (
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      if (!email.trim()) {
+                        toast({ title: "შეიყვანეთ ემაილი", description: "ჯერ შეიყვანეთ თქვენი ემაილ მისამართი.", variant: "destructive" });
+                        return;
+                      }
+                      setLoading(true);
+                      try {
+                        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                          redirectTo: `${window.location.origin}/reset-password`,
+                        });
+                        if (error) throw error;
+                        toast({ title: "ემაილი გაიგზავნა!", description: "შეამოწმეთ თქვენი ემაილი პაროლის აღსადგენად." });
+                      } catch (error: any) {
+                        toast({ title: "შეცდომა", description: error.message, variant: "destructive" });
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    className="text-xs text-primary hover:underline underline-offset-4 transition-all"
+                  >
+                    დაგავიწყდა პაროლი?
+                  </button>
+                </div>
               )}
 
               <Button

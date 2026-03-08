@@ -76,7 +76,7 @@ const Auth = () => {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: "https://wildscatter.com/reset-password",
       });
       if (error) throw error;
       navigate(`/email-sent?type=reset&email=${encodeURIComponent(resetEmail)}`);

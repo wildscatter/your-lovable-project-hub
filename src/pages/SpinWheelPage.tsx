@@ -244,8 +244,6 @@ const SpinWheelPage = () => {
 
       <div className="max-w-lg mx-auto px-3 py-4 space-y-4 relative z-10">
 
-        {/* Campaign Countdown */}
-        <CampaignCountdown onExpired={() => setCampaignEnded(true)} />
 
         {/* Circular Progress + Prize Display (hidden for guests) */}
         {!isGuest && (
@@ -311,7 +309,12 @@ const SpinWheelPage = () => {
         )}
 
         {/* Wheel */}
-        <div className="relative bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3">
+        <div className="relative bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl overflow-hidden">
+          {/* Campaign Countdown - top strip */}
+          <div className="relative z-20 border-b border-border/30">
+            <CampaignCountdown onExpired={() => setCampaignEnded(true)} />
+          </div>
+          <div className="p-3">
           {isGuest ? (
             <>
               <SpinWheelCanvas
@@ -348,6 +351,7 @@ const SpinWheelPage = () => {
               />
             </>
           )}
+          </div>
         </div>
 
         {/* Referral Row (auth only) */}

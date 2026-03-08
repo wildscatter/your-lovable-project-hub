@@ -72,7 +72,7 @@ const Header = () => {
             aria-label="Support 24/7"
           >
             <MessageCircle className="h-4 w-4" />
-            <span className="tracking-wide">24/7</span>
+            <span className="tracking-wide">Chat</span>
           </button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>

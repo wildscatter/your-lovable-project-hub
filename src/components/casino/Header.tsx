@@ -157,9 +157,6 @@ const Header = () => {
                 {/* Mobile menu header */}
                 <div className="px-5 pt-6 pb-5 border-b border-border/30">
                   <div className="flex items-center gap-2.5">
-                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-gold-dim flex items-center justify-center shadow-md shadow-primary/20">
-                      <Zap className="h-4 w-4 text-primary-foreground" />
-                    </div>
                     <span className="text-lg font-extrabold italic">
                       <span className="text-primary">Wild</span>
                       <span className="text-foreground">Scatter</span>

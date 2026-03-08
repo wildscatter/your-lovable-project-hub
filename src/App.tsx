@@ -31,6 +31,7 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/spin" element={<SpinWheelPage />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/email-sent" element={<EmailSent />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<Blog />} />

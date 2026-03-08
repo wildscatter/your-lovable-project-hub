@@ -77,7 +77,7 @@ const Auth = () => {
         redirectTo: `${window.location.origin}/reset-password`,
       });
       if (error) throw error;
-      toast({ title: "Email sent!", description: "Check your inbox for the password reset link." });
+      navigate(`/email-sent?type=reset&email=${encodeURIComponent(resetEmail)}`);
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {

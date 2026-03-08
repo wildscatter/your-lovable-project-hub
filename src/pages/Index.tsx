@@ -9,6 +9,7 @@ import ResponsibleGambling from "@/components/casino/ResponsibleGambling";
 import TrustBanner from "@/components/casino/TrustBanner";
 import Footer from "@/components/casino/Footer";
 import CookieConsent from "@/components/casino/CookieConsent";
+import FloatingCTA from "@/components/casino/FloatingCTA";
 
 const Index = () => (
   <div className="min-h-screen bg-background">
@@ -25,6 +26,7 @@ const Index = () => (
     </main>
     <Footer />
     <CookieConsent />
+    <FloatingCTA />
   </div>
 );
 

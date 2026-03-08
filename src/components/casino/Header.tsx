@@ -35,8 +35,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 border-b border-primary/10 bg-background/95 backdrop-blur-xl">
       <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4">
         {/* Logo */}
-        <button onClick={() => navigate("/")} className="group flex items-center gap-1.5 sm:gap-2 bg-transparent border-none cursor-pointer min-h-[44px]">
-          <span className="text-xl sm:text-2xl">🎰</span>
+        <button onClick={() => navigate("/")} className="group flex items-center bg-transparent border-none cursor-pointer min-h-[44px]">
           <span className="text-lg sm:text-2xl font-extrabold tracking-tight italic">
             <span className="text-primary">Wild</span>
             <span className="text-foreground">Scatter</span>

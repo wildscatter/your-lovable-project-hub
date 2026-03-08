@@ -29,8 +29,8 @@ const Hero = () => {
   return (
     <>
       <section className="relative overflow-hidden py-8 sm:py-10 md:py-14">
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-secondary/15 via-transparent to-secondary/10" />
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.05),transparent_70%)]" />
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-secondary/20 via-transparent to-primary/5" />
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.06),transparent_70%)]" />
 
         <div className="w-full px-4 sm:px-6 md:px-12 lg:px-20 relative z-10">
           {/* Desktop */}
@@ -48,7 +48,7 @@ const Hero = () => {
             <div className="flex flex-col items-center gap-4">
               <Button
                 size="lg"
-                className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base px-10 py-7 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
+                className="glow-pulse-btn bg-gradient-to-r from-primary to-teal-dim text-primary-foreground font-bold text-base px-10 py-7 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
                 asChild
               >
                 <a href="#top-casinos" className="flex items-center gap-2">
@@ -76,7 +76,7 @@ const Hero = () => {
               <div className="text-center">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Online Now</p>
                 <div className="flex items-center justify-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
                   <p className="text-3xl font-extrabold text-primary italic tabular-nums">{online}</p>
                 </div>
               </div>
@@ -93,9 +93,8 @@ const Hero = () => {
               Expert-picked casinos, verified bonuses &amp; transparent reviews.
             </p>
             
-            {/* Primary CTA - full width on mobile */}
             <Button
-              className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base w-full max-w-xs py-6 rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all min-h-[52px]"
+              className="glow-pulse-btn bg-gradient-to-r from-primary to-teal-dim text-primary-foreground font-bold text-base w-full max-w-xs py-6 rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all min-h-[52px]"
               asChild
             >
               <a href="#top-casinos" className="flex items-center justify-center gap-2">
@@ -104,7 +103,6 @@ const Hero = () => {
               </a>
             </Button>
             
-            {/* Secondary CTA */}
             <Button
               variant="outline"
               onClick={() => setWizardOpen(true)}
@@ -114,7 +112,6 @@ const Hero = () => {
               Get Personalized Offers
             </Button>
             
-            {/* Stats card */}
             <div className="flex items-center gap-6 mt-1 bg-card/60 rounded-xl px-6 py-4 border border-border w-full max-w-xs">
               <div className="text-center flex-1">
                 <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-0.5">Claimed Today</p>
@@ -124,7 +121,7 @@ const Hero = () => {
               <div className="text-center flex-1">
                 <p className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground mb-0.5">Online Now</p>
                 <div className="flex items-center justify-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
                   <p className="text-2xl font-extrabold text-primary italic tabular-nums">{online}</p>
                 </div>
               </div>

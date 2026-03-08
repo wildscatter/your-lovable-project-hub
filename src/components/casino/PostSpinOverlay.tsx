@@ -132,7 +132,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
         {/* CTA Button */}
         <Button
           size="lg"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/#top-casinos")}
           className="w-full glow-pulse-btn bg-gradient-to-r from-primary via-[hsl(42,100%,65%)] to-primary text-primary-foreground font-bold text-sm px-6 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 border border-primary/30 group"
         >
           <span>Explore Top Casinos</span>

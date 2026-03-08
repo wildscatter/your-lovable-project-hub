@@ -49,6 +49,7 @@ const SpinWheelPage = () => {
   const [showResult, setShowResult] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [guestSpinDone, setGuestSpinDone] = useState(false);
+  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
 
   const loadUserData = useCallback(async () => {

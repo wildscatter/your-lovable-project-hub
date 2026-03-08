@@ -44,7 +44,7 @@ const InlineAuth = ({ onBack }: InlineAuthProps) => {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: `${window.location.origin}/spin` },
+        options: { emailRedirectTo: "https://wildscatter.com/spin" },
       });
       if (error) throw error;
       setView("email-sent");

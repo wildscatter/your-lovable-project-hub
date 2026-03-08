@@ -52,9 +52,10 @@ const Auth = () => {
         
         navigate("/");
       } else {
+        const siteUrl = "https://wildscatter.com";
         const redirectUrl = referrerId 
-          ? `${window.location.origin}/auth?ref=${referrerId}${returnTo ? `&returnTo=${returnTo}` : ''}`
-          : window.location.origin;
+          ? `${siteUrl}/auth?ref=${referrerId}${returnTo ? `&returnTo=${returnTo}` : ''}`
+          : siteUrl;
         const { error } = await supabase.auth.signUp({
           email, password,
           options: { emailRedirectTo: redirectUrl },
@@ -75,7 +76,7 @@ const Auth = () => {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: "https://wildscatter.com/reset-password",
       });
       if (error) throw error;
       navigate(`/email-sent?type=reset&email=${encodeURIComponent(resetEmail)}`);

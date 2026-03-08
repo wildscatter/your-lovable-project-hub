@@ -64,15 +64,15 @@ const Header = () => {
           </button>
         </div>
 
-        <div className="flex md:hidden items-center gap-2">
-          {/* Mobile support button */}
+        <div className="flex md:hidden items-center gap-1.5">
+          {/* Mobile support button — icon-only, pill style */}
           <button
             onClick={() => openChat(true)}
-            className="inline-flex items-center gap-1 rounded-full bg-primary text-primary-foreground font-bold text-xs px-3 py-2.5 transition-all duration-300 min-h-[44px] active:scale-90 glow-pulse-subtle"
+            className="relative inline-flex items-center gap-1.5 rounded-full bg-primary/15 text-primary font-semibold text-[11px] px-2.5 py-2 transition-all duration-300 min-h-[40px] active:scale-90 border border-primary/25"
             aria-label="Support 24/7"
           >
             <MessageCircle className="h-4 w-4" />
-            24/7
+            <span className="tracking-wide">24/7</span>
           </button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>

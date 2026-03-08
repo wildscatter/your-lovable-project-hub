@@ -36,7 +36,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
   if (!visible) return null;
 
   const progress = initialSeconds > 0 ? ((initialSeconds - totalSeconds) / initialSeconds) : 1;
-  const ringRadius = 58;
+  const ringRadius = 46;
   const ringCircumference = 2 * Math.PI * ringRadius;
   const ringOffset = ringCircumference - progress * ringCircumference;
   const pad = (n: number) => n.toString().padStart(2, "0");
@@ -47,7 +47,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
       <div className="absolute inset-0 bg-background/85 backdrop-blur-md rounded-2xl" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-5 px-4 py-6 max-w-[320px] w-full">
+      <div className="relative z-10 flex flex-col items-center gap-4 px-4 py-5 max-w-[300px] w-full">
         {/* Clock icon badge */}
         <div className="relative">
           <div className="absolute -inset-3 rounded-full bg-primary/10 animate-pulse" />
@@ -57,17 +57,17 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
         </div>
 
         {/* Title */}
-        <div className="text-center space-y-2">
-          <h3 className="text-2xl font-extrabold text-foreground tracking-tight drop-shadow-lg">
+        <div className="text-center space-y-1">
+          <h3 className="text-xl font-extrabold text-foreground tracking-tight drop-shadow-lg">
             Come Back Tomorrow!
           </h3>
-          <p className="text-sm font-medium text-foreground/80">
+          <p className="text-xs font-medium text-foreground/80">
             Your next spin is waiting for you
           </p>
         </div>
 
         {/* Countdown ring */}
-        <div className="relative w-[140px] h-[140px]">
+        <div className="relative w-[110px] h-[110px]">
           {/* Glow behind ring */}
           <div
             className="absolute inset-0 rounded-full"
@@ -75,21 +75,21 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
               background: "radial-gradient(circle, hsl(38 95% 58% / 0.08), transparent 70%)",
             }}
           />
-          <svg className="w-full h-full -rotate-90" viewBox="0 0 140 140">
+          <svg className="w-full h-full -rotate-90" viewBox="0 0 110 110">
             {/* Track */}
             <circle
-              cx="70" cy="70" r={ringRadius}
+              cx="55" cy="55" r={ringRadius}
               fill="none"
               stroke="hsl(var(--secondary))"
-              strokeWidth="5"
+              strokeWidth="4"
               opacity="0.25"
             />
             {/* Progress arc */}
             <circle
-              cx="70" cy="70" r={ringRadius}
+              cx="55" cy="55" r={ringRadius}
               fill="none"
               stroke="url(#countdownGradient)"
-              strokeWidth="5"
+              strokeWidth="4"
               strokeLinecap="round"
               strokeDasharray={ringCircumference}
               strokeDashoffset={ringOffset}
@@ -110,11 +110,11 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
           {/* Countdown digits inside ring */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="flex items-baseline gap-0.5 font-mono">
-              <span className="text-lg font-extrabold text-foreground">{pad(countdown.h)}</span>
-              <span className="text-sm text-primary font-bold animate-pulse">:</span>
-              <span className="text-lg font-extrabold text-foreground">{pad(countdown.m)}</span>
-              <span className="text-sm text-primary font-bold animate-pulse">:</span>
-              <span className="text-lg font-extrabold text-foreground">{pad(countdown.s)}</span>
+              <span className="text-base font-extrabold text-foreground">{pad(countdown.h)}</span>
+              <span className="text-xs text-primary font-bold animate-pulse">:</span>
+              <span className="text-base font-extrabold text-foreground">{pad(countdown.m)}</span>
+              <span className="text-xs text-primary font-bold animate-pulse">:</span>
+              <span className="text-base font-extrabold text-foreground">{pad(countdown.s)}</span>
             </div>
             <span className="text-[8px] text-muted-foreground/60 uppercase tracking-widest mt-1">
               until next spin

@@ -98,7 +98,10 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
         {casino.tag}
       </div>
 
-      <div className="text-4xl sm:text-5xl mt-4">{casino.emoji}</div>
+      {/* Styled text logo badge */}
+      <div className={`mt-4 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${casino.brandBg} flex items-center justify-center`}>
+        <casino.icon className={`h-7 w-7 sm:h-8 sm:h-8 ${casino.brandText}`} />
+      </div>
       <h3 className="text-lg sm:text-xl font-bold text-foreground">{casino.name}</h3>
       <StarRating rating={casino.rating} />
 

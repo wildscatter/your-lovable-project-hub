@@ -14,6 +14,7 @@ type AuthView = "login" | "signup" | "forgot";
 const Auth = () => {
   const [searchParams] = useSearchParams();
   const referrerId = searchParams.get("ref");
+  const returnTo = searchParams.get("returnTo");
   const [view, setView] = useState<AuthView>(referrerId ? "signup" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -107,12 +107,6 @@ const Auth = () => {
         {/* Logo & Heading — visually distinct per mode */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-6">
-            <div className="relative">
-              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-primary to-gold-dim flex items-center justify-center shadow-lg shadow-primary/25">
-                <Zap className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-accent animate-pulse" />
-            </div>
             <span className="text-2xl font-extrabold tracking-tight italic">
               <span className="text-primary">Wild</span>
               <span className="text-foreground">Scatter</span>

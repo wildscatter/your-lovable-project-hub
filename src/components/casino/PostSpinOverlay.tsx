@@ -36,7 +36,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
   if (!visible) return null;
 
   const progress = initialSeconds > 0 ? ((initialSeconds - totalSeconds) / initialSeconds) : 1;
-  const ringRadius = 58;
+  const ringRadius = 46;
   const ringCircumference = 2 * Math.PI * ringRadius;
   const ringOffset = ringCircumference - progress * ringCircumference;
   const pad = (n: number) => n.toString().padStart(2, "0");

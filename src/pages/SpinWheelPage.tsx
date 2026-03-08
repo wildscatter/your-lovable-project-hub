@@ -302,7 +302,7 @@ const SpinWheelPage = () => {
             </div>
             <Button
               size="sm"
-              onClick={() => navigate("/auth")}
+              onClick={() => navigate("/auth?returnTo=/spin")}
               className="bg-primary text-primary-foreground font-bold text-xs h-8 px-3 rounded-lg hover:opacity-90 flex-shrink-0"
             >
               Sign Up

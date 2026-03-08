@@ -143,7 +143,6 @@ const Header = () => {
             <MessageCircle className="h-4 w-4" />
             <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-accent animate-pulse border-2 border-background" />
           </button>
-          </button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-foreground h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl hover:bg-secondary/40">

@@ -7,21 +7,21 @@ const items = [
 ];
 
 const WhyTrustUs = () => (
-  <section className="py-14 md:py-20">
+  <section className="py-12 sm:py-14 md:py-20">
     <div className="container mx-auto px-4">
       <h2 className="text-2xl md:text-3xl font-extrabold text-foreground text-center mb-3">
         Why <span className="text-primary">Trust</span> Us
       </h2>
-      <p className="text-sm text-muted-foreground text-center mb-10 max-w-md mx-auto">
+      <p className="text-sm text-muted-foreground text-center mb-8 sm:mb-10 max-w-md mx-auto">
         Transparency, expertise, and player safety are at the core of everything we do.
       </p>
-      <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
         {items.map((item) => (
-          <div key={item.title} className="rounded-xl border border-border bg-card p-7 text-center flex flex-col items-center gap-4 hover:border-primary/30 transition-colors duration-300">
-            <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center">
-              <item.icon className="h-7 w-7 text-primary" />
+          <div key={item.title} className="rounded-xl border border-border bg-card p-6 sm:p-7 text-center flex flex-col items-center gap-3 sm:gap-4 hover:border-primary/30 transition-colors duration-300">
+            <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-primary/10 flex items-center justify-center">
+              <item.icon className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
             </div>
-            <h3 className="text-lg font-bold text-foreground">{item.title}</h3>
+            <h3 className="text-base sm:text-lg font-bold text-foreground">{item.title}</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
           </div>
         ))}

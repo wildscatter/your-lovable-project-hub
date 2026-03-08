@@ -57,7 +57,24 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+  /* Prevent iOS zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  @media (min-width: 768px) {
+    input, select, textarea {
+      font-size: inherit !important;
+    }
+  }
+}
+
+/* Safe area for notched phones */
+.safe-area-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
 /* Gold glow pulse */
@@ -150,10 +167,22 @@
 .card-casino {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-.card-casino:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 40px hsl(40 95% 50% / 0.15), 0 0 20px hsl(270 60% 50% / 0.08);
-  border-color: hsl(40 95% 50% / 0.4);
+
+/* Only hover effects on non-touch devices */
+@media (hover: hover) {
+  .card-casino:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px hsl(40 95% 50% / 0.15), 0 0 20px hsl(270 60% 50% / 0.08);
+    border-color: hsl(40 95% 50% / 0.4);
+  }
+}
+
+/* Active state for touch devices */
+@media (hover: none) {
+  .card-casino:active {
+    transform: scale(0.98);
+    border-color: hsl(40 95% 50% / 0.4);
+  }
 }
 
 .sparkle {

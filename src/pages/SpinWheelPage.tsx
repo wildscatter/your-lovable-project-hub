@@ -315,7 +315,7 @@ const SpinWheelPage = () => {
           {isGuest ? (
             <>
               <SpinWheelCanvas
-                canSpin={!guestSpinDone && !isSpinning}
+                canSpin={!guestSpinDone && !isSpinning && !campaignEnded}
                 onRequestSpin={handleGuestSpin}
                 onSpinComplete={handleGuestSpinComplete}
               />

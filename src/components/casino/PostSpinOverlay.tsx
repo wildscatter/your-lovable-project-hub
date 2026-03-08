@@ -57,11 +57,11 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
         </div>
 
         {/* Title */}
-        <div className="text-center space-y-1">
-          <h3 className="text-lg font-extrabold text-foreground tracking-tight">
+        <div className="text-center space-y-2">
+          <h3 className="text-2xl font-extrabold text-foreground tracking-tight drop-shadow-lg">
             Come Back Tomorrow!
           </h3>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm font-medium text-foreground/80">
             Your next spin is waiting for you
           </p>
         </div>

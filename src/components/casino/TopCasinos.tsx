@@ -142,19 +142,6 @@ const TopCasinos = () => {
             <Flame className="h-4 w-4 animate-pulse text-accent" />
           </div>
 
-          {/* Countdown timer */}
-          <div className="inline-flex items-center gap-2 mb-5">
-            <Timer className="h-4 w-4 text-accent" />
-            <span className="text-xs text-muted-foreground font-medium">Offers expire in</span>
-            <div className="flex items-center gap-1">
-              <span className="bg-accent/15 border border-accent/30 text-accent font-mono font-bold text-sm px-2 py-1 rounded-md min-w-[32px] text-center">{String(h).padStart(2, "0")}</span>
-              <span className="text-accent font-bold">:</span>
-              <span className="bg-accent/15 border border-accent/30 text-accent font-mono font-bold text-sm px-2 py-1 rounded-md min-w-[32px] text-center">{String(m).padStart(2, "0")}</span>
-              <span className="text-accent font-bold">:</span>
-              <span className="bg-accent/15 border border-accent/30 text-accent font-mono font-bold text-sm px-2 py-1 rounded-md min-w-[32px] text-center">{String(s).padStart(2, "0")}</span>
-            </div>
-          </div>
-
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3">
             <span className="text-primary">Top Rated</span> Casinos
           </h2>

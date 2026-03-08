@@ -11,7 +11,9 @@ const casinos = [
     benefit: "200% up to $5,000 +55 Free Spins",
     tag: "Editor's Pick",
     icon: Crown,
-    emoji: "👑",
+    brandColor: "from-amber-500 to-yellow-600",
+    brandBg: "bg-amber-500/10 border-amber-500/30",
+    brandText: "text-amber-400",
     link: "https://cybetplay.com/tw4at7jqi",
     isComingSoon: false,
   },
@@ -21,7 +23,9 @@ const casinos = [
     benefit: "150% up to $3,000 +100 Free Spins",
     tag: "Top Rated",
     icon: Sparkles,
-    emoji: "🎰",
+    brandColor: "from-sky-400 to-blue-600",
+    brandBg: "bg-sky-500/10 border-sky-500/30",
+    brandText: "text-sky-400",
     link: "https://rainbet.com?r=wildscatter",
     isComingSoon: false,
   },
@@ -31,7 +35,9 @@ const casinos = [
     benefit: "300% up to $2,000 +25 Free Spins",
     tag: "Best Games",
     icon: Trophy,
-    emoji: "🃏",
+    brandColor: "from-emerald-400 to-teal-600",
+    brandBg: "bg-emerald-500/10 border-emerald-500/30",
+    brandText: "text-emerald-400",
     link: "https://stake.com/?c=WjpRycfh",
     isComingSoon: false,
   },
@@ -41,7 +47,9 @@ const casinos = [
     benefit: "250% up to $2000 +5FB/100 Free Spins",
     tag: "Crypto Friendly",
     icon: Zap,
-    emoji: "💎",
+    brandColor: "from-violet-400 to-purple-600",
+    brandBg: "bg-violet-500/10 border-violet-500/30",
+    brandText: "text-violet-400",
     link: "https://bc.game/i-4bstrjaxi-n/",
     isComingSoon: false,
   },
@@ -51,7 +59,9 @@ const casinos = [
     benefit: "More Bonus and Rewards!",
     tag: "New Casino",
     icon: Clock,
-    emoji: "⏳",
+    brandColor: "from-gray-400 to-gray-600",
+    brandBg: "bg-gray-500/10 border-gray-500/30",
+    brandText: "text-gray-400",
     link: "#",
     isComingSoon: true,
   },
@@ -88,7 +98,10 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
         {casino.tag}
       </div>
 
-      <div className="text-4xl sm:text-5xl mt-4">{casino.emoji}</div>
+      {/* Styled text logo badge */}
+      <div className={`mt-4 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border ${casino.brandBg} flex items-center justify-center`}>
+        <casino.icon className={`h-7 w-7 sm:h-8 sm:h-8 ${casino.brandText}`} />
+      </div>
       <h3 className="text-lg sm:text-xl font-bold text-foreground">{casino.name}</h3>
       <StarRating rating={casino.rating} />
 

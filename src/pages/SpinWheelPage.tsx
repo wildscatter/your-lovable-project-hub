@@ -155,7 +155,7 @@ const SpinWheelPage = () => {
 
   // Authenticated spin
   const handleSpin = async (): Promise<SpinResult | null> => {
-    if (!user || !canSpin || isSpinning) return null;
+    if (!user || !canSpin || isSpinning || campaignEnded) return null;
     setIsSpinning(true); setShowResult(false); setSpinResult(null);
     try {
       const { data, error } = await supabase.functions.invoke("spin-wheel");

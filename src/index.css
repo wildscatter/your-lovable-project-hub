@@ -2,95 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 260 20% 6%;
+    --foreground: 45 20% 92%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 260 18% 10%;
+    --card-foreground: 45 20% 92%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 260 18% 10%;
+    --popover-foreground: 45 20% 92%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 40 95% 50%;
+    --primary-foreground: 260 20% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 260 30% 18%;
+    --secondary-foreground: 45 20% 92%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 260 20% 14%;
+    --muted-foreground: 240 10% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 220 80% 55%;
+    --accent-foreground: 45 20% 95%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 260 20% 16%;
+    --input: 260 20% 16%;
+    --ring: 40 95% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    --gold: 40 95% 50%;
+    --gold-dim: 40 70% 35%;
+    --gold-bright: 45 100% 65%;
+    --purple-glow: 270 60% 50%;
+    --blue-glow: 220 80% 55%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 260 20% 8%;
+    --sidebar-foreground: 45 20% 92%;
+    --sidebar-primary: 40 95% 50%;
+    --sidebar-primary-foreground: 260 20% 6%;
+    --sidebar-accent: 260 30% 18%;
+    --sidebar-accent-foreground: 45 20% 92%;
+    --sidebar-border: 260 20% 16%;
+    --sidebar-ring: 40 95% 50%;
   }
 }
 
@@ -98,8 +55,107 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Gold glow pulse */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px hsl(40 95% 50% / 0.4); }
+  50% { box-shadow: 0 0 24px hsl(40 95% 50% / 0.7), 0 0 48px hsl(40 95% 50% / 0.25); }
+}
+
+@keyframes glow-pulse-subtle {
+  0%, 100% { box-shadow: 0 0 6px hsl(40 95% 50% / 0.2); }
+  50% { box-shadow: 0 0 14px hsl(40 95% 50% / 0.4), 0 0 30px hsl(40 95% 50% / 0.1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes shimmer-loop {
+  0%, 80% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes lightning-bolt {
+  0%, 100% { filter: drop-shadow(0 0 2px hsl(40 95% 50% / 0.3)); }
+  15% { filter: drop-shadow(0 0 12px hsl(40 95% 50% / 1)) drop-shadow(0 0 24px hsl(45 100% 65% / 0.6)); }
+  30% { filter: drop-shadow(0 0 3px hsl(40 95% 50% / 0.3)); }
+  45% { filter: drop-shadow(0 0 8px hsl(40 95% 50% / 0.8)) drop-shadow(0 0 16px hsl(45 100% 65% / 0.4)); }
+  60% { filter: drop-shadow(0 0 2px hsl(40 95% 50% / 0.3)); }
+}
+
+@keyframes float-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sparkle-rotate {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+  50% { transform: rotate(180deg) scale(1.2); opacity: 1; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.6; }
+}
+
+@keyframes border-glow {
+  0%, 100% { border-color: hsl(40 95% 50% / 0.3); }
+  50% { border-color: hsl(40 95% 50% / 0.7); }
+}
+
+.glow-pulse-btn {
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+.glow-pulse-subtle {
+  animation: glow-pulse-subtle 3s ease-in-out infinite;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    hsl(40 95% 50%) 0%,
+    hsl(45 100% 75%) 25%,
+    hsl(40 100% 85%) 50%,
+    hsl(45 100% 75%) 75%,
+    hsl(40 95% 50%) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-loop 4s ease-in-out infinite;
+}
+
+.shimmer-text:hover {
+  animation: shimmer 1s ease-in-out;
+}
+
+.logo-lightning {
+  animation: lightning-bolt 4s ease-in-out infinite;
+}
+
+.logo-lightning:hover {
+  filter: drop-shadow(0 0 16px hsl(40 95% 50% / 1)) drop-shadow(0 0 32px hsl(45 100% 65% / 0.8)) !important;
+}
+
+.card-featured {
+  border-color: hsl(40 95% 50% / 0.5);
+  animation: border-glow 3s ease-in-out infinite;
+  box-shadow: 0 0 20px hsl(40 95% 50% / 0.1), inset 0 1px 0 hsl(40 95% 50% / 0.1);
+}
+
+.card-casino {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-casino:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px hsl(40 95% 50% / 0.15), 0 0 20px hsl(270 60% 50% / 0.08);
+  border-color: hsl(40 95% 50% / 0.4);
+}
+
+.sparkle {
+  animation: sparkle-rotate 3s ease-in-out infinite;
 }

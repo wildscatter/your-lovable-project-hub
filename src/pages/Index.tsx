@@ -1,14 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Header from "@/components/casino/Header";
+import Hero from "@/components/casino/Hero";
+import TopCasinos from "@/components/casino/TopCasinos";
+import HowWeRate from "@/components/casino/HowWeRate";
+import WhyTrustUs from "@/components/casino/WhyTrustUs";
+import SafePlayTips from "@/components/casino/SafePlayTips";
+import FAQ from "@/components/casino/FAQ";
+import ResponsibleGambling from "@/components/casino/ResponsibleGambling";
+import TrustBanner from "@/components/casino/TrustBanner";
+import Footer from "@/components/casino/Footer";
+import CookieConsent from "@/components/casino/CookieConsent";
 
-const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
-};
+const Index = () => (
+  <div className="min-h-screen bg-background">
+    <Header />
+    <main>
+      <Hero />
+      <TopCasinos />
+      <HowWeRate />
+      <WhyTrustUs />
+      <SafePlayTips />
+      <FAQ />
+      <TrustBanner />
+      <ResponsibleGambling />
+    </main>
+    <Footer />
+    <CookieConsent />
+  </div>
+);
 
 export default Index;

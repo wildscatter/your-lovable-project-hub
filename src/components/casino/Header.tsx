@@ -56,16 +56,6 @@ const Header = () => {
         </div>
 
         <div className="flex md:hidden items-center gap-2">
-          <a
-            href={telegramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-accent text-accent-foreground font-semibold text-xs px-3.5 py-2.5 transition-all duration-200 min-h-[44px] active:scale-95"
-            aria-label="Join our Telegram"
-          >
-            <Send className="h-4 w-4" />
-            <span>Telegram</span>
-          </a>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-foreground h-11 w-11 min-h-[44px] min-w-[44px]">

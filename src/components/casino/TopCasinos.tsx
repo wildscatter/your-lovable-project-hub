@@ -1,8 +1,8 @@
-import { Star, Crown, Sparkles, Trophy, Zap, Clock, Flame } from "lucide-react";
+import { Star, Crown, Sparkles, Trophy, Zap, Clock, Flame, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 const casinos = [
   {

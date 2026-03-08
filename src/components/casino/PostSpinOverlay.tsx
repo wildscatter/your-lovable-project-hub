@@ -89,7 +89,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
               cx="55" cy="55" r={ringRadius}
               fill="none"
               stroke="url(#countdownGradient)"
-              strokeWidth="5"
+              strokeWidth="4"
               strokeLinecap="round"
               strokeDasharray={ringCircumference}
               strokeDashoffset={ringOffset}

@@ -120,7 +120,7 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
               <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
                 Our team will analyze your wagering profile and send you the best available casino offers.
               </p>
-              <Button onClick={handleClose} className="mt-2 glow-pulse-btn bg-gradient-to-r from-primary to-violet-dim text-primary-foreground font-bold px-8 py-5 rounded-xl hover:opacity-90 min-h-[48px] active:scale-[0.98] transition-all">
+              <Button onClick={handleClose} className="mt-2 glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold px-8 py-5 rounded-xl hover:opacity-90 min-h-[48px] active:scale-[0.98] transition-all">
                 Back to Casinos
               </Button>
             </div>
@@ -207,11 +207,11 @@ const VipOfferWizard = ({ open, onOpenChange }: VipOfferWizardProps) => {
               )}
               <div className="flex-1" />
               {step < 3 ? (
-                <Button onClick={handleNext} className="bg-gradient-to-r from-primary to-violet-dim text-primary-foreground font-semibold px-6 sm:px-8 rounded-xl hover:opacity-90 transition-all min-h-[48px] active:scale-[0.98]">
+                <Button onClick={handleNext} className="bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-semibold px-6 sm:px-8 rounded-xl hover:opacity-90 transition-all min-h-[48px] active:scale-[0.98]">
                   Continue <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>
               ) : (
-                <Button onClick={handleSubmit} disabled={submitting} className="glow-pulse-btn bg-gradient-to-r from-primary to-violet-dim text-primary-foreground font-semibold px-6 sm:px-8 rounded-xl hover:opacity-90 transition-all min-h-[48px] active:scale-[0.98]">
+                <Button onClick={handleSubmit} disabled={submitting} className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-semibold px-6 sm:px-8 rounded-xl hover:opacity-90 transition-all min-h-[48px] active:scale-[0.98]">
                   {submitting ? (<><Loader2 className="h-4 w-4 mr-2 animate-spin" />Sending...</>) : "Get My Offers"}
                 </Button>
               )}

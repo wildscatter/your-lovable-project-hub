@@ -4,54 +4,55 @@
 
 @layer base {
   :root {
-    /* Deep dark base — premium crypto feel */
-    --background: 250 25% 6%;
-    --foreground: 240 10% 93%;
+    /* Rich charcoal base — luxury, not harsh */
+    --background: 220 18% 8%;
+    --foreground: 40 10% 90%;
 
-    --card: 250 20% 10%;
-    --card-foreground: 240 10% 93%;
+    --card: 220 15% 12%;
+    --card-foreground: 40 10% 90%;
 
-    --popover: 250 20% 10%;
-    --popover-foreground: 240 10% 93%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 40 10% 90%;
 
-    /* Electric violet primary */
-    --primary: 270 85% 62%;
-    --primary-foreground: 0 0% 100%;
+    /* Warm gold primary — refined, not neon */
+    --primary: 42 65% 55%;
+    --primary-foreground: 220 18% 8%;
 
-    --secondary: 250 20% 16%;
-    --secondary-foreground: 240 10% 93%;
+    --secondary: 220 14% 18%;
+    --secondary-foreground: 40 10% 80%;
 
-    --muted: 250 18% 14%;
-    --muted-foreground: 245 12% 55%;
+    --muted: 220 12% 15%;
+    --muted-foreground: 220 10% 50%;
 
-    /* Hot pink/magenta accent — for CTAs and highlights */
-    --accent: 330 80% 58%;
+    /* Rose copper accent — warm luxury highlight */
+    --accent: 350 55% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 250 18% 16%;
-    --input: 250 18% 16%;
-    --ring: 270 85% 62%;
+    --border: 220 12% 18%;
+    --input: 220 12% 18%;
+    --ring: 42 65% 55%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens */
-    --violet: 270 85% 62%;
-    --violet-dim: 270 60% 42%;
-    --violet-bright: 270 95% 75%;
-    --pink-glow: 330 80% 58%;
-    --blue-glow: 220 80% 55%;
+    /* Multi-color luxury tokens */
+    --gold: 42 65% 55%;
+    --gold-dim: 42 45% 38%;
+    --gold-bright: 42 80% 68%;
+    --rose: 350 55% 58%;
+    --emerald: 160 50% 45%;
+    --slate-blue: 215 40% 55%;
 
-    --sidebar-background: 250 25% 8%;
-    --sidebar-foreground: 240 10% 93%;
-    --sidebar-primary: 270 85% 62%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 250 20% 16%;
-    --sidebar-accent-foreground: 240 10% 93%;
-    --sidebar-border: 250 18% 16%;
-    --sidebar-ring: 270 85% 62%;
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 40 10% 90%;
+    --sidebar-primary: 42 65% 55%;
+    --sidebar-primary-foreground: 220 18% 8%;
+    --sidebar-accent: 220 14% 18%;
+    --sidebar-accent-foreground: 40 10% 90%;
+    --sidebar-border: 220 12% 18%;
+    --sidebar-ring: 42 65% 55%;
   }
 }
 
@@ -81,15 +82,15 @@
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
-/* Violet glow pulse */
+/* Gold glow pulse */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px hsl(270 85% 62% / 0.4); }
-  50% { box-shadow: 0 0 24px hsl(270 85% 62% / 0.6), 0 0 48px hsl(270 85% 62% / 0.2); }
+  0%, 100% { box-shadow: 0 0 8px hsl(42 65% 55% / 0.35); }
+  50% { box-shadow: 0 0 20px hsl(42 65% 55% / 0.5), 0 0 40px hsl(42 65% 55% / 0.15); }
 }
 
 @keyframes glow-pulse-subtle {
-  0%, 100% { box-shadow: 0 0 6px hsl(270 85% 62% / 0.2); }
-  50% { box-shadow: 0 0 14px hsl(270 85% 62% / 0.35), 0 0 30px hsl(270 85% 62% / 0.1); }
+  0%, 100% { box-shadow: 0 0 6px hsl(42 65% 55% / 0.15); }
+  50% { box-shadow: 0 0 12px hsl(42 65% 55% / 0.3), 0 0 24px hsl(42 65% 55% / 0.08); }
 }
 
 @keyframes shimmer {
@@ -103,11 +104,11 @@
 }
 
 @keyframes lightning-bolt {
-  0%, 100% { filter: drop-shadow(0 0 2px hsl(270 85% 62% / 0.3)); }
-  15% { filter: drop-shadow(0 0 12px hsl(270 85% 62% / 1)) drop-shadow(0 0 24px hsl(270 95% 75% / 0.6)); }
-  30% { filter: drop-shadow(0 0 3px hsl(270 85% 62% / 0.3)); }
-  45% { filter: drop-shadow(0 0 8px hsl(270 85% 62% / 0.8)) drop-shadow(0 0 16px hsl(270 95% 75% / 0.4)); }
-  60% { filter: drop-shadow(0 0 2px hsl(270 85% 62% / 0.3)); }
+  0%, 100% { filter: drop-shadow(0 0 2px hsl(42 65% 55% / 0.3)); }
+  15% { filter: drop-shadow(0 0 10px hsl(42 65% 55% / 0.8)) drop-shadow(0 0 20px hsl(42 80% 68% / 0.4)); }
+  30% { filter: drop-shadow(0 0 3px hsl(42 65% 55% / 0.3)); }
+  45% { filter: drop-shadow(0 0 8px hsl(42 65% 55% / 0.6)) drop-shadow(0 0 14px hsl(42 80% 68% / 0.3)); }
+  60% { filter: drop-shadow(0 0 2px hsl(42 65% 55% / 0.3)); }
 }
 
 @keyframes float-up {
@@ -122,8 +123,8 @@
 }
 
 @keyframes border-glow {
-  0%, 100% { border-color: hsl(270 85% 62% / 0.3); }
-  50% { border-color: hsl(270 85% 62% / 0.6); }
+  0%, 100% { border-color: hsl(42 65% 55% / 0.25); }
+  50% { border-color: hsl(42 65% 55% / 0.5); }
 }
 
 .glow-pulse-btn {
@@ -137,11 +138,11 @@
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    hsl(270 85% 62%) 0%,
-    hsl(300 80% 70%) 25%,
-    hsl(330 80% 75%) 50%,
-    hsl(300 80% 70%) 75%,
-    hsl(270 85% 62%) 100%
+    hsl(42 65% 55%) 0%,
+    hsl(42 80% 72%) 25%,
+    hsl(40 90% 80%) 50%,
+    hsl(42 80% 72%) 75%,
+    hsl(42 65% 55%) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -159,33 +160,31 @@
 }
 
 .logo-lightning:hover {
-  filter: drop-shadow(0 0 16px hsl(270 85% 62% / 1)) drop-shadow(0 0 32px hsl(270 95% 75% / 0.8)) !important;
+  filter: drop-shadow(0 0 14px hsl(42 65% 55% / 0.9)) drop-shadow(0 0 28px hsl(42 80% 68% / 0.6)) !important;
 }
 
 .card-featured {
-  border-color: hsl(270 85% 62% / 0.4);
+  border-color: hsl(42 65% 55% / 0.35);
   animation: border-glow 3s ease-in-out infinite;
-  box-shadow: 0 0 20px hsl(270 85% 62% / 0.08), inset 0 1px 0 hsl(270 85% 62% / 0.08);
+  box-shadow: 0 0 16px hsl(42 65% 55% / 0.06), inset 0 1px 0 hsl(42 65% 55% / 0.06);
 }
 
 .card-casino {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* Only hover effects on non-touch devices */
 @media (hover: hover) {
   .card-casino:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 40px hsl(270 85% 62% / 0.12), 0 0 20px hsl(330 80% 58% / 0.06);
-    border-color: hsl(270 85% 62% / 0.35);
+    box-shadow: 0 12px 40px hsl(42 65% 55% / 0.1), 0 0 16px hsl(350 55% 58% / 0.05);
+    border-color: hsl(42 65% 55% / 0.3);
   }
 }
 
-/* Active state for touch devices */
 @media (hover: none) {
   .card-casino:active {
     transform: scale(0.98);
-    border-color: hsl(270 85% 62% / 0.35);
+    border-color: hsl(42 65% 55% / 0.3);
   }
 }
 

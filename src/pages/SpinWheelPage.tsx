@@ -280,11 +280,17 @@ const SpinWheelPage = () => {
         )}
 
         {/* Wheel */}
-        <div className="bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3">
-          <SpinWheelCanvas
-            canSpin={canSpin && !isSpinning}
-            onRequestSpin={handleSpin}
-            onSpinComplete={handleSpinComplete}
+        <div className="relative bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3">
+          <div className={`transition-all duration-700 ${!canSpin && !isSpinning ? "blur-[3px] pointer-events-none" : ""}`}>
+            <SpinWheelCanvas
+              canSpin={canSpin && !isSpinning}
+              onRequestSpin={handleSpin}
+              onSpinComplete={handleSpinComplete}
+            />
+          </div>
+          <PostSpinOverlay
+            nextSpinTime={nextSpinTime}
+            visible={!canSpin && !isSpinning && countdownActive}
           />
         </div>
 

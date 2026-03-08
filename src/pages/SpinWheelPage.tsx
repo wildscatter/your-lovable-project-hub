@@ -230,7 +230,7 @@ const SpinWheelPage = () => {
           {isGuest ? (
             <Button
               size="sm"
-              onClick={() => navigate("/auth?returnTo=/spin")}
+              onClick={() => setShowAuthOverlay(true)}
               className="h-8 px-3 text-xs bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 font-semibold"
               variant="ghost"
             >

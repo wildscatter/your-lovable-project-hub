@@ -194,7 +194,7 @@ const SpinWheelPage = () => {
   const ringCircumference = 2 * Math.PI * ringRadius;
   const ringOffset = ringCircumference - (progressPercent / 100) * ringCircumference;
 
-  if (loading || !dataLoaded) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -202,7 +202,6 @@ const SpinWheelPage = () => {
             <div className="h-12 w-12 border-3 border-primary/20 border-t-primary rounded-full animate-spin" />
             <Sparkles className="h-5 w-5 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
-          <p className="text-sm text-muted-foreground animate-pulse">Loading...</p>
         </div>
       </div>
     );

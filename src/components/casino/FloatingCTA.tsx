@@ -12,7 +12,7 @@ const FloatingCTA = () => {
         {/* VIP Offer sticky CTA */}
         <button
           onClick={() => setVipOpen(true)}
-          className="group flex items-center gap-2 rounded-full bg-primary text-primary-foreground font-bold text-sm px-5 py-3 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 active:scale-95 transition-all duration-200 min-h-[48px] animate-fade-in"
+          className="group flex items-center gap-2 rounded-full bg-primary text-primary-foreground font-bold text-xs px-4 py-2.5 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 active:scale-95 transition-all duration-200 min-h-[44px] animate-fade-in"
           aria-label="Get VIP Offers"
         >
           <Gift className="h-5 w-5" />
@@ -24,7 +24,7 @@ const FloatingCTA = () => {
           href={telegramUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-2 rounded-full bg-accent text-accent-foreground font-bold text-sm px-5 py-3 shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/30 active:scale-95 transition-all duration-200 min-h-[48px]"
+          className="group flex items-center gap-2 rounded-full bg-accent text-accent-foreground font-bold text-sm px-6 py-3.5 shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/30 active:scale-95 transition-all duration-200 min-h-[52px]"
           aria-label="Join our Telegram"
         >
           <Send className="h-5 w-5" />

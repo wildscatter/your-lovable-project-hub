@@ -56,6 +56,17 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-2">
+          {/* Spin wheel icon */}
+          <button
+            onClick={() => navigate("/spin")}
+            className="relative group inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/20 hover:border-primary/30 transition-all duration-300 cursor-pointer min-h-[40px]"
+            aria-label="Spin & Win"
+            title="Spin & Win"
+          >
+            <Disc3 className="h-5 w-5 text-primary group-hover:animate-[spin_1.5s_ease-in-out]" />
+            <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-accent animate-pulse border-2 border-background" />
+          </button>
+
           <nav className="flex items-center bg-secondary/30 rounded-xl px-1.5 py-1 border border-border/30">
             {navLinks.map((link) => (
               <button

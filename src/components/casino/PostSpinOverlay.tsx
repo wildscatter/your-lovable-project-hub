@@ -75,7 +75,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
               background: "radial-gradient(circle, hsl(38 95% 58% / 0.08), transparent 70%)",
             }}
           />
-          <svg className="w-full h-full -rotate-90" viewBox="0 0 140 140">
+          <svg className="w-full h-full -rotate-90" viewBox="0 0 110 110">
             {/* Track */}
             <circle
               cx="70" cy="70" r={ringRadius}

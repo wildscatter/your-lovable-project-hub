@@ -229,7 +229,7 @@ const SpinWheelPage = () => {
           {isGuest ? (
             <Button
               size="sm"
-              onClick={() => navigate("/auth")}
+              onClick={() => navigate("/auth?returnTo=/spin")}
               className="h-8 px-3 text-xs bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 font-semibold"
               variant="ghost"
             >
@@ -302,7 +302,7 @@ const SpinWheelPage = () => {
             </div>
             <Button
               size="sm"
-              onClick={() => navigate("/auth")}
+              onClick={() => navigate("/auth?returnTo=/spin")}
               className="bg-primary text-primary-foreground font-bold text-xs h-8 px-3 rounded-lg hover:opacity-90 flex-shrink-0"
             >
               Sign Up
@@ -345,7 +345,7 @@ const SpinWheelPage = () => {
                     </div>
                     <Button
                       size="lg"
-                      onClick={() => navigate("/auth")}
+                      onClick={() => navigate("/auth?returnTo=/spin")}
                       className="w-full glow-pulse-btn bg-gradient-to-r from-primary via-[hsl(42,100%,65%)] to-primary text-primary-foreground font-bold text-sm px-6 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/25 border border-primary/30"
                     >
                       <LogIn className="h-4 w-4 mr-2" />

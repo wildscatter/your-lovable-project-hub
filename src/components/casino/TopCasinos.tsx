@@ -8,7 +8,7 @@ const casinos = [
   {
     name: "Cybet.com",
     rating: 4.9,
-    benefit: "200% up to $5,000 +55 Free Spins",
+    benefit: "100% up to $500 + 50 Free Spins",
     tag: "Editor's Pick",
     icon: Crown,
     brandColor: "from-amber-500 to-yellow-600",
@@ -20,7 +20,7 @@ const casinos = [
   {
     name: "Rainbet.com",
     rating: 4.8,
-    benefit: "150% up to $3,000 +100 Free Spins",
+    benefit: "100% up to $500 + 50 Free Spins",
     tag: "Top Rated",
     icon: Sparkles,
     brandColor: "from-sky-400 to-blue-600",
@@ -32,7 +32,7 @@ const casinos = [
   {
     name: "Stake.com",
     rating: 4.7,
-    benefit: "300% up to $2,000 +25 Free Spins",
+    benefit: "200% Deposit Bonus up to $2,000",
     tag: "Best Games",
     icon: Trophy,
     brandColor: "from-emerald-400 to-teal-600",
@@ -44,7 +44,7 @@ const casinos = [
   {
     name: "BC.Game",
     rating: 4.8,
-    benefit: "250% up to $2000 +5FB/100 Free Spins",
+    benefit: "120% up to $1,000 + 100 Free Spins",
     tag: "Crypto Friendly",
     icon: Zap,
     brandColor: "from-violet-400 to-purple-600",

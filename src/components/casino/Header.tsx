@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Send, MessageCircle, LogIn, LogOut, Zap, User } from "lucide-react";
+import { Menu, Send, MessageCircle, LogIn, LogOut, Zap, User, Disc3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useChatbot } from "@/hooks/use-chatbot";

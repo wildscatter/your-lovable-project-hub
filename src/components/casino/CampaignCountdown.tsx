@@ -84,55 +84,33 @@ const CampaignCountdown = ({ onExpired }: CampaignCountdownProps) => {
         }}
       />
 
-      <div className="relative flex items-center gap-3 px-3 py-2.5">
+      <div className="relative flex items-center gap-2 px-2.5 py-1.5">
         {/* Mini progress ring */}
-        <div className="relative w-[44px] h-[44px] flex-shrink-0">
+        <div className="relative w-[32px] h-[32px] flex-shrink-0">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 44 44">
-            <circle
-              cx="22" cy="22" r={ringR}
-              fill="none"
-              stroke="hsl(var(--secondary))"
-              strokeWidth="3"
-              opacity="0.2"
-            />
-            <circle
-              cx="22" cy="22" r={ringR}
-              fill="none"
-              stroke="hsl(var(--primary))"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeDasharray={ringC}
-              strokeDashoffset={ringOffset}
-              className="transition-all duration-1000 ease-linear"
-              style={{ filter: "drop-shadow(0 0 4px hsl(38 95% 58% / 0.4))" }}
-            />
+            <circle cx="22" cy="22" r={ringR} fill="none" stroke="hsl(var(--secondary))" strokeWidth="3" opacity="0.2" />
+            <circle cx="22" cy="22" r={ringR} fill="none" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" strokeDasharray={ringC} strokeDashoffset={ringOffset} className="transition-all duration-1000 ease-linear" style={{ filter: "drop-shadow(0 0 4px hsl(38 95% 58% / 0.4))" }} />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <Flame className="h-4 w-4 text-primary" />
+            <Flame className="h-3 w-3 text-primary" />
           </div>
         </div>
 
-        {/* Label */}
-        <div className="flex-1 min-w-0">
-          <p className="text-[10px] uppercase tracking-widest text-primary font-semibold flex items-center gap-1">
-            <Clock className="h-3 w-3" />
-            Campaign ends in
+        {/* Label + digits inline */}
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <p className="text-[9px] uppercase tracking-widest text-primary font-semibold flex items-center gap-1">
+            <Clock className="h-2.5 w-2.5" />
+            Ends in
           </p>
-
-          {/* Countdown digits */}
-          <div className="flex items-center gap-1.5 mt-1">
+          <div className="flex items-center gap-1">
             {units.map((u, i) => (
-              <div key={u.label} className="flex items-center gap-1.5">
+              <div key={u.label} className="flex items-center gap-1">
                 <div className="flex flex-col items-center">
-                  <span className="text-base font-extrabold text-foreground font-mono leading-none tabular-nums">
-                    {u.value}
-                  </span>
-                  <span className="text-[7px] text-muted-foreground/50 uppercase tracking-wider mt-0.5">
-                    {u.label}
-                  </span>
+                  <span className="text-xs font-extrabold text-foreground font-mono leading-none tabular-nums">{u.value}</span>
+                  <span className="text-[6px] text-muted-foreground/50 uppercase tracking-wider">{u.label}</span>
                 </div>
                 {i < units.length - 1 && (
-                  <span className="text-primary/40 font-bold text-xs mb-2.5 animate-pulse">:</span>
+                  <span className="text-primary/40 font-bold text-[10px] mb-2 animate-pulse">:</span>
                 )}
               </div>
             ))}

@@ -170,7 +170,7 @@ Deno.serve(async (req) => {
           actualPoints: 0,
           totalPoints: userPoints!.total_points,
           isFirstSpin: false,
-          message: "დაელოდე შემდეგ დატრიალებას!",
+          message: "Wait for your next spin!",
           tier: "tryagain",
           canSpinAgain: false,
           nextSpinAt: new Date(nextSpinTime).toISOString(),

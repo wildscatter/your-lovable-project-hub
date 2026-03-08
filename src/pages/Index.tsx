@@ -10,6 +10,7 @@ import TrustBanner from "@/components/casino/TrustBanner";
 import Footer from "@/components/casino/Footer";
 import CookieConsent from "@/components/casino/CookieConsent";
 import FloatingCTA from "@/components/casino/FloatingCTA";
+import Chatbot from "@/components/casino/Chatbot";
 
 const Index = () => (
   <div className="min-h-screen bg-background">
@@ -27,6 +28,7 @@ const Index = () => (
     <Footer />
     <CookieConsent />
     <FloatingCTA />
+    <Chatbot />
   </div>
 );
 

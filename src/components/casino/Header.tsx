@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 const navLinks = [
   { label: "Top Casinos", href: "#top-casinos" },
   { label: "How We Rate", href: "#how-we-rate" },
+  { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "#faq" },
   { label: "Support 24/7", href: "/support" },
 ];

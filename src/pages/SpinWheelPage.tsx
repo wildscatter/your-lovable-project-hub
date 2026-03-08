@@ -262,7 +262,7 @@ const SpinWheelPage = () => {
 
         {/* Wheel */}
         <div className="relative bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-3">
-          <div className={`transition-all duration-700 ${!canSpin && !isSpinning ? "blur-[3px] pointer-events-none" : ""}`}>
+          <div className={`transition-all duration-700 ${!canSpin && !isSpinning ? "blur-[6px] pointer-events-none" : ""}`}>
             <SpinWheelCanvas
               canSpin={canSpin && !isSpinning}
               onRequestSpin={handleSpin}

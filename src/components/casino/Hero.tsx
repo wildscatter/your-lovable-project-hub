@@ -94,7 +94,7 @@ const Hero = () => {
             </p>
             
             <Button
-              className="glow-pulse-btn bg-gradient-to-r from-primary to-violet-dim text-primary-foreground font-bold text-base w-full max-w-xs py-6 rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all min-h-[52px]"
+              className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base w-full max-w-xs py-6 rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all min-h-[52px]"
               asChild
             >
               <a href="#top-casinos" className="flex items-center justify-center gap-2">

@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, ArrowLeft, Sparkles, Shield, Gift, Trophy, Star } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect } from "react";
 
 type AuthView = "login" | "signup" | "forgot";
 

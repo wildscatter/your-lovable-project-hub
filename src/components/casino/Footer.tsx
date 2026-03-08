@@ -23,7 +23,8 @@ const Footer = () => (
           href="YOUR_TELEGRAM_LINK_HERE"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg bg-accent text-accent-foreground font-semibold text-sm px-6 py-3 transition-all duration-200 min-h-[48px] active:scale-[0.98] hover:opacity-90"
+          className="inline-flex items-center gap-2 rounded-lg font-semibold text-sm px-6 py-3 transition-all duration-200 min-h-[48px] active:scale-[0.98] hover:opacity-90 text-white"
+          style={{ backgroundColor: "#2AABEE" }}
         >
           <Send className="h-4 w-4" />
           Join Telegram

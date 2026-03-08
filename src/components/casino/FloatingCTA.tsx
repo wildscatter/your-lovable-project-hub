@@ -19,12 +19,13 @@ const FloatingCTA = () => {
           <span className="hidden sm:inline">VIP Offers</span>
         </button>
 
-        {/* Floating Telegram button — emerald */}
+        {/* Floating Telegram button — official Telegram blue */}
         <a
           href={telegramUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-2 rounded-full bg-emerald text-primary-foreground font-bold text-sm px-5 py-3 shadow-lg shadow-emerald/25 hover:shadow-xl hover:shadow-emerald/30 active:scale-95 transition-all duration-200 min-h-[48px]"
+          className="group flex items-center gap-2 rounded-full font-bold text-sm px-5 py-3 shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200 min-h-[48px] text-white"
+          style={{ backgroundColor: "#2AABEE" }}
           aria-label="Join our Telegram"
         >
           <Send className="h-5 w-5" />

@@ -4,54 +4,55 @@
 
 @layer base {
   :root {
-    /* Deep dark base — premium crypto feel */
-    --background: 250 25% 6%;
-    --foreground: 240 10% 93%;
+    /* Rich charcoal base — luxury, not harsh */
+    --background: 220 18% 8%;
+    --foreground: 40 10% 90%;
 
-    --card: 250 20% 10%;
-    --card-foreground: 240 10% 93%;
+    --card: 220 15% 12%;
+    --card-foreground: 40 10% 90%;
 
-    --popover: 250 20% 10%;
-    --popover-foreground: 240 10% 93%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 40 10% 90%;
 
-    /* Electric violet primary */
-    --primary: 270 85% 62%;
-    --primary-foreground: 0 0% 100%;
+    /* Warm gold primary — refined, not neon */
+    --primary: 42 65% 55%;
+    --primary-foreground: 220 18% 8%;
 
-    --secondary: 250 20% 16%;
-    --secondary-foreground: 240 10% 93%;
+    --secondary: 220 14% 18%;
+    --secondary-foreground: 40 10% 80%;
 
-    --muted: 250 18% 14%;
-    --muted-foreground: 245 12% 55%;
+    --muted: 220 12% 15%;
+    --muted-foreground: 220 10% 50%;
 
-    /* Hot pink/magenta accent — for CTAs and highlights */
-    --accent: 330 80% 58%;
+    /* Rose copper accent — warm luxury highlight */
+    --accent: 350 55% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 250 18% 16%;
-    --input: 250 18% 16%;
-    --ring: 270 85% 62%;
+    --border: 220 12% 18%;
+    --input: 220 12% 18%;
+    --ring: 42 65% 55%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens */
-    --violet: 270 85% 62%;
-    --violet-dim: 270 60% 42%;
-    --violet-bright: 270 95% 75%;
-    --pink-glow: 330 80% 58%;
-    --blue-glow: 220 80% 55%;
+    /* Multi-color luxury tokens */
+    --gold: 42 65% 55%;
+    --gold-dim: 42 45% 38%;
+    --gold-bright: 42 80% 68%;
+    --rose: 350 55% 58%;
+    --emerald: 160 50% 45%;
+    --slate-blue: 215 40% 55%;
 
-    --sidebar-background: 250 25% 8%;
-    --sidebar-foreground: 240 10% 93%;
-    --sidebar-primary: 270 85% 62%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 250 20% 16%;
-    --sidebar-accent-foreground: 240 10% 93%;
-    --sidebar-border: 250 18% 16%;
-    --sidebar-ring: 270 85% 62%;
+    --sidebar-background: 220 18% 10%;
+    --sidebar-foreground: 40 10% 90%;
+    --sidebar-primary: 42 65% 55%;
+    --sidebar-primary-foreground: 220 18% 8%;
+    --sidebar-accent: 220 14% 18%;
+    --sidebar-accent-foreground: 40 10% 90%;
+    --sidebar-border: 220 12% 18%;
+    --sidebar-ring: 42 65% 55%;
   }
 }
 

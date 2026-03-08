@@ -61,7 +61,7 @@ const Hero = () => {
                   variant="outline"
                   size="lg"
                   onClick={() => setWizardOpen(true)}
-                  className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary font-semibold text-sm px-8 py-5 rounded-xl transition-all min-h-[48px]"
+                  className="border-emerald/30 text-emerald hover:bg-emerald/10 hover:text-emerald font-semibold text-sm px-8 py-5 rounded-xl transition-all min-h-[48px]"
                 >
                   <Gift className="h-4 w-4 mr-2" />
                   Get Personalized Offers

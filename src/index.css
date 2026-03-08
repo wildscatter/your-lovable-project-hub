@@ -81,15 +81,15 @@
   padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }
 
-/* Teal glow pulse — replacing gold */
+/* Violet glow pulse */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px hsl(174 80% 46% / 0.4); }
-  50% { box-shadow: 0 0 24px hsl(174 80% 46% / 0.6), 0 0 48px hsl(174 80% 46% / 0.2); }
+  0%, 100% { box-shadow: 0 0 8px hsl(270 85% 62% / 0.4); }
+  50% { box-shadow: 0 0 24px hsl(270 85% 62% / 0.6), 0 0 48px hsl(270 85% 62% / 0.2); }
 }
 
 @keyframes glow-pulse-subtle {
-  0%, 100% { box-shadow: 0 0 6px hsl(174 80% 46% / 0.2); }
-  50% { box-shadow: 0 0 14px hsl(174 80% 46% / 0.35), 0 0 30px hsl(174 80% 46% / 0.1); }
+  0%, 100% { box-shadow: 0 0 6px hsl(270 85% 62% / 0.2); }
+  50% { box-shadow: 0 0 14px hsl(270 85% 62% / 0.35), 0 0 30px hsl(270 85% 62% / 0.1); }
 }
 
 @keyframes shimmer {
@@ -103,11 +103,11 @@
 }
 
 @keyframes lightning-bolt {
-  0%, 100% { filter: drop-shadow(0 0 2px hsl(174 80% 46% / 0.3)); }
-  15% { filter: drop-shadow(0 0 12px hsl(174 80% 46% / 1)) drop-shadow(0 0 24px hsl(174 90% 60% / 0.6)); }
-  30% { filter: drop-shadow(0 0 3px hsl(174 80% 46% / 0.3)); }
-  45% { filter: drop-shadow(0 0 8px hsl(174 80% 46% / 0.8)) drop-shadow(0 0 16px hsl(174 90% 60% / 0.4)); }
-  60% { filter: drop-shadow(0 0 2px hsl(174 80% 46% / 0.3)); }
+  0%, 100% { filter: drop-shadow(0 0 2px hsl(270 85% 62% / 0.3)); }
+  15% { filter: drop-shadow(0 0 12px hsl(270 85% 62% / 1)) drop-shadow(0 0 24px hsl(270 95% 75% / 0.6)); }
+  30% { filter: drop-shadow(0 0 3px hsl(270 85% 62% / 0.3)); }
+  45% { filter: drop-shadow(0 0 8px hsl(270 85% 62% / 0.8)) drop-shadow(0 0 16px hsl(270 95% 75% / 0.4)); }
+  60% { filter: drop-shadow(0 0 2px hsl(270 85% 62% / 0.3)); }
 }
 
 @keyframes float-up {
@@ -122,8 +122,8 @@
 }
 
 @keyframes border-glow {
-  0%, 100% { border-color: hsl(174 80% 46% / 0.3); }
-  50% { border-color: hsl(174 80% 46% / 0.6); }
+  0%, 100% { border-color: hsl(270 85% 62% / 0.3); }
+  50% { border-color: hsl(270 85% 62% / 0.6); }
 }
 
 .glow-pulse-btn {
@@ -137,11 +137,11 @@
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    hsl(174 80% 46%) 0%,
-    hsl(174 90% 65%) 25%,
-    hsl(174 95% 75%) 50%,
-    hsl(174 90% 65%) 75%,
-    hsl(174 80% 46%) 100%
+    hsl(270 85% 62%) 0%,
+    hsl(300 80% 70%) 25%,
+    hsl(330 80% 75%) 50%,
+    hsl(300 80% 70%) 75%,
+    hsl(270 85% 62%) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -159,13 +159,13 @@
 }
 
 .logo-lightning:hover {
-  filter: drop-shadow(0 0 16px hsl(174 80% 46% / 1)) drop-shadow(0 0 32px hsl(174 90% 60% / 0.8)) !important;
+  filter: drop-shadow(0 0 16px hsl(270 85% 62% / 1)) drop-shadow(0 0 32px hsl(270 95% 75% / 0.8)) !important;
 }
 
 .card-featured {
-  border-color: hsl(174 80% 46% / 0.4);
+  border-color: hsl(270 85% 62% / 0.4);
   animation: border-glow 3s ease-in-out infinite;
-  box-shadow: 0 0 20px hsl(174 80% 46% / 0.08), inset 0 1px 0 hsl(174 80% 46% / 0.08);
+  box-shadow: 0 0 20px hsl(270 85% 62% / 0.08), inset 0 1px 0 hsl(270 85% 62% / 0.08);
 }
 
 .card-casino {
@@ -176,8 +176,8 @@
 @media (hover: hover) {
   .card-casino:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 40px hsl(174 80% 46% / 0.12), 0 0 20px hsl(155 65% 48% / 0.06);
-    border-color: hsl(174 80% 46% / 0.35);
+    box-shadow: 0 12px 40px hsl(270 85% 62% / 0.12), 0 0 20px hsl(330 80% 58% / 0.06);
+    border-color: hsl(270 85% 62% / 0.35);
   }
 }
 
@@ -185,7 +185,7 @@
 @media (hover: none) {
   .card-casino:active {
     transform: scale(0.98);
-    border-color: hsl(174 80% 46% / 0.35);
+    border-color: hsl(270 85% 62% / 0.35);
   }
 }
 

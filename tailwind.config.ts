@@ -47,9 +47,9 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        teal: "hsl(var(--teal))",
-        "teal-dim": "hsl(var(--teal-dim))",
-        "emerald-glow": "hsl(var(--emerald-glow))",
+        violet: "hsl(var(--violet))",
+        "violet-dim": "hsl(var(--violet-dim))",
+        "pink-glow": "hsl(var(--pink-glow))",
         "blue-glow": "hsl(var(--blue-glow))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

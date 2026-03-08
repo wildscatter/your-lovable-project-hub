@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Send } from "lucide-react";
+import { Menu, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { useChatbot } from "@/hooks/use-chatbot";
 
 const navLinks = [
   { label: "Top Casinos", href: "#top-casinos" },
   { label: "How We Rate", href: "#how-we-rate" },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "#faq" },
-  { label: "Support 24/7", href: "/support" },
 ];
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { setIsOpen: openChat } = useChatbot();
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
@@ -53,9 +54,25 @@ const Header = () => {
               </button>
             ))}
           </nav>
+          {/* Support 24/7 — highlighted CTA that opens chatbot */}
+          <button
+            onClick={() => openChat(true)}
+            className="inline-flex items-center gap-2 rounded-lg bg-accent text-accent-foreground font-bold text-sm px-5 py-2.5 transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-accent/20 hover:opacity-90 min-h-[44px] active:scale-[0.98]"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Support 24/7
+          </button>
         </div>
 
         <div className="flex md:hidden items-center gap-2">
+          {/* Mobile support button */}
+          <button
+            onClick={() => openChat(true)}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent text-accent-foreground font-bold text-xs px-3.5 py-2.5 transition-all duration-200 min-h-[44px] active:scale-95"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Support
+          </button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-foreground h-11 w-11 min-h-[44px] min-w-[44px]">
@@ -81,6 +98,14 @@ const Header = () => {
                       {link.label}
                     </button>
                   ))}
+                  {/* Support in mobile menu */}
+                  <button
+                    onClick={() => { openChat(true); setOpen(false); }}
+                    className="text-base font-bold text-accent hover:text-accent/80 active:bg-accent/10 transition-colors bg-transparent border-none cursor-pointer text-left py-3.5 px-4 rounded-xl min-h-[48px] flex items-center gap-2"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                    Support 24/7
+                  </button>
                 </nav>
                 <div className="px-4 pb-6 pt-2 border-t border-border mt-auto">
                   <a

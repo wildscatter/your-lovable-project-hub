@@ -67,7 +67,7 @@ const Auth = () => {
       if (error) throw error;
     } catch (error: any) {
       toast({
-        title: "შეცდომა",
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });

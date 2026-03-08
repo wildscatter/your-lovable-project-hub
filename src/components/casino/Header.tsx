@@ -48,9 +48,6 @@ const Header = () => {
           }}
           className="group flex items-center gap-2.5 bg-transparent border-none cursor-pointer min-h-[44px]"
         >
-          <div className="relative h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-gold-dim flex items-center justify-center shadow-md shadow-primary/20 group-hover:shadow-lg group-hover:shadow-primary/30 transition-all duration-300 group-hover:scale-105">
-            <Zap className="h-4.5 w-4.5 text-primary-foreground" />
-          </div>
           <span className="text-xl sm:text-2xl font-extrabold tracking-tight italic">
             <span className="text-primary">Wild</span>
             <span className="text-foreground">Scatter</span>

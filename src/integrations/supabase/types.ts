@@ -14,7 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          points_awarded: boolean
+          referred_id: string
+          referrer_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          points_awarded?: boolean
+          referred_id: string
+          referrer_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          points_awarded?: boolean
+          referred_id?: string
+          referrer_id?: string
+        }
+        Relationships: []
+      }
+      spin_history: {
+        Row: {
+          id: string
+          points_won: number
+          prize_label: string
+          spun_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          points_won?: number
+          prize_label: string
+          spun_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          points_won?: number
+          prize_label?: string
+          spun_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_points: {
+        Row: {
+          created_at: string
+          first_spin_done: boolean
+          id: string
+          total_points: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          first_spin_done?: boolean
+          id?: string
+          total_points?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          first_spin_done?: boolean
+          id?: string
+          total_points?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

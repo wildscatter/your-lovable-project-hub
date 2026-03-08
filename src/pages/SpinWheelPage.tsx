@@ -8,6 +8,7 @@ import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Shield, Log
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import PostSpinOverlay from "@/components/casino/PostSpinOverlay";
+import CampaignCountdown, { CAMPAIGN_END } from "@/components/casino/CampaignCountdown";
 import confetti from "canvas-confetti";
 
 const DISPLAY_MAX = 100;
@@ -49,6 +50,7 @@ const SpinWheelPage = () => {
   const [showResult, setShowResult] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [guestSpinDone, setGuestSpinDone] = useState(false);
+  const [campaignEnded, setCampaignEnded] = useState(CAMPAIGN_END.getTime() <= Date.now());
   const resultRef = useRef<HTMLDivElement>(null);
 
   const loadUserData = useCallback(async () => {
@@ -128,6 +130,7 @@ const SpinWheelPage = () => {
 
   // Guest demo spin — visual only, no points
   const handleGuestSpin = async (): Promise<SpinResult | null> => {
+    if (campaignEnded) return null;
     setIsSpinning(true);
     const randomIndex = Math.floor(Math.random() * SEGMENT_VALUES.length);
     const fakeResult: SpinResult = {
@@ -153,7 +156,7 @@ const SpinWheelPage = () => {
 
   // Authenticated spin
   const handleSpin = async (): Promise<SpinResult | null> => {
-    if (!user || !canSpin || isSpinning) return null;
+    if (!user || !canSpin || isSpinning || campaignEnded) return null;
     setIsSpinning(true); setShowResult(false); setSpinResult(null);
     try {
       const { data, error } = await supabase.functions.invoke("spin-wheel");
@@ -241,6 +244,9 @@ const SpinWheelPage = () => {
 
       <div className="max-w-lg mx-auto px-3 py-4 space-y-4 relative z-10">
 
+        {/* Campaign Countdown */}
+        <CampaignCountdown onExpired={() => setCampaignEnded(true)} />
+
         {/* Circular Progress + Prize Display (hidden for guests) */}
         {!isGuest && (
           <div className="flex items-center gap-4">
@@ -309,7 +315,7 @@ const SpinWheelPage = () => {
           {isGuest ? (
             <>
               <SpinWheelCanvas
-                canSpin={!guestSpinDone && !isSpinning}
+                canSpin={!guestSpinDone && !isSpinning && !campaignEnded}
                 onRequestSpin={handleGuestSpin}
                 onSpinComplete={handleGuestSpinComplete}
               />
@@ -331,7 +337,7 @@ const SpinWheelPage = () => {
             <>
               <div className={`transition-all duration-700 ${!canSpin && !isSpinning ? "blur-[6px] pointer-events-none" : ""}`}>
                 <SpinWheelCanvas
-                  canSpin={canSpin && !isSpinning}
+                  canSpin={canSpin && !isSpinning && !campaignEnded}
                   onRequestSpin={handleSpin}
                   onSpinComplete={handleSpinComplete}
                 />

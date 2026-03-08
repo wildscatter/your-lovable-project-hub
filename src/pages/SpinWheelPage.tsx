@@ -321,17 +321,14 @@ const SpinWheelPage = () => {
               />
               {guestSpinDone && !isSpinning && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center animate-fade-in">
-                  <div className="absolute inset-0 bg-background/85 backdrop-blur-md rounded-2xl" />
-                  <div className="relative z-10 flex flex-col items-center gap-4 px-4 py-6 text-center">
-                    <Sparkles className="h-8 w-8 text-primary" />
-                    <h3 className="text-lg font-extrabold text-foreground">Sign up to earn real points!</h3>
-                    <p className="text-sm text-muted-foreground">Create an account to save your spins and collect rewards.</p>
-                    <Button onClick={() => navigate("/auth?returnTo=/spin")} className="bg-primary text-primary-foreground font-bold px-6">
+                  <div className="absolute inset-0 bg-background/90 backdrop-blur-md rounded-2xl" />
+                  <div className="relative z-10 flex flex-col items-center gap-5 px-6 py-8 text-center">
+                    <Sparkles className="h-10 w-10 text-primary" />
+                    <h3 className="text-2xl font-extrabold text-foreground drop-shadow-lg">Sign up to earn real points!</h3>
+                    <p className="text-base text-foreground/80 font-medium">Create an account to save your spins and collect rewards.</p>
+                    <Button onClick={() => navigate("/auth?returnTo=/spin")} className="bg-primary text-primary-foreground font-bold px-8 py-5 text-base rounded-xl">
                       Create Account
                     </Button>
-                    <button onClick={() => setGuestSpinDone(false)} className="text-xs text-muted-foreground hover:text-foreground">
-                      Try again
-                    </button>
                   </div>
                 </div>
               )}

@@ -6,8 +6,7 @@ const corsHeaders = {
 };
 
 interface SpinResult {
-  visualPrize: string;
-  visualIcon: string;
+  visualIndex: number;
   actualPoints: number;
   totalPoints: number;
   isFirstSpin: boolean;
@@ -19,79 +18,63 @@ interface SpinResult {
   maxReferrals: number;
 }
 
-const MAX_POINTS = 100;
-const MAX_SPIN_POINTS = 85; // Can't reach 100 without referrals
+const MAX_POINTS = 85;
 const REFERRAL_POINTS = 5;
 const MAX_REFERRALS = 3;
 const COOLDOWN_MS = 24 * 60 * 60 * 1000;
 const FIRST_SPIN_POINTS = 30;
 const DECAY_THRESHOLD = 50;
 
-// Visual prizes shown on wheel (decoration only)
-const VISUAL_PRIZES = [
-  { label: "🌟 BONUS", icon: "🌟", tier: "great" as const },
-  { label: "⭐ LUCKY", icon: "⭐", tier: "good" as const },
-  { label: "🔄 RETRY", icon: "🔄", tier: "tryagain" as const },
-  { label: "💎 MEGA", icon: "💎", tier: "great" as const },
-  { label: "👥 INVITE", icon: "👥", tier: "invite" as const },
-  { label: "✨ NICE", icon: "✨", tier: "small" as const },
-  { label: "👑 JACKPOT", icon: "👑", tier: "jackpot" as const },
-  { label: "🎯 HIT", icon: "🎯", tier: "good" as const },
-];
+// Wheel segments: [30, 5, 20, 0, 15, 5, 10, 0] (indices 0-7)
+const SEGMENT_VALUES = [30, 5, 20, 0, 15, 5, 10, 0];
 
 function calculatePoints(totalPoints: number, isFirstSpin: boolean): { points: number; visualIndex: number; tier: SpinResult["tier"] } {
   if (isFirstSpin) {
-    return { points: FIRST_SPIN_POINTS, visualIndex: 6, tier: "jackpot" }; // Show jackpot visual
+    return { points: FIRST_SPIN_POINTS, visualIndex: 0, tier: "jackpot" }; // lands on 30
   }
 
-  const remaining = MAX_SPIN_POINTS - totalPoints;
+  const remaining = MAX_POINTS - totalPoints;
   if (remaining <= 0) {
-    // At cap - give try again or invite
     const r = Math.random();
-    if (r < 0.6) return { points: 0, visualIndex: 2, tier: "tryagain" };
-    return { points: 0, visualIndex: 4, tier: "invite" };
+    if (r < 0.5) return { points: 0, visualIndex: 3, tier: "tryagain" }; // lands on 0
+    return { points: 0, visualIndex: 7, tier: "invite" }; // lands on 0
   }
 
-  // Decay: if above threshold, drastically reduce rewards
+  // Decay: above threshold, reduce rewards
   if (totalPoints >= DECAY_THRESHOLD) {
     const r = Math.random();
-    if (r < 0.35) return { points: 1, visualIndex: 5, tier: "small" };
-    if (r < 0.60) return { points: 2, visualIndex: 1, tier: "small" };
-    if (r < 0.75) return { points: 3, visualIndex: 7, tier: "good" };
-    if (r < 0.85) return { points: 0, visualIndex: 2, tier: "tryagain" };
-    if (r < 0.95) return { points: 0, visualIndex: 4, tier: "invite" };
-    return { points: 5, visualIndex: 3, tier: "great" };
+    if (r < 0.30) return { points: Math.min(5, remaining), visualIndex: 1, tier: "small" }; // 5
+    if (r < 0.55) return { points: 0, visualIndex: 3, tier: "tryagain" }; // 0
+    if (r < 0.70) return { points: 0, visualIndex: 7, tier: "invite" }; // 0
+    if (r < 0.85) return { points: Math.min(5, remaining), visualIndex: 5, tier: "small" }; // 5
+    if (r < 0.95) return { points: Math.min(10, remaining), visualIndex: 6, tier: "good" }; // 10
+    return { points: Math.min(15, remaining), visualIndex: 4, tier: "great" }; // 15
   }
 
   // Normal phase: weighted random
   const r = Math.random();
   if (r < 0.05) {
-    const pts = Math.min(10, remaining);
-    return { points: pts, visualIndex: 6, tier: "jackpot" };
+    return { points: Math.min(30, remaining), visualIndex: 0, tier: "jackpot" }; // 30
   }
-  if (r < 0.15) {
-    const pts = Math.min(7, remaining);
-    return { points: pts, visualIndex: 3, tier: "great" };
+  if (r < 0.12) {
+    return { points: Math.min(20, remaining), visualIndex: 2, tier: "great" }; // 20
   }
-  if (r < 0.30) {
-    const pts = Math.min(5, remaining);
-    return { points: pts, visualIndex: 0, tier: "great" };
+  if (r < 0.25) {
+    return { points: Math.min(15, remaining), visualIndex: 4, tier: "great" }; // 15
   }
-  if (r < 0.50) {
-    const pts = Math.min(3, remaining);
-    return { points: pts, visualIndex: 7, tier: "good" };
+  if (r < 0.45) {
+    return { points: Math.min(10, remaining), visualIndex: 6, tier: "good" }; // 10
   }
-  if (r < 0.70) {
-    const pts = Math.min(2, remaining);
-    return { points: pts, visualIndex: 1, tier: "good" };
+  if (r < 0.65) {
+    return { points: Math.min(5, remaining), visualIndex: 1, tier: "good" }; // 5
   }
-  if (r < 0.85) {
-    return { points: 1, visualIndex: 5, tier: "small" };
+  if (r < 0.80) {
+    return { points: Math.min(5, remaining), visualIndex: 5, tier: "small" }; // 5
   }
-  if (r < 0.95) {
-    return { points: 0, visualIndex: 2, tier: "tryagain" };
+  if (r < 0.92) {
+    return { points: 0, visualIndex: 3, tier: "tryagain" }; // 0
   }
-  return { points: 0, visualIndex: 4, tier: "invite" };
+  return { points: 0, visualIndex: 7, tier: "invite" }; // 0
 }
 
 Deno.serve(async (req) => {
@@ -158,15 +141,13 @@ Deno.serve(async (req) => {
       const lastSpinTime = new Date(lastSpin.spun_at).getTime();
       const nextSpinTime = lastSpinTime + COOLDOWN_MS;
       if (Date.now() < nextSpinTime) {
-        // Get referral count for response
         const { count: refCount } = await serviceClient
           .from("referrals")
           .select("*", { count: "exact", head: true })
           .eq("referrer_id", userId);
 
         const result: SpinResult = {
-          visualPrize: "",
-          visualIcon: "",
+          visualIndex: 3,
           actualPoints: 0,
           totalPoints: userPoints!.total_points,
           isFirstSpin: false,
@@ -186,7 +167,6 @@ Deno.serve(async (req) => {
     // Calculate points
     const isFirstSpin = !userPoints!.first_spin_done;
     const { points, visualIndex, tier } = calculatePoints(userPoints!.total_points, isFirstSpin);
-    const visual = VISUAL_PRIZES[visualIndex];
 
     const newTotal = Math.min(userPoints!.total_points + points, MAX_POINTS);
 
@@ -194,7 +174,7 @@ Deno.serve(async (req) => {
     await serviceClient.from("spin_history").insert({
       user_id: userId,
       points_won: points,
-      prize_label: visual.label,
+      prize_label: `${SEGMENT_VALUES[visualIndex]} pts`,
     });
 
     // Update points
@@ -225,8 +205,7 @@ Deno.serve(async (req) => {
     };
 
     const result: SpinResult = {
-      visualPrize: visual.label,
-      visualIcon: visual.icon,
+      visualIndex,
       actualPoints: points,
       totalPoints: newTotal,
       isFirstSpin,

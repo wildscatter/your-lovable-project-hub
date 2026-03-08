@@ -286,14 +286,25 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     ctx.fillStyle = highlightGrad;
     ctx.fill();
 
-    // SPIN text
-    ctx.fillStyle = "hsl(38, 95%, 60%)";
-    ctx.font = "bold 11px system-ui, -apple-system, sans-serif";
+    // WS text (W=gold, S=white)
+    ctx.font = "bold 13px system-ui, -apple-system, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    const wWidth = ctx.measureText("W").width;
+    const sWidth = ctx.measureText("S").width;
+    const totalWidth = wWidth + sWidth + 1;
+    const startX = -totalWidth / 2;
+
     ctx.shadowColor = "hsl(38, 95%, 58%)";
     ctx.shadowBlur = 6;
-    ctx.fillText("SPIN", 0, 0);
+    ctx.fillStyle = "hsl(38, 95%, 60%)";
+    ctx.textAlign = "left";
+    ctx.fillText("W", startX, 0);
+
+    ctx.shadowColor = "rgba(255,255,255,0.6)";
+    ctx.shadowBlur = 4;
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("S", startX + wWidth + 1, 0);
     ctx.shadowBlur = 0;
 
     ctx.restore();

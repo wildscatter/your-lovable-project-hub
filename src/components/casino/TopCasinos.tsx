@@ -101,7 +101,7 @@ const CasinoCard = ({ casino, index }: { casino: typeof casinos[0]; index: numbe
           Coming Soon
         </Button>
       ) : (
-        <Button className="w-full mt-auto glow-pulse-btn bg-gradient-to-r from-primary to-teal-dim text-primary-foreground hover:opacity-90 font-bold min-h-[48px] text-sm sm:text-base rounded-lg shadow-md shadow-primary/15 active:scale-[0.98] transition-all" asChild>
+        <Button className="w-full mt-auto glow-pulse-btn bg-gradient-to-r from-primary to-violet-dim text-primary-foreground hover:opacity-90 font-bold min-h-[48px] text-sm sm:text-base rounded-lg shadow-md shadow-primary/15 active:scale-[0.98] transition-all" asChild>
           <a href={casino.link} target="_blank" rel="noopener noreferrer nofollow">
             Claim Bonus →
           </a>

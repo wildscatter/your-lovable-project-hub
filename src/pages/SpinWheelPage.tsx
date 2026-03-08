@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Shield, LogIn } from "lucide-react";
-import InlineAuth from "@/components/casino/InlineAuth";
+
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import PostSpinOverlay from "@/components/casino/PostSpinOverlay";
@@ -49,7 +49,6 @@ const SpinWheelPage = () => {
   const [showResult, setShowResult] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
   const [guestSpinDone, setGuestSpinDone] = useState(false);
-  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
 
   const loadUserData = useCallback(async () => {
@@ -230,7 +229,7 @@ const SpinWheelPage = () => {
           {isGuest ? (
             <Button
               size="sm"
-              onClick={() => setShowAuthOverlay(true)}
+              onClick={() => navigate("/auth?returnTo=/spin")}
               className="h-8 px-3 text-xs bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 font-semibold"
               variant="ghost"
             >
@@ -303,7 +302,7 @@ const SpinWheelPage = () => {
             </div>
             <Button
               size="sm"
-              onClick={() => setShowAuthOverlay(true)}
+              onClick={() => navigate("/auth?returnTo=/spin")}
               className="bg-primary text-primary-foreground font-bold text-xs h-8 px-3 rounded-lg hover:opacity-90 flex-shrink-0"
             >
               Sign Up
@@ -320,12 +319,19 @@ const SpinWheelPage = () => {
                 onRequestSpin={handleGuestSpin}
                 onSpinComplete={handleGuestSpinComplete}
               />
-              {/* Guest post-spin overlay */}
-              {(guestSpinDone && !isSpinning || showAuthOverlay) && (
+              {guestSpinDone && !isSpinning && (
                 <div className="absolute inset-0 z-30 flex items-center justify-center animate-fade-in">
                   <div className="absolute inset-0 bg-background/85 backdrop-blur-md rounded-2xl" />
-                  <div className="relative z-10 w-full max-w-[320px] px-4 py-5">
-                    <InlineAuth onBack={() => { setShowAuthOverlay(false); setGuestSpinDone(false); }} />
+                  <div className="relative z-10 flex flex-col items-center gap-4 px-4 py-6 text-center">
+                    <Sparkles className="h-8 w-8 text-primary" />
+                    <h3 className="text-lg font-extrabold text-foreground">Sign up to earn real points!</h3>
+                    <p className="text-sm text-muted-foreground">Create an account to save your spins and collect rewards.</p>
+                    <Button onClick={() => navigate("/auth?returnTo=/spin")} className="bg-primary text-primary-foreground font-bold px-6">
+                      Create Account
+                    </Button>
+                    <button onClick={() => setGuestSpinDone(false)} className="text-xs text-muted-foreground hover:text-foreground">
+                      Try again
+                    </button>
                   </div>
                 </div>
               )}

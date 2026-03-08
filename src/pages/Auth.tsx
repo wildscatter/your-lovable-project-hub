@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
@@ -8,12 +8,13 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, ArrowLeft, Sparkles, Shield, Gift, Trophy, Star } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect } from "react";
 
 type AuthView = "login" | "signup" | "forgot";
 
 const Auth = () => {
-  const [view, setView] = useState<AuthView>("login");
+  const [searchParams] = useSearchParams();
+  const referrerId = searchParams.get("ref");
+  const [view, setView] = useState<AuthView>(referrerId ? "signup" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [resetEmail, setResetEmail] = useState("");
@@ -24,8 +25,19 @@ const Auth = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) navigate("/", { replace: true });
-  }, [user, navigate]);
+    if (user) {
+      // If user just signed up via referral link, process it
+      if (referrerId) {
+        supabase.functions.invoke("process-referral", {
+          body: { referrerId },
+        }).then(() => {
+          navigate("/", { replace: true });
+        });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [user, navigate, referrerId]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();

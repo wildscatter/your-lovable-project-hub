@@ -47,7 +47,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
       <div className="absolute inset-0 bg-background/85 backdrop-blur-md rounded-2xl" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center gap-5 px-4 py-6 max-w-[320px] w-full">
+      <div className="relative z-10 flex flex-col items-center gap-4 px-4 py-5 max-w-[300px] w-full">
         {/* Clock icon badge */}
         <div className="relative">
           <div className="absolute -inset-3 rounded-full bg-primary/10 animate-pulse" />

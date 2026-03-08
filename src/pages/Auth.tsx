@@ -51,9 +51,12 @@ const Auth = () => {
         
         navigate("/");
       } else {
+        const redirectUrl = referrerId 
+          ? `${window.location.origin}/auth?ref=${referrerId}${returnTo ? `&returnTo=${returnTo}` : ''}`
+          : window.location.origin;
         const { error } = await supabase.auth.signUp({
           email, password,
-          options: { emailRedirectTo: window.location.origin },
+          options: { emailRedirectTo: redirectUrl },
         });
         if (error) throw error;
         toast({ title: "Registration successful!", description: "Check your email for confirmation." });

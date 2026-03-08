@@ -342,31 +342,12 @@ const SpinWheelPage = () => {
           <h4 className="text-xs font-bold text-foreground flex items-center gap-2 uppercase tracking-wider">
             <Shield className="h-3.5 w-3.5 text-primary" /> Game Rules
           </h4>
-          <ul className="text-[11px] text-muted-foreground/70 space-y-2">
-            <li className="flex items-start gap-2">
-              <Gift className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
-              <span>Your first spin automatically awards <strong className="text-foreground/80">30 bonus points</strong> as a welcome gift.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <Star className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
-              <span>You can spin the wheel <strong className="text-foreground/80">once every 24 hours</strong>. Points are tracked per account.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <Users className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
-              <span>Invite friends for <strong className="text-foreground/80">+5 points each</strong>, up to 3 friends (15 pts max).</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <Trophy className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
-              <span>Reach <strong className="text-foreground/80">100 points</strong> to unlock the <strong className="text-foreground/80">100 Free Spins Promo Code</strong>.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <AlertTriangle className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
-              <span>Invalid or fraudulent attempts (multiple accounts, false referrals) <strong className="text-foreground/80">will not count</strong>. Follow instructions to claim prizes properly.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <Shield className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
-              <span>All decisions by site admin are <strong className="text-foreground/80">final</strong> regarding prize eligibility. Spin results are randomized; progression is controlled for fairness.</span>
-            </li>
+          <ul className="text-[11px] text-muted-foreground/70 space-y-2 list-disc list-inside">
+            <li>You can spin the wheel once every 24 hours. Points are tracked per account.</li>
+            <li>Invite friends for +5 points each, up to 3 friends (15 pts max).</li>
+            <li>Reach 100 points to unlock the 100 Free Spins Promo Code.</li>
+            <li>Invalid or fraudulent attempts (multiple accounts, false referrals) will not count. Follow instructions to claim prizes properly.</li>
+            <li>All decisions by site admin are final regarding prize eligibility. Spin results are randomized; progression is controlled for fairness.</li>
           </ul>
         </div>
 

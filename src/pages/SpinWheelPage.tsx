@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Copy, Check, Users, Sparkles, Star, Zap, Trophy, Shield, LogIn } from "lucide-react";
-import InlineAuth from "@/components/casino/InlineAuth";
+
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
 import PostSpinOverlay from "@/components/casino/PostSpinOverlay";

@@ -187,7 +187,7 @@ const SpinWheelPage = () => {
     invite: { bg: "bg-emerald-500/5", border: "border-emerald-500/20", text: "text-emerald-400", glow: "" },
   };
 
-  const reachedMax = totalPoints >= 85;
+  const reachedMax = totalPoints >= 80;
 
   return (
     <div className="min-h-[100dvh] bg-background">

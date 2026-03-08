@@ -87,19 +87,16 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       ctx.fillStyle = grad;
       ctx.fill();
 
-      // Border
       ctx.strokeStyle = "hsl(230, 20%, 7%)";
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Inner glow line
       ctx.beginPath();
       ctx.arc(0, 0, RADIUS - 1, startAngle, endAngle);
       ctx.strokeStyle = "hsla(0, 0%, 100%, 0.05)";
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Text + icon
       ctx.save();
       ctx.rotate(startAngle + ARC / 2);
       ctx.font = "24px serif";
@@ -117,7 +114,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       ctx.restore();
     });
 
-    // Outer LED dots
     for (let i = 0; i < 40; i++) {
       const angle = (i / 40) * Math.PI * 2;
       const x = Math.cos(angle) * (RADIUS - 5);
@@ -129,7 +125,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
       ctx.fill();
     }
 
-    // Center hub
     ctx.beginPath();
     ctx.arc(0, 0, 30, 0, 2 * Math.PI);
     const hubGrad = ctx.createRadialGradient(0, 0, 4, 0, 0, 30);
@@ -142,7 +137,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     ctx.lineWidth = 3;
     ctx.stroke();
 
-    // Inner circle
     ctx.beginPath();
     ctx.arc(0, 0, 18, 0, 2 * Math.PI);
     const innerGrad = ctx.createRadialGradient(0, 0, 2, 0, 0, 18);
@@ -154,7 +148,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // Center text
     ctx.fillStyle = "hsl(38, 95%, 60%)";
     ctx.font = "bold 10px system-ui";
     ctx.textAlign = "center";
@@ -168,7 +161,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
     requestAnimationFrame(() => drawWheel(rotation));
   }, [drawWheel, rotation]);
 
-  // LED animation during spin
   useEffect(() => {
     if (!spinning) return;
     const animate = () => {
@@ -213,8 +205,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
 
       setRotation(currentRot);
       drawWheel(currentRot);
-
-      // Slow-down tick sound simulation via glow
       setGlowIntensity(1 - eased * 0.7);
 
       if (progress < 1) {
@@ -237,9 +227,7 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
 
   return (
     <div className="flex flex-col items-center gap-5">
-      {/* Wheel container */}
       <div className="relative">
-        {/* Pointer */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1.5 z-20">
           <div
             className="w-0 h-0"
@@ -253,7 +241,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
           />
         </div>
 
-        {/* Glow ring */}
         <div
           className="absolute -inset-4 rounded-full transition-all duration-300"
           style={{
@@ -263,7 +250,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
           }}
         />
 
-        {/* Decorative ring */}
         <div className="absolute -inset-3 rounded-full border-2 border-primary/15" />
 
         <canvas
@@ -273,7 +259,6 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
         />
       </div>
 
-      {/* Spin Button */}
       <Button
         size="lg"
         onClick={spin}
@@ -281,11 +266,11 @@ const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCa
         className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base px-10 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-40 disabled:animate-none w-full max-w-[260px]"
       >
         {spinning ? (
-          <><RotateCcw className="h-5 w-5 mr-2 animate-spin" /> ტრიალებს...</>
+          <><RotateCcw className="h-5 w-5 mr-2 animate-spin" /> Spinning...</>
         ) : !canSpin ? (
-          <><RotateCcw className="h-5 w-5 mr-2" /> დაელოდე</>
+          <><RotateCcw className="h-5 w-5 mr-2" /> Wait</>
         ) : (
-          <><Sparkles className="h-5 w-5 mr-2" /> დაატრიალე</>
+          <><Sparkles className="h-5 w-5 mr-2" /> Spin Now</>
         )}
       </Button>
     </div>

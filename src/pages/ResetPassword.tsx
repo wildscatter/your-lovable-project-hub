@@ -34,11 +34,11 @@ const ResetPassword = () => {
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast({ title: "შეცდომა", description: "პაროლები არ ემთხვევა.", variant: "destructive" });
+      toast({ title: "Error", description: "Passwords do not match.", variant: "destructive" });
       return;
     }
     if (password.length < 6) {
-      toast({ title: "შეცდომა", description: "პაროლი უნდა იყოს მინიმუმ 6 სიმბოლო.", variant: "destructive" });
+      toast({ title: "Error", description: "Password must be at least 6 characters.", variant: "destructive" });
       return;
     }
 
@@ -46,10 +46,10 @@ const ResetPassword = () => {
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      toast({ title: "პაროლი განახლდა!", description: "შეგიძლიათ ახალი პაროლით შესვლა." });
+      toast({ title: "Password updated!", description: "You can now sign in with your new password." });
       navigate("/");
     } catch (error: any) {
-      toast({ title: "შეცდომა", description: error.message, variant: "destructive" });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -59,9 +59,9 @@ const ResetPassword = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center space-y-4">
-          <p className="text-muted-foreground">არასწორი ბმული ან ვადა ამოიწურა.</p>
+          <p className="text-muted-foreground">Invalid or expired link.</p>
           <Button variant="outline" onClick={() => navigate("/auth")}>
-            <ArrowLeft className="h-4 w-4 mr-2" /> ავტორიზაციაზე დაბრუნება
+            <ArrowLeft className="h-4 w-4 mr-2" /> Back to Sign In
           </Button>
         </div>
       </div>
@@ -80,7 +80,7 @@ const ResetPassword = () => {
           className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          უკან
+          Back to Sign In
         </button>
 
         <div className="mb-10">
@@ -88,9 +88,9 @@ const ResetPassword = () => {
             <KeyRound className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-3xl font-extrabold text-foreground">
-            ახალი <span className="text-primary italic">პაროლი</span>
+            New <span className="text-primary italic">Password</span>
           </h1>
-          <p className="text-muted-foreground text-sm mt-2">შეიყვანეთ ახალი პაროლი თქვენი ანგარიშისთვის.</p>
+          <p className="text-muted-foreground text-sm mt-2">Enter a new password for your account.</p>
         </div>
 
         <div className="relative">
@@ -99,14 +99,14 @@ const ResetPassword = () => {
             <form onSubmit={handleReset} className="space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="new-password" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  ახალი პაროლი
+                  New Password
                 </Label>
                 <div className="relative group">
                   <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                   <Input
                     id="new-password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="მინიმუმ 6 სიმბოლო"
+                    placeholder="Min. 6 characters"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-11 pr-11 py-5 rounded-xl bg-background/50 border-border/50 focus:border-primary/50 focus:bg-background/80 transition-all duration-300"
@@ -125,14 +125,14 @@ const ResetPassword = () => {
 
               <div className="space-y-1.5">
                 <Label htmlFor="confirm-password" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  გაიმეორეთ პაროლი
+                  Confirm Password
                 </Label>
                 <div className="relative group">
                   <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                   <Input
                     id="confirm-password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="გაიმეორეთ პაროლი"
+                    placeholder="Repeat your password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="pl-11 py-5 rounded-xl bg-background/50 border-border/50 focus:border-primary/50 focus:bg-background/80 transition-all duration-300"
@@ -150,7 +150,7 @@ const ResetPassword = () => {
                 {loading ? (
                   <div className="h-5 w-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                 ) : (
-                  "პაროლის განახლება"
+                  "Update Password"
                 )}
               </Button>
             </form>

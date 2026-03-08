@@ -136,11 +136,9 @@ const SpinWheelPage = () => {
 
       const result = data as SpinResult;
       setSpinResult(result);
-
-      // Return visual index to wheel for animation
       return result;
     } catch (error: any) {
-      toast({ title: "შეცდომა", description: error.message, variant: "destructive" });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
       setIsSpinning(false);
       return null;
     }
@@ -167,7 +165,7 @@ const SpinWheelPage = () => {
     if (!user) return;
     navigator.clipboard.writeText(`${window.location.origin}/auth?ref=${user.id}`);
     setCopied(true);
-    toast({ title: "ლინკი დაკოპირდა!", description: "გაუგზავნე მეგობარს!" });
+    toast({ title: "Link copied!", description: "Share it with your friends to earn bonus points." });
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -181,7 +179,7 @@ const SpinWheelPage = () => {
             <div className="h-12 w-12 border-3 border-primary/20 border-t-primary rounded-full animate-spin" />
             <Sparkles className="h-5 w-5 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
-          <p className="text-sm text-muted-foreground animate-pulse">იტვირთება...</p>
+          <p className="text-sm text-muted-foreground animate-pulse">Loading...</p>
         </div>
       </div>
     );
@@ -208,7 +206,7 @@ const SpinWheelPage = () => {
       <div className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
           <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground -ml-2">
-            <ArrowLeft className="h-4 w-4 mr-1" /> უკან
+            <ArrowLeft className="h-4 w-4 mr-1" /> Back
           </Button>
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
@@ -229,7 +227,7 @@ const SpinWheelPage = () => {
               <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Trophy className="h-4 w-4 text-primary" />
               </div>
-              <span className="text-sm font-semibold text-foreground">პროგრესი</span>
+              <span className="text-sm font-semibold text-foreground">Progress</span>
             </div>
             <div className="text-right">
               <span className="text-xl font-extrabold text-primary">{totalPoints}</span>
@@ -238,7 +236,6 @@ const SpinWheelPage = () => {
           </div>
           <div className="relative">
             <Progress value={progressPercent} className="h-3 bg-secondary/60" />
-            {/* Milestone markers */}
             <div className="absolute inset-0 flex items-center">
               {[25, 50, 75].map((mark) => (
                 <div
@@ -250,8 +247,8 @@ const SpinWheelPage = () => {
             </div>
           </div>
           <div className="flex justify-between text-[10px] text-muted-foreground/60 uppercase tracking-wider">
-            <span>დაწყება</span>
-            <span>მიზანი</span>
+            <span>Start</span>
+            <span>Goal</span>
           </div>
         </div>
 
@@ -259,7 +256,7 @@ const SpinWheelPage = () => {
         {!canSpin && countdown && (
           <div className="bg-card/60 border border-border/40 rounded-xl px-4 py-3 flex items-center justify-center gap-3 animate-fade-in">
             <Clock className="h-4 w-4 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">შემდეგი სპინი:</span>
+            <span className="text-xs text-muted-foreground">Next spin in:</span>
             <span className="text-base font-mono font-bold text-primary tracking-wider">{countdown}</span>
           </div>
         )}
@@ -286,7 +283,7 @@ const SpinWheelPage = () => {
               {spinResult.actualPoints > 0 && (
                 <div className="mt-3 inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 animate-fade-in">
                   <Zap className="h-3 w-3 text-primary" />
-                  <span className="text-sm font-bold text-primary">+{spinResult.actualPoints} ქულა</span>
+                  <span className="text-sm font-bold text-primary">+{spinResult.actualPoints} pts</span>
                 </div>
               )}
               {spinResult.tier === "invite" && (
@@ -298,7 +295,7 @@ const SpinWheelPage = () => {
                     className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10"
                   >
                     <Copy className="h-3 w-3 mr-1.5" />
-                    მოწვევის ლინკი
+                    Copy Invite Link
                   </Button>
                 </div>
               )}
@@ -313,9 +310,9 @@ const SpinWheelPage = () => {
               <Users className="h-5 w-5 text-emerald-400" />
             </div>
             <div className="flex-1">
-              <h3 className="text-foreground font-bold text-sm">მოიწვიე მეგობრები</h3>
+              <h3 className="text-foreground font-bold text-sm">Invite Friends</h3>
               <p className="text-[11px] text-muted-foreground">
-                +{REFERRAL_POINTS} ქულა ყოველი მოწვევისთვის
+                +{REFERRAL_POINTS} pts per invite
               </p>
             </div>
             <div className="text-right">
@@ -324,7 +321,6 @@ const SpinWheelPage = () => {
             </div>
           </div>
 
-          {/* Referral progress dots */}
           <div className="flex items-center gap-2">
             {[...Array(MAX_REFERRALS)].map((_, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
@@ -347,9 +343,9 @@ const SpinWheelPage = () => {
               className="w-full border-emerald-500/20 hover:bg-emerald-500/5 hover:border-emerald-500/40 text-foreground transition-all"
             >
               {copied ? (
-                <><Check className="h-4 w-4 mr-2 text-emerald-400" /> დაკოპირდა!</>
+                <><Check className="h-4 w-4 mr-2 text-emerald-400" /> Copied!</>
               ) : (
-                <><Copy className="h-4 w-4 mr-2" /> გააკოპირე მოწვევის ლინკი</>
+                <><Copy className="h-4 w-4 mr-2" /> Copy Invite Link</>
               )}
             </Button>
           )}
@@ -358,13 +354,13 @@ const SpinWheelPage = () => {
         {/* Rules */}
         <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-3">
           <h4 className="text-xs font-bold text-foreground flex items-center gap-2 uppercase tracking-wider">
-            <Gift className="h-3.5 w-3.5 text-primary" /> წესები
+            <Gift className="h-3.5 w-3.5 text-primary" /> Rules
           </h4>
           <ul className="text-[11px] text-muted-foreground/70 space-y-1.5">
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> დატრიალება შესაძლებელია 24 საათში ერთხელ</li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> პირველი სპინი ყოველთვის საჩუქარია</li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> მოიწვიე მეგობრები დამატებითი ბონუსისთვის</li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> აგროვე ქულები და გაიხსენი ჯილდოები</li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> You can spin the wheel once every 24 hours</li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> Your first spin is always a welcome bonus</li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> Invite friends for extra bonus points</li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> Collect points and unlock exclusive rewards</li>
           </ul>
         </div>
 

@@ -170,7 +170,7 @@ Deno.serve(async (req) => {
           actualPoints: 0,
           totalPoints: userPoints!.total_points,
           isFirstSpin: false,
-          message: "დაელოდე შემდეგ დატრიალებას!",
+          message: "Wait for your next spin!",
           tier: "tryagain",
           canSpinAgain: false,
           nextSpinAt: new Date(nextSpinTime).toISOString(),
@@ -216,12 +216,12 @@ Deno.serve(async (req) => {
     const nextSpinAt = new Date(Date.now() + COOLDOWN_MS).toISOString();
 
     const messages: Record<string, string> = {
-      jackpot: "🎉 წარმოუდგენელია! ჯეკპოტი!",
-      great: "🔥 შესანიშნავი შედეგი!",
-      good: "✨ კარგი სპინი!",
-      small: "⭐ ქულები დაემატა!",
-      tryagain: "😅 კიდევ სცადე ხვალ!",
-      invite: "👥 მოიწვიე მეგობარი ბონუსისთვის!",
+      jackpot: "🎉 Unbelievable! Jackpot!",
+      great: "🔥 Amazing result!",
+      good: "✨ Nice spin!",
+      small: "⭐ Points added!",
+      tryagain: "😅 Try again tomorrow!",
+      invite: "👥 Invite a friend for bonus!",
     };
 
     const result: SpinResult = {

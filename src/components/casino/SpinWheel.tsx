@@ -30,8 +30,8 @@ const SpinWheel = () => {
             </div>
             <p className="text-muted-foreground text-sm sm:text-base max-w-md">
               {user
-                ? "დაატრიალე ბორბალი და მოაგროვე ქულები!"
-                : "გაიარე ავტორიზაცია და დაატრიალე ბორბალი!"}
+                ? "Try your luck! Spin the wheel and collect bonus points."
+                : "Sign in to spin the wheel and earn bonus points!"}
             </p>
             <Button
               size="lg"

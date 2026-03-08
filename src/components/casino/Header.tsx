@@ -68,11 +68,11 @@ const Header = () => {
           {/* Mobile support button — icon-only, pill style */}
           <button
             onClick={() => openChat(true)}
-            className="relative inline-flex items-center gap-1.5 rounded-full bg-primary/15 text-primary font-semibold text-[11px] px-2.5 py-2 transition-all duration-300 min-h-[40px] active:scale-90 border border-primary/25"
-            aria-label="Support 24/7"
+            className="relative inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground font-bold text-xs px-3.5 py-2 transition-all duration-300 min-h-[40px] active:scale-90 shadow-[0_0_12px_hsl(38_95%_58%/0.4)] hover:shadow-[0_0_18px_hsl(38_95%_58%/0.6)]"
+            aria-label="Support Chat"
           >
             <MessageCircle className="h-4 w-4" />
-            <span className="tracking-wide">Chat</span>
+            Chat
           </button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>

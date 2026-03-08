@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Send, MessageCircle, LogIn, LogOut, Zap, User, Disc3 } from "lucide-react";
+import { Menu, Send, MessageCircle, LogIn, LogOut, Zap, User } from "lucide-react";
+import MiniWheel from "@/components/casino/MiniWheel";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { useChatbot } from "@/hooks/use-chatbot";
@@ -56,15 +57,15 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-2">
-          {/* Spin wheel icon */}
+          {/* Spin wheel mini icon */}
           <button
             onClick={() => navigate("/spin")}
-            className="relative group inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 hover:bg-primary/20 hover:border-primary/30 transition-all duration-300 cursor-pointer min-h-[40px]"
+            className="relative group inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/35 transition-all duration-300 cursor-pointer min-h-[40px]"
             aria-label="Spin & Win"
             title="Spin & Win"
           >
-            <Disc3 className="h-5 w-5 text-primary group-hover:animate-[spin_1.5s_ease-in-out]" />
-            <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-accent animate-pulse border-2 border-background" />
+            <MiniWheel />
+            <span className="absolute -top-2 -right-3 bg-accent text-[7px] font-extrabold text-accent-foreground px-1.5 py-[1px] rounded-full uppercase tracking-wide animate-pulse shadow-sm shadow-accent/30">new</span>
           </button>
 
           <nav className="flex items-center bg-secondary/30 rounded-xl px-1.5 py-1 border border-border/30">
@@ -130,10 +131,11 @@ const Header = () => {
           {/* Mobile spin icon */}
           <button
             onClick={() => navigate("/spin")}
-            className="relative inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 active:scale-95 transition-all duration-200 cursor-pointer min-h-[40px]"
+            className="relative inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/5 border border-primary/20 active:scale-95 transition-all duration-200 cursor-pointer min-h-[40px]"
             aria-label="Spin & Win"
           >
-            <Disc3 className="h-4.5 w-4.5 text-primary animate-[spin_4s_linear_infinite]" style={{ animationDuration: '4s' }} />
+            <MiniWheel />
+            <span className="absolute -top-2 -right-3 bg-accent text-[7px] font-extrabold text-accent-foreground px-1.5 py-[1px] rounded-full uppercase tracking-wide animate-pulse shadow-sm shadow-accent/30">new</span>
           </button>
           <button
             onClick={() => openChat(true)}

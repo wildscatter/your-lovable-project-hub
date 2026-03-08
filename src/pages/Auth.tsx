@@ -33,7 +33,7 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        toast({ title: "წარმატებით შეხვედით!" });
+        toast({ title: "Signed in successfully!" });
         navigate("/");
       } else {
         const { error } = await supabase.auth.signUp({
@@ -43,13 +43,13 @@ const Auth = () => {
         });
         if (error) throw error;
         toast({
-          title: "რეგისტრაცია წარმატებულია!",
-          description: "შეამოწმეთ ელფოსტა დასადასტურებლად.",
+          title: "Registration successful!",
+          description: "Check your email for confirmation.",
         });
       }
     } catch (error: any) {
       toast({
-        title: "შეცდომა",
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });

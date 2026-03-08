@@ -124,7 +124,7 @@ const Auth = () => {
                 fill="#EA4335"
               />
             </svg>
-            Google-ით შესვლა
+            Sign in with Google
           </Button>
 
           {/* Divider */}

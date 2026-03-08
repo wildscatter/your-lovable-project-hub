@@ -13,6 +13,7 @@ import BlogPost from "./pages/BlogPost";
 import Auth from "./pages/Auth";
 import SpinWheelPage from "./pages/SpinWheelPage";
 import ResetPassword from "./pages/ResetPassword";
+import EmailSent from "./pages/EmailSent";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

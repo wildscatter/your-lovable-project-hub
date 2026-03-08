@@ -337,7 +337,7 @@ const SpinWheelPage = () => {
             <>
               <div className={`transition-all duration-700 ${!canSpin && !isSpinning ? "blur-[6px] pointer-events-none" : ""}`}>
                 <SpinWheelCanvas
-                  canSpin={canSpin && !isSpinning}
+                  canSpin={canSpin && !isSpinning && !campaignEnded}
                   onRequestSpin={handleSpin}
                   onSpinComplete={handleSpinComplete}
                 />

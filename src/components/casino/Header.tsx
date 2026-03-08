@@ -57,7 +57,7 @@ const Header = () => {
           {/* Support 24/7 — highlighted CTA that opens chatbot */}
           <button
             onClick={() => openChat(true)}
-            className="inline-flex items-center gap-2 rounded-lg bg-accent text-accent-foreground font-bold text-sm px-5 py-2.5 transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-accent/20 hover:opacity-90 min-h-[44px] active:scale-[0.98]"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground font-bold text-sm px-5 py-2.5 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-105 min-h-[44px] active:scale-[0.98] glow-pulse-subtle"
           >
             <MessageCircle className="h-4 w-4" />
             Support 24/7

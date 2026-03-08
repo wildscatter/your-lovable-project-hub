@@ -106,14 +106,17 @@ const Hero = () => {
               </a>
             </Button>
             
-            <Button
-              variant="outline"
-              onClick={() => setWizardOpen(true)}
-              className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary font-semibold text-sm w-full max-w-xs py-5 rounded-xl transition-all active:scale-[0.98] min-h-[48px]"
-            >
-              <Gift className="h-4 w-4 mr-2" />
-              Get Personalized Offers
-            </Button>
+            <div className="relative w-full max-w-xs">
+              <Button
+                variant="outline"
+                onClick={() => setWizardOpen(true)}
+                className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary font-semibold text-sm w-full py-5 rounded-xl transition-all active:scale-[0.98] min-h-[48px]"
+              >
+                <Gift className="h-4 w-4 mr-2" />
+                Get Personalized Offers
+              </Button>
+              <span className="absolute -top-2 -right-3 bg-emerald-500 text-[7px] font-extrabold text-white px-1.5 py-[1px] rounded-full uppercase tracking-wide animate-pulse shadow-sm shadow-emerald-500/30">vip</span>
+            </div>
             
             <div className="flex items-center gap-6 mt-1 bg-card/60 rounded-xl px-6 py-4 border border-border w-full max-w-xs">
               <div className="text-center flex-1">

@@ -78,15 +78,15 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
           <svg className="w-full h-full -rotate-90" viewBox="0 0 110 110">
             {/* Track */}
             <circle
-              cx="70" cy="70" r={ringRadius}
+              cx="55" cy="55" r={ringRadius}
               fill="none"
               stroke="hsl(var(--secondary))"
-              strokeWidth="5"
+              strokeWidth="4"
               opacity="0.25"
             />
             {/* Progress arc */}
             <circle
-              cx="70" cy="70" r={ringRadius}
+              cx="55" cy="55" r={ringRadius}
               fill="none"
               stroke="url(#countdownGradient)"
               strokeWidth="5"

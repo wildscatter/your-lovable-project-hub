@@ -34,7 +34,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-primary/10 bg-background/95 backdrop-blur-xl">
       <div className="container mx-auto flex h-14 sm:h-16 items-center justify-between px-3 sm:px-4">
-        <button onClick={() => navigate("/")} className="group flex items-center bg-transparent border-none cursor-pointer min-h-[44px]">
+        <button onClick={() => { if (window.location.pathname === "/") { window.scrollTo({ top: 0, behavior: "smooth" }); } else { navigate("/"); } }} className="group flex items-center bg-transparent border-none cursor-pointer min-h-[44px]">
           <span className="text-lg sm:text-2xl font-extrabold tracking-tight italic">
             <span className="text-primary">Wild</span>
             <span className="text-foreground">Scatter</span>

@@ -21,7 +21,7 @@ interface SpinResult {
 const MAX_POINTS = 80;
 const REFERRAL_POINTS = 5;
 const MAX_REFERRALS = 3;
-const COOLDOWN_MS = 10 * 1000; // 10 seconds for testing (change to 24 * 60 * 60 * 1000 for production)
+const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 hours
 const FIRST_SPIN_POINTS = 30;
 const DECAY_THRESHOLD = 50;
 

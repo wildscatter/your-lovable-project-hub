@@ -28,53 +28,65 @@ const DECAY_THRESHOLD = 50;
 // Wheel segments: [30, 5, 20, 0, 15, 5, 10, 0] (indices 0-7)
 const SEGMENT_VALUES = [30, 5, 20, 0, 15, 5, 10, 0];
 
+// Segment index mapping: { value: visualIndex[] }
+// 0 -> [3,7], 5 -> [1,5], 10 -> [6], 15 -> [4], 20 -> [2], 30 -> [0]
+const VALUE_TO_INDICES: Record<number, number[]> = {
+  0: [3, 7], 5: [1, 5], 10: [6], 15: [4], 20: [2], 30: [0],
+};
+
+function pickIndex(value: number): number {
+  const indices = VALUE_TO_INDICES[value];
+  return indices[Math.floor(Math.random() * indices.length)];
+}
+
+function tierForValue(value: number): SpinResult["tier"] {
+  if (value >= 30) return "jackpot";
+  if (value >= 15) return "great";
+  if (value >= 5) return "good";
+  return "tryagain";
+}
+
 function calculatePoints(totalPoints: number, isFirstSpin: boolean): { points: number; visualIndex: number; tier: SpinResult["tier"] } {
   if (isFirstSpin) {
-    return { points: FIRST_SPIN_POINTS, visualIndex: 0, tier: "jackpot" }; // lands on 30
+    return { points: 30, visualIndex: 0, tier: "jackpot" };
   }
 
   const remaining = MAX_POINTS - totalPoints;
   if (remaining <= 0) {
-    const r = Math.random();
-    if (r < 0.5) return { points: 0, visualIndex: 3, tier: "tryagain" }; // lands on 0
-    return { points: 0, visualIndex: 7, tier: "invite" }; // lands on 0
+    return { points: 0, visualIndex: pickIndex(0), tier: "tryagain" };
   }
 
-  // Decay: above threshold, reduce rewards
+  // Build list of allowed values (only those that fit fully within remaining)
+  const allValues = [0, 5, 10, 15, 20, 30];
+  const allowed = allValues.filter(v => v <= remaining);
+
+  // Weighted random from allowed values
+  // Weights: 0->20, 5->25, 10->20, 15->15, 20->12, 30->8
+  const baseWeights: Record<number, number> = { 0: 20, 5: 25, 10: 20, 15: 15, 20: 12, 30: 8 };
+
+  // Above decay threshold, shift weights toward lower values
   if (totalPoints >= DECAY_THRESHOLD) {
-    const r = Math.random();
-    if (r < 0.30) return { points: Math.min(5, remaining), visualIndex: 1, tier: "small" }; // 5
-    if (r < 0.55) return { points: 0, visualIndex: 3, tier: "tryagain" }; // 0
-    if (r < 0.70) return { points: 0, visualIndex: 7, tier: "invite" }; // 0
-    if (r < 0.85) return { points: Math.min(5, remaining), visualIndex: 5, tier: "small" }; // 5
-    if (r < 0.95) return { points: Math.min(10, remaining), visualIndex: 6, tier: "good" }; // 10
-    return { points: Math.min(15, remaining), visualIndex: 4, tier: "great" }; // 15
+    baseWeights[0] = 30;
+    baseWeights[5] = 30;
+    baseWeights[10] = 18;
+    baseWeights[15] = 12;
+    baseWeights[20] = 7;
+    baseWeights[30] = 3;
   }
 
-  // Normal phase: weighted random
-  const r = Math.random();
-  if (r < 0.05) {
-    return { points: Math.min(30, remaining), visualIndex: 0, tier: "jackpot" }; // 30
+  const entries = allowed.map(v => ({ value: v, weight: baseWeights[v] }));
+  const totalWeight = entries.reduce((s, e) => s + e.weight, 0);
+  let r = Math.random() * totalWeight;
+
+  for (const entry of entries) {
+    r -= entry.weight;
+    if (r <= 0) {
+      return { points: entry.value, visualIndex: pickIndex(entry.value), tier: tierForValue(entry.value) };
+    }
   }
-  if (r < 0.12) {
-    return { points: Math.min(20, remaining), visualIndex: 2, tier: "great" }; // 20
-  }
-  if (r < 0.25) {
-    return { points: Math.min(15, remaining), visualIndex: 4, tier: "great" }; // 15
-  }
-  if (r < 0.45) {
-    return { points: Math.min(10, remaining), visualIndex: 6, tier: "good" }; // 10
-  }
-  if (r < 0.65) {
-    return { points: Math.min(5, remaining), visualIndex: 1, tier: "good" }; // 5
-  }
-  if (r < 0.80) {
-    return { points: Math.min(5, remaining), visualIndex: 5, tier: "small" }; // 5
-  }
-  if (r < 0.92) {
-    return { points: 0, visualIndex: 3, tier: "tryagain" }; // 0
-  }
-  return { points: 0, visualIndex: 7, tier: "invite" }; // 0
+
+  // Fallback (shouldn't reach here)
+  return { points: 0, visualIndex: pickIndex(0), tier: "tryagain" };
 }
 
 Deno.serve(async (req) => {

@@ -226,22 +226,13 @@ const SpinWheelPage = () => {
             <Sparkles className="h-3.5 w-3.5 text-primary" />
             <span className="font-bold text-foreground text-sm">Spin & Win</span>
           </div>
-          {isGuest ? (
-            <Button
-              size="sm"
-              onClick={() => navigate("/auth?returnTo=/spin")}
-              className="h-8 px-3 text-xs bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 font-semibold"
-              variant="ghost"
-            >
-              <LogIn className="h-3 w-3 mr-1" />
-              Sign In
-            </Button>
-          ) : (
+          {!isGuest && (
             <div className="flex items-center gap-1 bg-primary/10 border border-primary/20 rounded-full px-2.5 py-0.5">
               <Star className="h-3 w-3 text-primary" />
               <span className="text-xs font-bold text-primary">{totalPoints}</span>
             </div>
           )}
+          {isGuest && <div />}
         </div>
       </div>
 

@@ -18,6 +18,7 @@ const Index = () => (
     <main>
       <Hero />
       <TopCasinos />
+      <SpinWheel />
       <HowWeRate />
       <WhyTrustUs />
       <SafePlayTips />

@@ -73,7 +73,7 @@ const SpinWheelPage = () => {
       .maybeSingle();
 
     if (lastSpin) {
-      const next = new Date(new Date(lastSpin.spun_at).getTime() + 10 * 1000); // 10s for testing
+      const next = new Date(new Date(lastSpin.spun_at).getTime() + 24 * 60 * 60 * 1000); // 24 hours
       if (next > new Date()) {
         setCanSpin(false);
         setNextSpinTime(next);

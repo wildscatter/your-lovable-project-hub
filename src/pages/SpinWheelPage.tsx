@@ -1,17 +1,31 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Copy, Check, Users, Clock, Sparkles, Gift } from "lucide-react";
+import { ArrowLeft, Copy, Check, Users, Clock, Sparkles, Gift, Trophy, Star, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SpinWheelCanvas from "@/components/casino/SpinWheelCanvas";
+import confetti from "canvas-confetti";
 
 const MAX_POINTS = 100;
 const REFERRAL_POINTS = 5;
 const MAX_REFERRALS = 3;
-const COOLDOWN_HOURS = 24;
+
+interface SpinResult {
+  visualPrize: string;
+  visualIcon: string;
+  actualPoints: number;
+  totalPoints: number;
+  isFirstSpin: boolean;
+  message: string;
+  tier: "jackpot" | "great" | "good" | "small" | "tryagain" | "invite";
+  canSpinAgain: boolean;
+  nextSpinAt: string | null;
+  referralCount: number;
+  maxReferrals: number;
+}
 
 const SpinWheelPage = () => {
   const { user, loading } = useAuth();
@@ -19,25 +33,24 @@ const SpinWheelPage = () => {
   const { toast } = useToast();
 
   const [totalPoints, setTotalPoints] = useState(0);
-  const [firstSpinDone, setFirstSpinDone] = useState(false);
   const [canSpin, setCanSpin] = useState(true);
   const [nextSpinTime, setNextSpinTime] = useState<Date | null>(null);
   const [countdown, setCountdown] = useState("");
   const [referralCount, setReferralCount] = useState(0);
   const [copied, setCopied] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [spinResult, setSpinResult] = useState<SpinResult | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigate("/auth");
-    }
+    if (!loading && !user) navigate("/auth");
   }, [user, loading, navigate]);
 
-  // Load user data
   const loadUserData = useCallback(async () => {
     if (!user) return;
 
-    // Get or create user points
     const { data: points } = await supabase
       .from("user_points")
       .select("*")
@@ -46,12 +59,8 @@ const SpinWheelPage = () => {
 
     if (points) {
       setTotalPoints(points.total_points);
-      setFirstSpinDone(points.first_spin_done);
-    } else {
-      await supabase.from("user_points").insert({ user_id: user.id, total_points: 0, first_spin_done: false });
     }
 
-    // Check last spin time
     const { data: lastSpin } = await supabase
       .from("spin_history")
       .select("spun_at")
@@ -61,15 +70,13 @@ const SpinWheelPage = () => {
       .maybeSingle();
 
     if (lastSpin) {
-      const lastSpinDate = new Date(lastSpin.spun_at);
-      const nextSpin = new Date(lastSpinDate.getTime() + COOLDOWN_HOURS * 60 * 60 * 1000);
-      if (nextSpin > new Date()) {
+      const next = new Date(new Date(lastSpin.spun_at).getTime() + 24 * 60 * 60 * 1000);
+      if (next > new Date()) {
         setCanSpin(false);
-        setNextSpinTime(nextSpin);
+        setNextSpinTime(next);
       }
     }
 
-    // Get referral count
     const { count } = await supabase
       .from("referrals")
       .select("*", { count: "exact", head: true })
@@ -79,16 +86,13 @@ const SpinWheelPage = () => {
     setDataLoaded(true);
   }, [user]);
 
-  useEffect(() => {
-    loadUserData();
-  }, [loadUserData]);
+  useEffect(() => { loadUserData(); }, [loadUserData]);
 
-  // Countdown timer
+  // Countdown
   useEffect(() => {
     if (!nextSpinTime) return;
     const interval = setInterval(() => {
-      const now = new Date();
-      const diff = nextSpinTime.getTime() - now.getTime();
+      const diff = nextSpinTime.getTime() - Date.now();
       if (diff <= 0) {
         setCanSpin(true);
         setNextSpinTime(null);
@@ -96,189 +100,275 @@ const SpinWheelPage = () => {
         clearInterval(interval);
         return;
       }
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      setCountdown(`${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`);
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setCountdown(`${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`);
     }, 1000);
     return () => clearInterval(interval);
   }, [nextSpinTime]);
 
-  const handleSpinComplete = async (prize: { label: string; points: number }) => {
-    if (!user) return;
+  const fireConfetti = (tier: string) => {
+    if (tier === "jackpot") {
+      const end = Date.now() + 2500;
+      const frame = () => {
+        confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0, y: 0.7 }, colors: ["#d4a520", "#ffd700", "#ff6b35"] });
+        confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1, y: 0.7 }, colors: ["#d4a520", "#ffd700", "#ff6b35"] });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      };
+      frame();
+    } else if (tier === "great") {
+      confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 }, colors: ["#d4a520", "#ffd700"] });
+    } else if (tier === "good") {
+      confetti({ particleCount: 30, spread: 50, origin: { y: 0.65 }, colors: ["#ffd700", "#c8c0b0"] });
+    }
+  };
 
-    let pointsToAdd = prize.points;
+  const handleSpin = async () => {
+    if (!user || !canSpin || isSpinning) return;
+    setIsSpinning(true);
+    setShowResult(false);
+    setSpinResult(null);
 
-    // First spin always gives 30
-    if (!firstSpinDone && pointsToAdd > 0) {
-      pointsToAdd = 30;
+    try {
+      const { data, error } = await supabase.functions.invoke("spin-wheel");
+      if (error) throw error;
+
+      const result = data as SpinResult;
+      setSpinResult(result);
+
+      // Return visual index to wheel for animation
+      return result;
+    } catch (error: any) {
+      toast({ title: "შეცდომა", description: error.message, variant: "destructive" });
+      setIsSpinning(false);
+      return null;
+    }
+  };
+
+  const handleSpinComplete = (result: SpinResult) => {
+    setIsSpinning(false);
+    setTotalPoints(result.totalPoints);
+    setReferralCount(result.referralCount);
+    setCanSpin(result.canSpinAgain);
+    if (result.nextSpinAt) {
+      setNextSpinTime(new Date(result.nextSpinAt));
+      setCanSpin(false);
     }
 
-    // Record spin
-    await supabase.from("spin_history").insert({
-      user_id: user.id,
-      points_won: pointsToAdd,
-      prize_label: prize.label,
-    });
-
-    // Update points
-    if (pointsToAdd > 0) {
-      const newTotal = Math.min(totalPoints + pointsToAdd, MAX_POINTS);
-      await supabase
-        .from("user_points")
-        .update({
-          total_points: newTotal,
-          first_spin_done: true,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", user.id);
-
-      setTotalPoints(newTotal);
-      setFirstSpinDone(true);
-    } else {
-      // Even "try again" marks first spin done
-      if (!firstSpinDone) {
-        // Actually for first spin, override to give 30 points
-        const newTotal = Math.min(totalPoints + 30, MAX_POINTS);
-        await supabase
-          .from("user_points")
-          .update({ total_points: newTotal, first_spin_done: true, updated_at: new Date().toISOString() })
-          .eq("user_id", user.id);
-        setTotalPoints(newTotal);
-        setFirstSpinDone(true);
-      }
-    }
-
-    // Set cooldown
-    const nextSpin = new Date(Date.now() + COOLDOWN_HOURS * 60 * 60 * 1000);
-    setCanSpin(false);
-    setNextSpinTime(nextSpin);
+    setTimeout(() => {
+      setShowResult(true);
+      fireConfetti(result.tier);
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 400);
   };
 
   const copyReferralLink = () => {
     if (!user) return;
-    const link = `${window.location.origin}/auth?ref=${user.id}`;
-    navigator.clipboard.writeText(link);
+    navigator.clipboard.writeText(`${window.location.origin}/auth?ref=${user.id}`);
     setCopied(true);
-    toast({ title: "ლინკი დაკოპირდა!", description: "გაუგზავნე მეგობარს რეგისტრაციისთვის." });
+    toast({ title: "ლინკი დაკოპირდა!", description: "გაუგზავნე მეგობარს!" });
     setTimeout(() => setCopied(false), 2000);
   };
 
   const progressPercent = Math.min((totalPoints / MAX_POINTS) * 100, 100);
-  const maxPointsWithoutReferrals = MAX_POINTS - (MAX_REFERRALS * REFERRAL_POINTS);
 
   if (loading || !dataLoaded) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" />
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative">
+            <div className="h-12 w-12 border-3 border-primary/20 border-t-primary rounded-full animate-spin" />
+            <Sparkles className="h-5 w-5 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+          </div>
+          <p className="text-sm text-muted-foreground animate-pulse">იტვირთება...</p>
+        </div>
       </div>
     );
   }
 
+  const tierStyles: Record<string, { bg: string; border: string; text: string; glow: string }> = {
+    jackpot: { bg: "bg-gradient-to-br from-primary/15 to-primary/5", border: "border-primary/40", text: "text-primary", glow: "shadow-primary/20" },
+    great: { bg: "bg-gradient-to-br from-primary/10 to-gold-dim/5", border: "border-primary/30", text: "text-primary", glow: "shadow-primary/15" },
+    good: { bg: "bg-secondary/40", border: "border-border", text: "text-foreground", glow: "" },
+    small: { bg: "bg-secondary/30", border: "border-border/50", text: "text-muted-foreground", glow: "" },
+    tryagain: { bg: "bg-accent/5", border: "border-accent/20", text: "text-accent", glow: "" },
+    invite: { bg: "bg-emerald-500/5", border: "border-emerald-500/20", text: "text-emerald-400", glow: "" },
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="text-muted-foreground">
+      {/* Ambient BG */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[radial-gradient(ellipse_at_center,hsl(38_95%_58%/0.05),transparent_70%)]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-[radial-gradient(ellipse_at_center,hsl(280_60%_42%/0.03),transparent_60%)]" />
+      </div>
+
+      {/* Sticky Header */}
+      <div className="border-b border-border/50 bg-card/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
+          <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground -ml-2">
             <ArrowLeft className="h-4 w-4 mr-1" /> უკან
           </Button>
-          <h1 className="text-lg font-bold text-foreground flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
-            Spin & Win
-          </h1>
-          <div className="w-20" />
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span className="font-bold text-foreground text-sm">Spin & Win</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1">
+            <Star className="h-3 w-3 text-primary" />
+            <span className="text-xs font-bold text-primary">{totalPoints}</span>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
-        {/* Points Progress */}
-        <div className="bg-card border border-border rounded-2xl p-6 space-y-4">
+      <div className="max-w-lg mx-auto px-4 py-6 space-y-6 relative z-10">
+        {/* Progress Card */}
+        <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-5 space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-foreground font-bold text-lg">შენი ქულები</h2>
-            <span className="text-2xl font-extrabold text-primary">{totalPoints}<span className="text-sm text-muted-foreground font-normal">/{MAX_POINTS}</span></span>
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Trophy className="h-4 w-4 text-primary" />
+              </div>
+              <span className="text-sm font-semibold text-foreground">პროგრესი</span>
+            </div>
+            <div className="text-right">
+              <span className="text-xl font-extrabold text-primary">{totalPoints}</span>
+              <span className="text-xs text-muted-foreground">/{MAX_POINTS}</span>
+            </div>
           </div>
-          <Progress value={progressPercent} className="h-4 bg-secondary" />
-          <div className="flex justify-between text-xs text-muted-foreground">
-            <span>0</span>
-            <span className="text-primary font-medium">{totalPoints} ქულა</span>
-            <span>{MAX_POINTS}</span>
+          <div className="relative">
+            <Progress value={progressPercent} className="h-3 bg-secondary/60" />
+            {/* Milestone markers */}
+            <div className="absolute inset-0 flex items-center">
+              {[25, 50, 75].map((mark) => (
+                <div
+                  key={mark}
+                  className="absolute h-3 w-px bg-background/50"
+                  style={{ left: `${mark}%` }}
+                />
+              ))}
+            </div>
           </div>
-          {totalPoints >= maxPointsWithoutReferrals && referralCount < MAX_REFERRALS && (
-            <p className="text-xs text-accent text-center animate-pulse">
-              ⚠️ პროგრეს ბარის შესავსებად მოიწვიე მეგობრები!
-            </p>
-          )}
+          <div className="flex justify-between text-[10px] text-muted-foreground/60 uppercase tracking-wider">
+            <span>დაწყება</span>
+            <span>მიზანი</span>
+          </div>
         </div>
 
-        {/* Wheel Section */}
-        <div className="bg-card border border-border rounded-2xl p-6 flex flex-col items-center gap-6">
-          {!canSpin && countdown && (
-            <div className="flex items-center gap-2 bg-secondary/50 border border-border rounded-xl px-5 py-3">
-              <Clock className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">შემდეგი დატრიალება:</span>
-              <span className="text-lg font-mono font-bold text-primary">{countdown}</span>
-            </div>
-          )}
+        {/* Cooldown Banner */}
+        {!canSpin && countdown && (
+          <div className="bg-card/60 border border-border/40 rounded-xl px-4 py-3 flex items-center justify-center gap-3 animate-fade-in">
+            <Clock className="h-4 w-4 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">შემდეგი სპინი:</span>
+            <span className="text-base font-mono font-bold text-primary tracking-wider">{countdown}</span>
+          </div>
+        )}
 
+        {/* Wheel */}
+        <div className="bg-card/60 backdrop-blur-sm border border-border/40 rounded-2xl p-4 sm:p-6">
           <SpinWheelCanvas
-            canSpin={canSpin}
-            firstSpinDone={firstSpinDone}
+            canSpin={canSpin && !isSpinning}
+            onRequestSpin={handleSpin}
             onSpinComplete={handleSpinComplete}
           />
         </div>
 
-        {/* Invite Friends Section */}
-        <div className="bg-card border border-border rounded-2xl p-6 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Users className="h-5 w-5 text-primary" />
+        {/* Result Card */}
+        {showResult && spinResult && (() => {
+          const style = tierStyles[spinResult.tier] || tierStyles.small;
+          return (
+            <div
+              ref={resultRef}
+              className={`animate-scale-in ${style.bg} border ${style.border} rounded-2xl p-5 text-center shadow-lg ${style.glow}`}
+            >
+              <p className="text-4xl mb-2">{spinResult.visualIcon}</p>
+              <p className={`text-lg font-extrabold ${style.text}`}>{spinResult.message}</p>
+              {spinResult.actualPoints > 0 && (
+                <div className="mt-3 inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 animate-fade-in">
+                  <Zap className="h-3 w-3 text-primary" />
+                  <span className="text-sm font-bold text-primary">+{spinResult.actualPoints} ქულა</span>
+                </div>
+              )}
+              {spinResult.tier === "invite" && (
+                <div className="mt-3">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={copyReferralLink}
+                    className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10"
+                  >
+                    <Copy className="h-3 w-3 mr-1.5" />
+                    მოწვევის ლინკი
+                  </Button>
+                </div>
+              )}
             </div>
-            <div>
-              <h3 className="text-foreground font-bold">მოიწვიე მეგობარი</h3>
-              <p className="text-xs text-muted-foreground">მიიღე {REFERRAL_POINTS} ქულა ყოველი მოწვევისთვის (მაქს. {MAX_REFERRALS})</p>
+          );
+        })()}
+
+        {/* Referral Card */}
+        <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-5 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+              <Users className="h-5 w-5 text-emerald-400" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-foreground font-bold text-sm">მოიწვიე მეგობრები</h3>
+              <p className="text-[11px] text-muted-foreground">
+                +{REFERRAL_POINTS} ქულა ყოველი მოწვევისთვის
+              </p>
+            </div>
+            <div className="text-right">
+              <span className="text-lg font-bold text-emerald-400">{referralCount}</span>
+              <span className="text-xs text-muted-foreground">/{MAX_REFERRALS}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Referral progress dots */}
+          <div className="flex items-center gap-2">
             {[...Array(MAX_REFERRALS)].map((_, i) => (
-              <div
-                key={i}
-                className={`h-3 flex-1 rounded-full transition-colors ${
-                  i < referralCount ? "bg-primary" : "bg-secondary"
-                }`}
-              />
+              <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
+                <div className={`h-2.5 w-full rounded-full transition-all duration-500 ${
+                  i < referralCount
+                    ? "bg-emerald-500 shadow-sm shadow-emerald-500/30"
+                    : "bg-secondary/60"
+                }`} />
+                <span className="text-[9px] text-muted-foreground/50">
+                  {i < referralCount ? "✓" : `+${REFERRAL_POINTS}`}
+                </span>
+              </div>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground text-center">
-            {referralCount}/{MAX_REFERRALS} მეგობარი მოწვეული • +{referralCount * REFERRAL_POINTS} ქულა მიღებული
-          </p>
 
           {referralCount < MAX_REFERRALS && (
             <Button
               onClick={copyReferralLink}
               variant="outline"
-              className="w-full border-primary/30 hover:bg-primary/10 text-foreground"
+              className="w-full border-emerald-500/20 hover:bg-emerald-500/5 hover:border-emerald-500/40 text-foreground transition-all"
             >
-              {copied ? <Check className="h-4 w-4 mr-2 text-emerald-500" /> : <Copy className="h-4 w-4 mr-2" />}
-              {copied ? "დაკოპირდა!" : "დააკოპირე მოწვევის ლინკი"}
+              {copied ? (
+                <><Check className="h-4 w-4 mr-2 text-emerald-400" /> დაკოპირდა!</>
+              ) : (
+                <><Copy className="h-4 w-4 mr-2" /> გააკოპირე მოწვევის ლინკი</>
+              )}
             </Button>
           )}
         </div>
 
         {/* Rules */}
-        <div className="bg-card/50 border border-border rounded-2xl p-5 space-y-2">
-          <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
-            <Gift className="h-4 w-4 text-primary" /> წესები
+        <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-3">
+          <h4 className="text-xs font-bold text-foreground flex items-center gap-2 uppercase tracking-wider">
+            <Gift className="h-3.5 w-3.5 text-primary" /> წესები
           </h4>
-          <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside">
-            <li>ბორბლის დატრიალება შესაძლებელია 24 საათში ერთხელ</li>
-            <li>პირველი დატრიალებისას იღებ 30 ქულას</li>
-            <li>მაქსიმალური ქულა: {MAX_POINTS}</li>
-            <li>მოიწვიე მეგობარი და მიიღე {REFERRAL_POINTS} ქულა (მაქს. {MAX_REFERRALS} მოწვევა)</li>
-            <li>პროგრეს ბარის შესავსებად საჭიროა მეგობრების მოწვევა</li>
+          <ul className="text-[11px] text-muted-foreground/70 space-y-1.5">
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> დატრიალება შესაძლებელია 24 საათში ერთხელ</li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> პირველი სპინი ყოველთვის საჩუქარია</li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> მოიწვიე მეგობრები დამატებითი ბონუსისთვის</li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">•</span> აგროვე ქულები და გაიხსენი ჯილდოები</li>
           </ul>
         </div>
+
+        <div className="h-8" />
       </div>
     </div>
   );

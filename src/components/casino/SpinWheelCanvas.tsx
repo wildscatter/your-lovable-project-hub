@@ -7,43 +7,55 @@ interface Prize {
   color: string;
   textColor: string;
   icon: string;
-  points: number;
   gradient?: string;
-  weight: number;
 }
 
 const PRIZES: Prize[] = [
-  { label: "1 PTS", color: "hsl(230, 18%, 14%)", textColor: "#c8c0b0", icon: "✨", points: 1, gradient: "hsl(230, 18%, 18%)", weight: 30 },
-  { label: "3 PTS", color: "hsl(215, 55%, 42%)", textColor: "#d0e0ff", icon: "🔹", points: 3, gradient: "hsl(215, 55%, 55%)", weight: 25 },
-  { label: "კიდევ სცადე", color: "hsl(4, 75%, 48%)", textColor: "#ffd4d4", icon: "🔄", points: 0, gradient: "hsl(4, 85%, 55%)", weight: 20 },
-  { label: "5 PTS", color: "hsl(38, 70%, 38%)", textColor: "#f5f0e0", icon: "💎", points: 5, gradient: "hsl(38, 80%, 48%)", weight: 12 },
-  { label: "მოიწვიე", color: "hsl(155, 75%, 32%)", textColor: "#d0fff0", icon: "👥", points: 0, gradient: "hsl(155, 75%, 42%)", weight: 5 },
-  { label: "2 PTS", color: "hsl(230, 18%, 18%)", textColor: "#a8a0b0", icon: "⭐", points: 2, gradient: "hsl(230, 18%, 24%)", weight: 28 },
-  { label: "10 PTS", color: "hsl(280, 60%, 42%)", textColor: "#f0d0ff", icon: "👑", points: 10, gradient: "hsl(280, 60%, 55%)", weight: 3 },
-  { label: "7 PTS", color: "hsl(38, 95%, 58%)", textColor: "#1a1a2e", icon: "🎯", points: 7, gradient: "hsl(42, 100%, 65%)", weight: 7 },
+  { label: "🌟 BONUS", color: "hsl(38, 95%, 58%)", textColor: "#1a1a2e", icon: "🌟", gradient: "hsl(42, 100%, 65%)" },
+  { label: "⭐ LUCKY", color: "hsl(230, 18%, 14%)", textColor: "#c8c0b0", icon: "⭐", gradient: "hsl(230, 18%, 18%)" },
+  { label: "🔄 RETRY", color: "hsl(4, 75%, 48%)", textColor: "#ffd4d4", icon: "🔄", gradient: "hsl(4, 85%, 55%)" },
+  { label: "💎 MEGA", color: "hsl(38, 70%, 38%)", textColor: "#f5f0e0", icon: "💎", gradient: "hsl(38, 80%, 48%)" },
+  { label: "👥 INVITE", color: "hsl(155, 75%, 32%)", textColor: "#d0fff0", icon: "👥", gradient: "hsl(155, 75%, 42%)" },
+  { label: "✨ NICE", color: "hsl(230, 18%, 18%)", textColor: "#a8a0b0", icon: "✨", gradient: "hsl(230, 18%, 24%)" },
+  { label: "👑 JACKPOT", color: "hsl(280, 60%, 42%)", textColor: "#f0d0ff", icon: "👑", gradient: "hsl(280, 60%, 55%)" },
+  { label: "🎯 HIT", color: "hsl(215, 55%, 42%)", textColor: "#d0e0ff", icon: "🎯", gradient: "hsl(215, 55%, 55%)" },
 ];
 
-const WHEEL_SIZE = 340;
+const WHEEL_SIZE = 320;
 const CENTER = WHEEL_SIZE / 2;
 const RADIUS = WHEEL_SIZE / 2 - 8;
 const ARC = (2 * Math.PI) / PRIZES.length;
 
-interface SpinWheelCanvasProps {
-  canSpin: boolean;
-  firstSpinDone: boolean;
-  onSpinComplete: (prize: { label: string; points: number }) => void;
+interface SpinResult {
+  visualPrize: string;
+  visualIcon: string;
+  actualPoints: number;
+  totalPoints: number;
+  isFirstSpin: boolean;
+  message: string;
+  tier: string;
+  canSpinAgain: boolean;
+  nextSpinAt: string | null;
+  referralCount: number;
+  maxReferrals: number;
 }
 
-const SpinWheelCanvas = ({ canSpin, firstSpinDone, onSpinComplete }: SpinWheelCanvasProps) => {
+interface SpinWheelCanvasProps {
+  canSpin: boolean;
+  onRequestSpin: () => Promise<SpinResult | null>;
+  onSpinComplete: (result: SpinResult) => void;
+}
+
+const SpinWheelCanvas = ({ canSpin, onRequestSpin, onSpinComplete }: SpinWheelCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [spinning, setSpinning] = useState(false);
-  const [result, setResult] = useState<Prize | null>(null);
-  const [showResult, setShowResult] = useState(false);
   const [rotation, setRotation] = useState(0);
+  const [glowIntensity, setGlowIntensity] = useState(0);
   const animRef = useRef<number>(0);
   const startTimeRef = useRef(0);
   const startRotRef = useRef(0);
   const targetRotRef = useRef(0);
+  const glowRef = useRef<number>(0);
 
   const drawWheel = useCallback((rot: number) => {
     const canvas = canvasRef.current;
@@ -75,129 +87,147 @@ const SpinWheelCanvas = ({ canSpin, firstSpinDone, onSpinComplete }: SpinWheelCa
       ctx.fillStyle = grad;
       ctx.fill();
 
+      // Border
       ctx.strokeStyle = "hsl(230, 20%, 7%)";
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2;
       ctx.stroke();
 
+      // Inner glow line
       ctx.beginPath();
-      ctx.moveTo(0, 0);
       ctx.arc(0, 0, RADIUS - 1, startAngle, endAngle);
-      ctx.strokeStyle = "hsla(0, 0%, 100%, 0.06)";
+      ctx.strokeStyle = "hsla(0, 0%, 100%, 0.05)";
       ctx.lineWidth = 1;
       ctx.stroke();
 
+      // Text + icon
       ctx.save();
       ctx.rotate(startAngle + ARC / 2);
-      ctx.font = "22px serif";
+      ctx.font = "24px serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(prize.icon, RADIUS * 0.72, 0);
 
       ctx.fillStyle = prize.textColor;
-      ctx.font = "bold 11px system-ui, -apple-system, sans-serif";
+      ctx.font = "bold 9px system-ui, -apple-system, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText(prize.label, RADIUS * 0.42, 0);
+      ctx.shadowColor = "rgba(0,0,0,0.5)";
+      ctx.shadowBlur = 2;
+      ctx.fillText(prize.label.split(" ").pop() || "", RADIUS * 0.42, 0);
+      ctx.shadowBlur = 0;
       ctx.restore();
     });
 
-    // Outer dots
-    for (let i = 0; i < 32; i++) {
-      const angle = (i / 32) * Math.PI * 2;
-      const x = Math.cos(angle) * (RADIUS - 6);
-      const y = Math.sin(angle) * (RADIUS - 6);
+    // Outer LED dots
+    for (let i = 0; i < 40; i++) {
+      const angle = (i / 40) * Math.PI * 2;
+      const x = Math.cos(angle) * (RADIUS - 5);
+      const y = Math.sin(angle) * (RADIUS - 5);
       ctx.beginPath();
-      ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-      ctx.fillStyle = i % 2 === 0 ? "hsl(38, 95%, 58%)" : "hsla(0, 0%, 100%, 0.15)";
+      ctx.arc(x, y, 1.8, 0, Math.PI * 2);
+      const isLit = spinning ? (Date.now() / 100 + i) % 4 < 2 : i % 2 === 0;
+      ctx.fillStyle = isLit ? "hsl(38, 95%, 65%)" : "hsla(0, 0%, 100%, 0.1)";
       ctx.fill();
     }
 
     // Center hub
     ctx.beginPath();
-    ctx.arc(0, 0, 32, 0, 2 * Math.PI);
-    const hubGrad = ctx.createRadialGradient(0, 0, 5, 0, 0, 32);
-    hubGrad.addColorStop(0, "hsl(42, 100%, 70%)");
-    hubGrad.addColorStop(1, "hsl(38, 95%, 50%)");
+    ctx.arc(0, 0, 30, 0, 2 * Math.PI);
+    const hubGrad = ctx.createRadialGradient(0, 0, 4, 0, 0, 30);
+    hubGrad.addColorStop(0, "hsl(42, 100%, 72%)");
+    hubGrad.addColorStop(0.6, "hsl(38, 95%, 52%)");
+    hubGrad.addColorStop(1, "hsl(38, 80%, 40%)");
     ctx.fillStyle = hubGrad;
     ctx.fill();
     ctx.strokeStyle = "hsl(230, 20%, 7%)";
     ctx.lineWidth = 3;
     ctx.stroke();
 
+    // Inner circle
     ctx.beginPath();
-    ctx.arc(0, 0, 20, 0, 2 * Math.PI);
-    const innerGrad = ctx.createRadialGradient(0, 0, 2, 0, 0, 20);
-    innerGrad.addColorStop(0, "hsl(230, 18%, 14%)");
-    innerGrad.addColorStop(1, "hsl(230, 20%, 7%)");
+    ctx.arc(0, 0, 18, 0, 2 * Math.PI);
+    const innerGrad = ctx.createRadialGradient(0, 0, 2, 0, 0, 18);
+    innerGrad.addColorStop(0, "hsl(230, 18%, 16%)");
+    innerGrad.addColorStop(1, "hsl(230, 20%, 8%)");
     ctx.fillStyle = innerGrad;
     ctx.fill();
-    ctx.strokeStyle = "hsl(38, 80%, 50%)";
+    ctx.strokeStyle = "hsl(38, 80%, 55%)";
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    ctx.fillStyle = "hsl(38, 95%, 58%)";
-    ctx.font = "bold 12px system-ui";
+    // Center text
+    ctx.fillStyle = "hsl(38, 95%, 60%)";
+    ctx.font = "bold 10px system-ui";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("SPIN", 0, 0);
 
     ctx.restore();
-  }, []);
+  }, [spinning]);
 
   useEffect(() => {
-    setTimeout(() => drawWheel(rotation), 50);
+    requestAnimationFrame(() => drawWheel(rotation));
   }, [drawWheel, rotation]);
 
-  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+  // LED animation during spin
+  useEffect(() => {
+    if (!spinning) return;
+    const animate = () => {
+      drawWheel(rotation);
+      glowRef.current = requestAnimationFrame(animate);
+    };
+    glowRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(glowRef.current);
+  }, [spinning]);
 
-  // Weighted random selection
-  const getWeightedPrizeIndex = useCallback(() => {
-    const totalWeight = PRIZES.reduce((sum, p) => sum + p.weight, 0);
-    let random = Math.random() * totalWeight;
-    for (let i = 0; i < PRIZES.length; i++) {
-      random -= PRIZES[i].weight;
-      if (random <= 0) return i;
-    }
-    return 0;
-  }, []);
+  const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
-  const spin = useCallback(() => {
+  const getVisualIndex = (prize: string): number => {
+    const idx = PRIZES.findIndex((p) => p.label === prize);
+    return idx >= 0 ? idx : Math.floor(Math.random() * PRIZES.length);
+  };
+
+  const spin = useCallback(async () => {
     if (spinning || !canSpin) return;
-    setSpinning(true);
-    setResult(null);
-    setShowResult(false);
 
-    const prizeIndex = getWeightedPrizeIndex();
-    const extraSpins = 5 + Math.random() * 3;
+    const result = await onRequestSpin();
+    if (!result) return;
+
+    setSpinning(true);
+    setGlowIntensity(1);
+
+    const prizeIndex = getVisualIndex(result.visualPrize);
+    const extraSpins = 6 + Math.random() * 3;
     const prizeAngle = (2 * Math.PI) - (prizeIndex * ARC + ARC / 2);
     const totalRotation = extraSpins * 2 * Math.PI + prizeAngle;
 
     startRotRef.current = rotation;
     targetRotRef.current = rotation + totalRotation;
     startTimeRef.current = performance.now();
-    const duration = 4500 + Math.random() * 1500;
+    const duration = 5000 + Math.random() * 1500;
 
     const animate = (now: number) => {
       const elapsed = now - startTimeRef.current;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = easeOutCubic(progress);
+      const eased = easeOutQuart(progress);
       const currentRot = startRotRef.current + (targetRotRef.current - startRotRef.current) * eased;
 
       setRotation(currentRot);
       drawWheel(currentRot);
 
+      // Slow-down tick sound simulation via glow
+      setGlowIntensity(1 - eased * 0.7);
+
       if (progress < 1) {
         animRef.current = requestAnimationFrame(animate);
       } else {
         setSpinning(false);
-        const wonPrize = PRIZES[prizeIndex];
-        setResult(wonPrize);
-        setTimeout(() => setShowResult(true), 300);
-        onSpinComplete({ label: wonPrize.label, points: wonPrize.points });
+        setGlowIntensity(0);
+        onSpinComplete(result);
       }
     };
 
     animRef.current = requestAnimationFrame(animate);
-  }, [spinning, canSpin, rotation, drawWheel, getWeightedPrizeIndex, onSpinComplete]);
+  }, [spinning, canSpin, rotation, drawWheel, onRequestSpin, onSpinComplete]);
 
   useEffect(() => {
     return () => {
@@ -205,54 +235,36 @@ const SpinWheelCanvas = ({ canSpin, firstSpinDone, onSpinComplete }: SpinWheelCa
     };
   }, []);
 
-  const getResultMessage = (prize: Prize) => {
-    if (!firstSpinDone) {
-      return { icon: "🎁", title: "მოგესალმებით!", subtitle: "პირველი დატრიალებისას მიიღე 30 ქულა!", color: "text-primary" };
-    }
-    if (prize.label === "მოიწვიე") {
-      return { icon: "👥", title: "მოიწვიე მეგობარი!", subtitle: "გააზიარე ლინკი და მიიღე 5 ქულა!", color: "text-emerald" };
-    }
-    if (prize.points === 0) {
-      return { icon: "😅", title: "კიდევ სცადე!", subtitle: "იღბალი შემდეგ ჯერზე გელოდება!", color: "text-accent" };
-    }
-    if (prize.points >= 7) {
-      return { icon: "🔥", title: `მოიგე ${prize.points} ქულა!`, subtitle: "შესანიშნავი შედეგი!", color: "text-primary" };
-    }
-    return { icon: "✅", title: `მოიგე ${prize.points} ქულა!`, subtitle: "ქულები დაემატა ბალანსზე.", color: "text-foreground" };
-  };
-
   return (
     <div className="flex flex-col items-center gap-5">
-      {/* Wheel */}
+      {/* Wheel container */}
       <div className="relative">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-20">
+        {/* Pointer */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1.5 z-20">
           <div
             className="w-0 h-0"
             style={{
-              borderLeft: "14px solid transparent",
-              borderRight: "14px solid transparent",
-              borderTop: "28px solid hsl(38, 95%, 58%)",
-              filter: "drop-shadow(0 2px 8px hsl(38 95% 58% / 0.5))",
+              borderLeft: "13px solid transparent",
+              borderRight: "13px solid transparent",
+              borderTop: "26px solid hsl(38, 95%, 58%)",
+              filter: `drop-shadow(0 2px 10px hsl(38 95% 58% / ${0.4 + glowIntensity * 0.4}))`,
+              transition: "filter 0.1s",
             }}
           />
         </div>
 
+        {/* Glow ring */}
         <div
-          className="absolute inset-0 rounded-full"
+          className="absolute -inset-4 rounded-full transition-all duration-300"
           style={{
             boxShadow: spinning
-              ? "0 0 40px hsl(38 95% 58% / 0.35), 0 0 80px hsl(38 95% 58% / 0.12)"
-              : "0 0 20px hsl(38 95% 58% / 0.15)",
-            transition: "box-shadow 0.5s ease",
+              ? `0 0 ${30 + glowIntensity * 30}px hsl(38 95% 58% / ${0.2 + glowIntensity * 0.2}), 0 0 ${60 + glowIntensity * 40}px hsl(38 95% 58% / 0.08)`
+              : "0 0 15px hsl(38 95% 58% / 0.1)",
           }}
         />
 
-        <div
-          className="absolute -inset-3 rounded-full border-[3px] border-primary/20"
-          style={{
-            background: "conic-gradient(from 0deg, hsl(38 95% 58% / 0.1), transparent 10%, hsl(38 95% 58% / 0.1) 12.5%, transparent 22.5%, hsl(38 95% 58% / 0.1) 25%, transparent 35%, hsl(38 95% 58% / 0.1) 37.5%, transparent 47.5%, hsl(38 95% 58% / 0.1) 50%, transparent 60%, hsl(38 95% 58% / 0.1) 62.5%, transparent 72.5%, hsl(38 95% 58% / 0.1) 75%, transparent 85%, hsl(38 95% 58% / 0.1) 87.5%, transparent 97.5%)",
-          }}
-        />
+        {/* Decorative ring */}
+        <div className="absolute -inset-3 rounded-full border-2 border-primary/15" />
 
         <canvas
           ref={canvasRef}
@@ -266,32 +278,16 @@ const SpinWheelCanvas = ({ canSpin, firstSpinDone, onSpinComplete }: SpinWheelCa
         size="lg"
         onClick={spin}
         disabled={spinning || !canSpin}
-        className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-lg px-12 py-7 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:animate-none w-full max-w-[280px]"
+        className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-base px-10 py-6 rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/20 disabled:opacity-40 disabled:animate-none w-full max-w-[260px]"
       >
         {spinning ? (
-          <RotateCcw className="h-5 w-5 mr-2 animate-spin" />
+          <><RotateCcw className="h-5 w-5 mr-2 animate-spin" /> ტრიალებს...</>
+        ) : !canSpin ? (
+          <><RotateCcw className="h-5 w-5 mr-2" /> დაელოდე</>
         ) : (
-          <Sparkles className="h-5 w-5 mr-2" />
+          <><Sparkles className="h-5 w-5 mr-2" /> დაატრიალე</>
         )}
-        {spinning ? "ტრიალებს..." : !canSpin ? "დაელოდე" : "დაატრიალე"}
       </Button>
-
-      {/* Result */}
-      {showResult && result && (() => {
-        const msg = getResultMessage(result);
-        return (
-          <div className="animate-scale-in text-center bg-card border border-border rounded-2xl px-6 py-5 w-full max-w-[320px]">
-            <p className="text-3xl mb-2">{msg.icon}</p>
-            <p className={`text-xl font-extrabold ${msg.color}`}>{msg.title}</p>
-            <p className="text-xs text-muted-foreground mt-2">{msg.subtitle}</p>
-            {(result.points > 0 || !firstSpinDone) && (
-              <div className="mt-3 inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5">
-                <span className="text-xs font-bold text-primary">+{firstSpinDone ? result.points : 30} ქულა</span>
-              </div>
-            )}
-          </div>
-        );
-      })()}
     </div>
   );
 };

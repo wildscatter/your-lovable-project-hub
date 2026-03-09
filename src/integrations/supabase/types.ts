@@ -14,6 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
+      bot_users: {
+        Row: {
+          first_name: string | null
+          id: string
+          joined_at: string
+          telegram_id: number
+          username: string | null
+          welcome_variant: number
+        }
+        Insert: {
+          first_name?: string | null
+          id?: string
+          joined_at?: string
+          telegram_id: number
+          username?: string | null
+          welcome_variant?: number
+        }
+        Update: {
+          first_name?: string | null
+          id?: string
+          joined_at?: string
+          telegram_id?: number
+          username?: string | null
+          welcome_variant?: number
+        }
+        Relationships: []
+      }
+      casino_offers: {
+        Row: {
+          affiliate_link: string
+          banner_url: string | null
+          bonus_text: string
+          casino_name: string
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          priority: number
+          updated_at: string
+        }
+        Insert: {
+          affiliate_link: string
+          banner_url?: string | null
+          bonus_text: string
+          casino_name: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          priority?: number
+          updated_at?: string
+        }
+        Update: {
+          affiliate_link?: string
+          banner_url?: string | null
+          bonus_text?: string
+          casino_name?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          priority?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      casinos: {
+        Row: {
+          affiliate_link: string
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          is_top: boolean
+          logo_url: string | null
+          name: string
+          rating: number
+        }
+        Insert: {
+          affiliate_link: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          is_top?: boolean
+          logo_url?: string | null
+          name: string
+          rating?: number
+        }
+        Update: {
+          affiliate_link?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          is_top?: boolean
+          logo_url?: string | null
+          name?: string
+          rating?: number
+        }
+        Relationships: []
+      }
       referrals: {
         Row: {
           created_at: string

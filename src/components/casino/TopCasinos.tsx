@@ -70,7 +70,7 @@ const casinos = [
     rating: 4.6,
     benefit: "Welcome Bitcoin Bonus",
     tag: "Crypto Pioneer",
-    icon: Zap,
+    icon: Rocket,
     brandColor: "from-cyan-400 to-blue-600",
     brandBg: "bg-cyan-500/10 border-cyan-500/30",
     brandText: "text-cyan-400",

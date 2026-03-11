@@ -82,7 +82,7 @@ const casinos = [
     rating: 4.6,
     benefit: "BFG Staking & Daily Bonuses",
     tag: "Staking Rewards",
-    icon: Trophy,
+    icon: Dice5,
     brandColor: "from-orange-400 to-red-600",
     brandBg: "bg-orange-500/10 border-orange-500/30",
     brandText: "text-orange-400",

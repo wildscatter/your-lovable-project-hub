@@ -46,7 +46,7 @@ const casinos = [
     rating: 4.8,
     benefit: "120% up to $1,000 + 100 Free Spins",
     tag: "Crypto Friendly",
-    icon: Zap,
+    icon: Gem,
     brandColor: "from-violet-400 to-purple-600",
     brandBg: "bg-violet-500/10 border-violet-500/30",
     brandText: "text-violet-400",

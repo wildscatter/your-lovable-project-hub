@@ -8,75 +8,75 @@ const corsHeaders = {
 
 const TELEGRAM_API = "https://api.telegram.org/bot";
 
-// ──── Georgian Messages ────
+// ──── English Messages ────
 
 const WELCOME_VARIANTS = [
-  `🎰 *გამარჯობა და კეთილი იყოს შენი მობრძანება Wild Scatter-ზე!* 🎰
+  `🎰 *Welcome to Wild Scatter!* 🎰
 
-🔥 საუკეთესო კრიპტო კაზინო ბონუსები გელოდება!
-💎 ექსკლუზიური შეთავაზებები და VIP პრივილეგიები
+🔥 The best crypto casino bonuses are waiting for you!
+💎 Exclusive offers and VIP privileges
 
-👇 დააჭირე ქვემოთ და მიიღე შენი ბონუსი!
+👇 Click below to claim your bonus!
 
-18+ | ითამაშე პასუხისმგებლობით`,
+18+ | Play Responsibly`,
 
-  `🌟 *მოგესალმებით Wild Scatter-ის ოჯახში!* 🌟
+  `🌟 *Welcome to the Wild Scatter family!* 🌟
 
-🎁 მზად ხარ საუკეთესო კაზინო ბონუსებისთვის?
-💰 რეგისტრაცია → დეპოზიტი → ბონუსი ავტომატურად!
+🎁 Ready for the best casino bonuses?
+💰 Register → Deposit → Bonus automatically!
 
-👇 აირჩიე შენი კაზინო და დაიწყე!
+👇 Choose your casino and get started!
 
-18+ | ითამაშე პასუხისმგებლობით`,
+18+ | Play Responsibly`,
 
-  `🚀 *კეთილი იყოს შენი მობრძანება! Wild Scatter გაგაცნობთ საუკეთესო კრიპტო კაზინოებს!* 🚀
+  `🚀 *Welcome! Wild Scatter brings you the best crypto casinos!* 🚀
 
-🎰 ვერიფიცირებული კაზინოები
-🎁 ექსკლუზიური ბონუსები
-💎 VIP შეთავაზებები
+🎰 Verified casinos
+🎁 Exclusive bonuses
+💎 VIP offers
 
-👇 დაიწყე ახლავე!
+👇 Start now!
 
-18+ | ითამაშე პასუხისმგებლობით`,
+18+ | Play Responsibly`,
 ];
 
 const MAIN_MENU_TEXT = `🎰 *Wild Scatter Bot* 🎰
 
-აირჩიე რა გაინტერესებს:`;
+Choose what interests you:`;
 
-const CONTACT_TEXT = `📩 *კონტაქტი:*
+const CONTACT_TEXT = `📩 *Contact Us:*
 
-• *ვებსაიტი:* wildscatter.com
-• *ელ-ფოსტა:* contact@wildscatter.com
-• *ტელეგრამი:* @WildScatter
+• *Website:* wildscatter.com
+• *Email:* contact@wildscatter.com
+• *Telegram:* @WildScatter
 
-24/7 მხარდაჭერა ხელმისაწვდომია!`;
+24/7 support available!`;
 
-const HELP_TEXT = `❓ *დახმარება:*
+const HELP_TEXT = `❓ *Help:*
 
-დამიწერე ნებისმიერი შეკითხვა კაზინოების, ბონუსების ან სლოტების შესახებ და დაგეხმარები!
+Ask me any question about casinos, bonuses or slots and I'll help you!
 
-ან გამოიყენე მენიუ:
-🎁 შეთავაზებები — აქტიური ბონუსები
-⭐ საუკეთესო კაზინოები — ტოპ კაზინოების სია
-🔗 რეფერალური ლინკი — შენი პერსონალური ლინკი
-💬 კონტაქტი — საკონტაქტო ინფორმაცია`;
+Or use the menu:
+🎁 Offers — Active bonuses
+⭐ Top Casinos — Best casinos list
+🔗 Referral Link — Your personal link
+💬 Contact — Contact info`;
 
-const AI_SYSTEM_PROMPT = `შენ ხარ Wild Scatter-ის კაზინო აფილიეიტ ასისტენტი. დაეხმარე მომხმარებლებს კაზინოების, ბონუსების და სლოტების შესახებ ქართულად. ყოველთვის ახსენე პასუხისმგებლიანი თამაში.
+const AI_SYSTEM_PROMPT = `You are Wild Scatter's casino affiliate assistant. Help users with questions about casinos, bonuses and slots. Always mention responsible gambling.
 
-ძირითადი ინფორმაცია:
-- Wild Scatter არის კრიპტო კაზინო მიმოხილვის და აფილიეიტ საიტი
-- ჩვენ ვთავაზობთ ვერიფიცირებულ კაზინოებს ექსკლუზიური ბონუსებით
-- საიტი: wildscatter.com
-- მხარდაჭერა 24/7
-- 18+ | ითამაშე პასუხისმგებლობით
+Key info:
+- Wild Scatter is a crypto casino review and affiliate site
+- We offer verified casinos with exclusive bonuses
+- Website: wildscatter.com
+- 24/7 support
+- 18+ | Play Responsibly
 
-წესები:
-- პასუხი გასცე მხოლოდ ქართულად
-- იყავი მეგობრული და კონკრეტული
-- ყოველთვის ურჩიე wildscatter.com-ის მონახულება
-- თუ კითხვა არ ეხება კაზინოებს, თავაზიანად გადაამისამართე
-- პასუხები 300 სიტყვამდე`;
+Rules:
+- Reply in the same language the user writes in
+- Be friendly and specific
+- Always recommend visiting wildscatter.com
+- If the question isn't about casinos, politely redirect
+- Keep answers under 300 words`;
 
 // ──── Helpers ────
 
@@ -90,9 +90,9 @@ function getSupabaseClient() {
 function getMainKeyboard() {
   return {
     keyboard: [
-      [{ text: "🎁 შეთავაზებები" }, { text: "⭐ საუკეთესო კაზინოები" }],
-      [{ text: "🔗 რეფერალური ლინკი" }, { text: "💬 კონტაქტი" }],
-      [{ text: "❓ დახმარება" }],
+      [{ text: "🎁 Offers" }, { text: "⭐ Top Casinos" }],
+      [{ text: "🔗 Referral Link" }, { text: "💬 Contact" }],
+      [{ text: "❓ Help" }],
     ],
     resize_keyboard: true,
     one_time_keyboard: false,
@@ -149,7 +149,7 @@ async function getTopCasinos(supabase: any) {
 
 async function askAI(question: string): Promise<string> {
   const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-  if (!LOVABLE_API_KEY) return "სამწუხაროდ, AI ასისტენტი დროებით მიუწვდომელია. სცადე მოგვიანებით!";
+  if (!LOVABLE_API_KEY) return "Sorry, the AI assistant is temporarily unavailable. Please try again later!";
 
   try {
     const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -169,14 +169,14 @@ async function askAI(question: string): Promise<string> {
 
     if (!resp.ok) {
       console.error("AI error:", resp.status);
-      return "სამწუხაროდ, ვერ დავამუშავე შენი შეკითხვა. სცადე მენიუდან ან ეწვიე wildscatter.com-ს!";
+      return "Sorry, I couldn't process your question. Try the menu or visit wildscatter.com!";
     }
 
     const data = await resp.json();
-    return data.choices?.[0]?.message?.content || "ვერ დავამუშავე პასუხი. სცადე თავიდან!";
+    return data.choices?.[0]?.message?.content || "Couldn't process the answer. Please try again!";
   } catch (e) {
     console.error("AI fetch error:", e);
-    return "დროებითი შეფერხება. სცადე მოგვიანებით!";
+    return "Temporary issue. Please try again later!";
   }
 }
 
@@ -200,27 +200,20 @@ async function handleNewMember(token: string, message: any, supabase: any) {
     const inlineButtons = {
       inline_keyboard: [
         [
-          { text: "🎁 მიიღე ბონუსი", url: affiliateLink },
-          { text: "🌐 საიტი", url: siteUrl },
+          { text: "🎁 Claim Bonus", url: affiliateLink },
+          { text: "🌐 Website", url: siteUrl },
         ],
       ],
     };
 
-    // Send in group
     if (bannerUrl) {
       await sendPhoto(token, chatId, bannerUrl, welcomeText, inlineButtons);
     } else {
       await sendMessage(token, chatId, welcomeText, inlineButtons);
     }
 
-    // Try DM
     try {
-      await sendMessage(
-        token,
-        member.id,
-        `👋 გამარჯობა ${member.first_name || ""}!\n\n${welcomeText}`,
-        inlineButtons
-      );
+      await sendMessage(token, member.id, `👋 Hello ${member.first_name || ""}!\n\n${welcomeText}`, inlineButtons);
     } catch {
       // User may not have started bot — ignore
     }
@@ -231,20 +224,19 @@ async function handleOffers(token: string, chatId: number, supabase: any) {
   const offers = await getActiveOffers(supabase);
 
   if (offers.length === 0) {
-    await sendMessage(token, chatId, "ამჟამად აქტიური შეთავაზებები არ არის. მალე დაბრუნდი! 🎰", getMainKeyboard());
+    await sendMessage(token, chatId, "No active offers at the moment. Check back soon! 🎰", getMainKeyboard());
     return;
   }
 
-  let text = "🎁 *აქტიური შეთავაზებები:*\n\n";
+  let text = "🎁 *Active Offers:*\n\n";
   const buttons: any[] = [];
 
   for (const offer of offers) {
     text += `🎰 *${offer.casino_name}*\n${offer.bonus_text}\n${offer.description ? offer.description + "\n" : ""}\n`;
-    buttons.push([{ text: `🎁 ${offer.casino_name} — მიიღე ბონუსი`, url: offer.affiliate_link }]);
+    buttons.push([{ text: `🎁 ${offer.casino_name} — Claim Bonus`, url: offer.affiliate_link }]);
   }
 
-  text += "\n18+ | ითამაშე პასუხისმგებლობით";
-
+  text += "\n18+ | Play Responsibly";
   await sendMessage(token, chatId, text, { inline_keyboard: buttons });
 }
 
@@ -252,11 +244,11 @@ async function handleTopCasinos(token: string, chatId: number, supabase: any) {
   const casinos = await getTopCasinos(supabase);
 
   if (casinos.length === 0) {
-    await sendMessage(token, chatId, "კაზინოების სია მალე დაემატება! 🎰", getMainKeyboard());
+    await sendMessage(token, chatId, "Casino list coming soon! 🎰", getMainKeyboard());
     return;
   }
 
-  let text = "⭐ *საუკეთესო კაზინოები:*\n\n";
+  let text = "⭐ *Top Casinos:*\n\n";
   const buttons: any[] = [];
 
   for (let i = 0; i < casinos.length; i++) {
@@ -265,8 +257,7 @@ async function handleTopCasinos(token: string, chatId: number, supabase: any) {
     buttons.push([{ text: `🎰 ${c.name}`, url: c.affiliate_link }]);
   }
 
-  text += "\n18+ | ითამაშე პასუხისმგებლობით";
-
+  text += "\n18+ | Play Responsibly";
   await sendMessage(token, chatId, text, { inline_keyboard: buttons });
 }
 
@@ -274,13 +265,13 @@ function handleReferralLink(token: string, chatId: number, telegramId: number) {
   const siteUrl = Deno.env.get("SITE_URL") || "https://wildscatter.com";
   const referralLink = `${siteUrl}?ref=tg_${telegramId}`;
 
-  const text = `🔗 *შენი რეფერალური ლინკი:*
+  const text = `🔗 *Your Referral Link:*
 
 \`${referralLink}\`
 
-გაუზიარე მეგობრებს და მიიღე ბონუსები! 🎁
+Share with friends and earn bonuses! 🎁
 
-18+ | ითამაშე პასუხისმგებლობით`;
+18+ | Play Responsibly`;
 
   return sendMessage(token, chatId, text, getMainKeyboard());
 }
@@ -332,23 +323,22 @@ serve(async (req) => {
 
     // Menu buttons
     switch (text) {
-      case "🎁 შეთავაზებები":
+      case "🎁 Offers":
         await handleOffers(token, chatId, supabase);
         break;
-      case "⭐ საუკეთესო კაზინოები":
+      case "⭐ Top Casinos":
         await handleTopCasinos(token, chatId, supabase);
         break;
-      case "🔗 რეფერალური ლინკი":
+      case "🔗 Referral Link":
         await handleReferralLink(token, chatId, telegramId);
         break;
-      case "💬 კონტაქტი":
+      case "💬 Contact":
         await sendMessage(token, chatId, CONTACT_TEXT, keyboard);
         break;
-      case "❓ დახმარება":
+      case "❓ Help":
         await sendMessage(token, chatId, HELP_TEXT, keyboard);
         break;
       default: {
-        // Free text → AI
         const aiReply = await askAI(text);
         await sendMessage(token, chatId, aiReply, keyboard);
         break;

@@ -1,4 +1,4 @@
-import { Star, Crown, Sparkles, Trophy, Zap, Clock, Flame } from "lucide-react";
+import { Star, Crown, Sparkles, Trophy, Zap, Clock, Flame, Gem, Rocket, Dice5, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -46,7 +46,7 @@ const casinos = [
     rating: 4.8,
     benefit: "120% up to $1,000 + 100 Free Spins",
     tag: "Crypto Friendly",
-    icon: Zap,
+    icon: Gem,
     brandColor: "from-violet-400 to-purple-600",
     brandBg: "bg-violet-500/10 border-violet-500/30",
     brandText: "text-violet-400",
@@ -70,7 +70,7 @@ const casinos = [
     rating: 4.6,
     benefit: "Welcome Bitcoin Bonus",
     tag: "Crypto Pioneer",
-    icon: Zap,
+    icon: Rocket,
     brandColor: "from-cyan-400 to-blue-600",
     brandBg: "bg-cyan-500/10 border-cyan-500/30",
     brandText: "text-cyan-400",
@@ -82,7 +82,7 @@ const casinos = [
     rating: 4.6,
     benefit: "BFG Staking & Daily Bonuses",
     tag: "Staking Rewards",
-    icon: Trophy,
+    icon: Dice5,
     brandColor: "from-orange-400 to-red-600",
     brandBg: "bg-orange-500/10 border-orange-500/30",
     brandText: "text-orange-400",
@@ -94,7 +94,7 @@ const casinos = [
     rating: 4.7,
     benefit: "Instant Rakeback & VIP Perks",
     tag: "Hot Pick",
-    icon: Sparkles,
+    icon: Shuffle,
     brandColor: "from-pink-400 to-fuchsia-600",
     brandBg: "bg-pink-500/10 border-pink-500/30",
     brandText: "text-pink-400",

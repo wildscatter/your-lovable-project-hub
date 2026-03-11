@@ -94,7 +94,7 @@ const casinos = [
     rating: 4.7,
     benefit: "Instant Rakeback & VIP Perks",
     tag: "Hot Pick",
-    icon: Sparkles,
+    icon: Shuffle,
     brandColor: "from-pink-400 to-fuchsia-600",
     brandBg: "bg-pink-500/10 border-pink-500/30",
     brandText: "text-pink-400",

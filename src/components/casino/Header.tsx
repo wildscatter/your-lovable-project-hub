@@ -140,7 +140,7 @@ const Header = () => {
           </button>
           <button
             onClick={() => openChat(true)}
-            className="relative inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-xs px-4 py-2.5 transition-all duration-300 min-h-[40px] active:scale-95 shadow-md shadow-primary/20"
+            className="relative inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-xs px-4 py-2.5 transition-all duration-300 min-h-[44px] active:scale-95 shadow-md shadow-primary/20"
             aria-label="Support Chat"
           >
             <MessageCircle className="h-4 w-4" />

@@ -132,7 +132,7 @@ const Header = () => {
           {/* Mobile spin icon */}
           <button
             onClick={() => navigate("/spin")}
-            className="relative inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/5 border border-primary/20 active:scale-95 transition-all duration-200 cursor-pointer min-h-[40px]"
+            className="relative inline-flex items-center justify-center h-11 w-11 rounded-xl bg-primary/5 border border-primary/20 active:scale-95 transition-all duration-200 cursor-pointer min-h-[44px] min-w-[44px]"
             aria-label="Spin & Win"
           >
             <MiniWheel />

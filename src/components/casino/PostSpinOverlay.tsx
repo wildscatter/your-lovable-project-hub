@@ -116,7 +116,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
               <span className="text-xs text-primary font-bold animate-pulse">:</span>
               <span className="text-base font-extrabold text-foreground">{pad(countdown.s)}</span>
             </div>
-            <span className="text-[8px] text-muted-foreground/60 uppercase tracking-widest mt-1">
+            <span className="text-[8px] text-muted-foreground uppercase tracking-widest mt-1">
               until next spin
             </span>
           </div>

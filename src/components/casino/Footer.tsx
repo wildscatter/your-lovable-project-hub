@@ -36,7 +36,7 @@ const Footer = () => (
         <span className="text-xs text-muted-foreground">Gamble Responsibly</span>
       </div>
 
-      <p className="text-xs text-muted-foreground/70 max-w-lg mx-auto leading-relaxed px-4">
+      <p className="text-xs text-muted-foreground max-w-lg mx-auto leading-relaxed px-4">
         Independent affiliate review site. No real-money gambling or payments happen on this website.
         Offers are provided by third-party operators. 18+ | Gamble responsibly.
       </p>

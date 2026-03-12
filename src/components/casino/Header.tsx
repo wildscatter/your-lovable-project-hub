@@ -73,7 +73,7 @@ const Header = () => {
               <button
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
-                className="relative text-sm font-medium text-muted-foreground hover:text-foreground px-4 py-2 rounded-lg hover:bg-secondary/60 transition-all duration-200 bg-transparent border-none cursor-pointer min-h-[36px]"
+                className="relative text-sm font-medium text-muted-foreground hover:text-foreground px-4 py-2 rounded-lg hover:bg-secondary/60 transition-all duration-200 bg-transparent border-none cursor-pointer min-h-[44px] flex items-center"
               >
                 {link.label}
               </button>

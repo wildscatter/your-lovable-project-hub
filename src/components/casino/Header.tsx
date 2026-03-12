@@ -108,7 +108,8 @@ const Header = () => {
                 variant="ghost"
                 size="icon"
                 onClick={signOut}
-                className="text-muted-foreground hover:text-accent hover:bg-accent/10 rounded-xl h-10 w-10 min-h-[40px] transition-all duration-200"
+                aria-label="Sign out"
+                className="text-muted-foreground hover:text-accent hover:bg-accent/10 rounded-xl h-11 w-11 min-h-[44px] min-w-[44px] transition-all duration-200"
               >
                 <LogOut className="h-4 w-4" />
               </Button>

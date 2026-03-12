@@ -29,8 +29,14 @@ const renderMarkdown = (content: string) => {
     .join("");
 };
 
+const linkify = (text: string) =>
+  text.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary font-semibold hover:underline">$1</a>'
+  );
+
 const boldify = (text: string) =>
-  text.replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>');
+  linkify(text.replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>'));
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();

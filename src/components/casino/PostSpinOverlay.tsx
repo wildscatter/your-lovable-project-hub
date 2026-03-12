@@ -139,7 +139,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
           <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
         </Button>
 
-        <p className="text-[10px] text-muted-foreground/50 text-center">
+        <p className="text-[10px] text-muted-foreground text-center">
           Discover the best casino offers while you wait
         </p>
       </div>

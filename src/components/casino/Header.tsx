@@ -149,6 +149,7 @@ const Header = () => {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-foreground h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl hover:bg-secondary/40">
                 <Menu className="h-5 w-5" />
+                <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="bg-background/95 backdrop-blur-2xl border-border/50 w-[85vw] max-w-[320px] p-0">

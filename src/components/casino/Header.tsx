@@ -60,7 +60,7 @@ const Header = () => {
           {/* Spin wheel mini icon */}
           <button
             onClick={() => navigate("/spin")}
-            className="relative group inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/35 transition-all duration-300 cursor-pointer min-h-[40px]"
+            className="relative group inline-flex items-center justify-center h-11 w-11 rounded-xl bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/35 transition-all duration-300 cursor-pointer min-h-[44px] min-w-[44px]"
             aria-label="Spin & Win"
             title="Spin & Win"
           >
@@ -73,7 +73,7 @@ const Header = () => {
               <button
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
-                className="relative text-sm font-medium text-muted-foreground hover:text-foreground px-4 py-2 rounded-lg hover:bg-secondary/60 transition-all duration-200 bg-transparent border-none cursor-pointer min-h-[36px]"
+                className="relative text-sm font-medium text-muted-foreground hover:text-foreground px-4 py-2 rounded-lg hover:bg-secondary/60 transition-all duration-200 bg-transparent border-none cursor-pointer min-h-[44px] flex items-center"
               >
                 {link.label}
               </button>
@@ -108,7 +108,8 @@ const Header = () => {
                 variant="ghost"
                 size="icon"
                 onClick={signOut}
-                className="text-muted-foreground hover:text-accent hover:bg-accent/10 rounded-xl h-10 w-10 min-h-[40px] transition-all duration-200"
+                aria-label="Sign out"
+                className="text-muted-foreground hover:text-accent hover:bg-accent/10 rounded-xl h-11 w-11 min-h-[44px] min-w-[44px] transition-all duration-200"
               >
                 <LogOut className="h-4 w-4" />
               </Button>
@@ -131,7 +132,7 @@ const Header = () => {
           {/* Mobile spin icon */}
           <button
             onClick={() => navigate("/spin")}
-            className="relative inline-flex items-center justify-center h-10 w-10 rounded-xl bg-primary/5 border border-primary/20 active:scale-95 transition-all duration-200 cursor-pointer min-h-[40px]"
+            className="relative inline-flex items-center justify-center h-11 w-11 rounded-xl bg-primary/5 border border-primary/20 active:scale-95 transition-all duration-200 cursor-pointer min-h-[44px] min-w-[44px]"
             aria-label="Spin & Win"
           >
             <MiniWheel />
@@ -139,7 +140,7 @@ const Header = () => {
           </button>
           <button
             onClick={() => openChat(true)}
-            className="relative inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-xs px-4 py-2.5 transition-all duration-300 min-h-[40px] active:scale-95 shadow-md shadow-primary/20"
+            className="relative inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-xs px-4 py-2.5 transition-all duration-300 min-h-[44px] active:scale-95 shadow-md shadow-primary/20"
             aria-label="Support Chat"
           >
             <MessageCircle className="h-4 w-4" />
@@ -149,6 +150,7 @@ const Header = () => {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="text-foreground h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl hover:bg-secondary/40">
                 <Menu className="h-5 w-5" />
+                <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="bg-background/95 backdrop-blur-2xl border-border/50 w-[85vw] max-w-[320px] p-0">

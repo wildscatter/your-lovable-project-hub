@@ -19,14 +19,14 @@ const TrustBanner = () => (
               <ShieldCheck className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
             </div>
             <span className="text-sm font-bold text-foreground">Independent & Trusted</span>
-            <span className="text-xs text-muted-foreground leading-relaxed">Unbiased reviews since day one</span>
+            <span className="text-xs text-foreground/70 leading-relaxed">Unbiased reviews since day one</span>
           </div>
           <div className="flex flex-col items-center text-center gap-3">
             <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-accent/10 flex items-center justify-center">
               <Clock className="h-6 w-6 sm:h-7 sm:w-7 text-accent" />
             </div>
             <span className="text-sm font-bold text-foreground">24/7 Support</span>
-            <span className="text-xs text-muted-foreground leading-relaxed">Available around the clock</span>
+            <span className="text-xs text-foreground/70 leading-relaxed">Available around the clock</span>
           </div>
           <div className="flex flex-col items-center text-center gap-3">
             <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-primary/10 flex items-center justify-center">

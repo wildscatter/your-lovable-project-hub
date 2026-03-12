@@ -116,7 +116,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
               <span className="text-xs text-primary font-bold animate-pulse">:</span>
               <span className="text-base font-extrabold text-foreground">{pad(countdown.s)}</span>
             </div>
-            <span className="text-[8px] text-muted-foreground/60 uppercase tracking-widest mt-1">
+            <span className="text-[8px] text-muted-foreground uppercase tracking-widest mt-1">
               until next spin
             </span>
           </div>
@@ -139,7 +139,7 @@ const PostSpinOverlay = ({ nextSpinTime, visible }: PostSpinOverlayProps) => {
           <ChevronRight className="h-4 w-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
         </Button>
 
-        <p className="text-[10px] text-muted-foreground/50 text-center">
+        <p className="text-[10px] text-muted-foreground text-center">
           Discover the best casino offers while you wait
         </p>
       </div>

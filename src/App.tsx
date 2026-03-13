@@ -14,6 +14,9 @@ import Auth from "./pages/Auth";
 import SpinWheelPage from "./pages/SpinWheelPage";
 import ResetPassword from "./pages/ResetPassword";
 import EmailSent from "./pages/EmailSent";
+import ResponsibleGamblingPage from "./pages/ResponsibleGambling";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +39,9 @@ const App = () => (
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/responsible-gambling" element={<ResponsibleGamblingPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<Terms />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

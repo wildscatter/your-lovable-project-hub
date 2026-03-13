@@ -15,7 +15,14 @@ const Footer = () => (
         <a href="#how-we-rate" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">How We Rate</a>
         <a href="#safe-play" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">Safe Play</a>
         <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">About Us</Link>
+        <Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">Blog</Link>
         <Link to="/support" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">Support 24/7</Link>
+      </nav>
+
+      <nav className="flex flex-wrap justify-center gap-x-4 sm:gap-x-6 gap-y-2 text-xs">
+        <Link to="/responsible-gambling" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">Responsible Gambling</Link>
+        <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">Privacy Policy</Link>
+        <Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors py-2 px-1 min-h-[44px] flex items-center">Terms & Conditions</Link>
       </nav>
 
       <div className="flex items-center justify-center">
@@ -37,8 +44,9 @@ const Footer = () => (
       </div>
 
       <p className="text-xs text-muted-foreground max-w-lg mx-auto leading-relaxed px-4">
+        Gambling can be addictive. Please play responsibly. 18+ only.
         Independent affiliate review site. No real-money gambling or payments happen on this website.
-        Offers are provided by third-party operators. 18+ | Gamble responsibly.
+        Offers are provided by third-party operators.
       </p>
     </div>
   </footer>

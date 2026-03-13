@@ -3,17 +3,23 @@ import { CalendarDays, ArrowRight } from "lucide-react";
 import Header from "@/components/casino/Header";
 import Footer from "@/components/casino/Footer";
 import { blogPosts } from "@/data/blogPosts";
+import SEOHead from "@/components/SEOHead";
 
 const Blog = () => (
   <div className="min-h-screen bg-background">
+    <SEOHead
+      title="Casino Guides & Expert Tips | WildScatter Blog"
+      description="Expert casino guides, bonus strategies, and industry insights. Learn how to play smarter and find the best online casino deals in 2026."
+      canonical="https://wildscatter.com/blog"
+    />
     <Header />
     <main className="container mx-auto px-4 py-8 sm:py-12 md:py-20">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground mb-3 sm:mb-4">
-          <span className="text-primary">Blog</span> & Guides
+          Casino Guides & <span className="text-primary">Expert Tips</span>
         </h1>
         <p className="text-muted-foreground text-base sm:text-lg mb-8 sm:mb-12">
-          Expert insights, casino reviews, and crypto gambling strategies.
+          In-depth reviews, bonus breakdowns, and strategies from experienced casino analysts.
         </p>
 
         <div className="grid gap-5 sm:gap-8">
@@ -31,6 +37,9 @@ const Blog = () => (
                     day: "numeric",
                   })}
                 </time>
+                {post.author && (
+                  <span className="ml-2 text-foreground/70">by {post.author}</span>
+                )}
               </div>
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-primary transition-colors leading-snug">
                 <Link to={`/blog/${post.slug}`}>{post.title}</Link>

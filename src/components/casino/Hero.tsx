@@ -88,10 +88,10 @@ const Hero = () => {
 
           {/* Mobile */}
           <div className="md:hidden flex flex-col items-center text-center gap-5">
-            <h1 className="text-[1.65rem] sm:text-3xl font-extrabold tracking-tight leading-tight px-2">
-              <span className="text-primary italic">Helping players find</span>{" "}
-              <span className="text-foreground">platforms they can trust</span>
-            </h1>
+            <p className="text-[1.65rem] sm:text-3xl font-extrabold tracking-tight leading-tight px-2" aria-hidden="true">
+              <span className="text-primary italic">Best Online Casinos</span>{" "}
+              <span className="text-foreground">2026</span>
+            </p>
             <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-sm">
               Expert-picked casinos, verified bonuses &amp; transparent reviews.
             </p>

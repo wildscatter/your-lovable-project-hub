@@ -3,7 +3,16 @@ import { ArrowLeft, CalendarDays, User } from "lucide-react";
 import Header from "@/components/casino/Header";
 import Footer from "@/components/casino/Footer";
 import { blogPosts } from "@/data/blogPosts";
-import { useEffect } from "react";
+import SEOHead from "@/components/SEOHead";
+
+const linkify = (text: string) =>
+  text.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer nofollow sponsored" class="text-primary font-semibold hover:underline">$1</a>'
+  );
+
+const boldify = (text: string) =>
+  linkify(text.replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>'));
 
 const renderMarkdown = (content: string) => {
   return content
@@ -29,34 +38,37 @@ const renderMarkdown = (content: string) => {
     .join("");
 };
 
-const linkify = (text: string) =>
-  text.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary font-semibold hover:underline">$1</a>'
-  );
-
-const boldify = (text: string) =>
-  linkify(text.replace(/\*\*(.+?)\*\*/g, '<strong class="text-foreground font-semibold">$1</strong>'));
-
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = blogPosts.find((p) => p.slug === slug);
 
-  useEffect(() => {
-    if (post) {
-      document.title = `${post.title} | WildScatter`;
-      const meta = document.querySelector('meta[name="description"]');
-      if (meta) meta.setAttribute("content", post.metaDescription || post.excerpt);
-    }
-    return () => {
-      document.title = "WildScatter – Best Crypto Casino Reviews";
-    };
-  }, [post]);
-
   if (!post) return <Navigate to="/blog" replace />;
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.metaDescription || post.excerpt,
+    "author": {
+      "@type": "Person",
+      "name": post.author || "WildScatter Team"
+    },
+    "datePublished": post.date,
+    "dateModified": post.date,
+    "publisher": {
+      "@type": "Organization",
+      "name": "WildScatter"
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={`${post.title} | WildScatter`}
+        description={post.metaDescription || post.excerpt}
+        canonical={`https://wildscatter.com/blog/${post.slug}`}
+        jsonLd={articleJsonLd}
+      />
       <Header />
       <main className="container mx-auto px-4 py-8 sm:py-12 md:py-20">
         <article className="max-w-3xl mx-auto">
@@ -94,6 +106,19 @@ const BlogPost = () => {
             className="prose-dark"
             dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }}
           />
+
+          {/* Author Bio */}
+          {post.author && post.authorBio && (
+            <div className="mt-10 sm:mt-12 rounded-xl border border-border bg-card p-5 sm:p-6 flex items-start gap-4">
+              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <User className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-foreground mb-1">About {post.author}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{post.authorBio}</p>
+              </div>
+            </div>
+          )}
 
           <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-border">
             <Link

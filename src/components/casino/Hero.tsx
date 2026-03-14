@@ -37,8 +37,8 @@ const Hero = () => {
           <div className="hidden md:flex items-center justify-between gap-10">
             <div className="flex-1 max-w-xl">
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight leading-[1.1]">
-                <span className="text-primary italic">Best Online Casinos</span><br />
-                <span className="text-foreground">2026</span>
+                <span className="text-foreground">Helping You Find the</span><br />
+                <span className="text-primary italic">Best Online Casinos</span>
               </h1>
               <p className="text-muted-foreground text-base mt-3 leading-relaxed">
                 Expert-picked casinos, verified bonuses &amp; transparent reviews.
@@ -89,8 +89,8 @@ const Hero = () => {
           {/* Mobile */}
           <div className="md:hidden flex flex-col items-center text-center gap-5">
             <p className="text-[1.65rem] sm:text-3xl font-extrabold tracking-tight leading-tight px-2" aria-hidden="true">
-              <span className="text-primary italic">Best Online Casinos</span>{" "}
-              <span className="text-foreground">2026</span>
+              <span className="text-foreground">Helping You Find the</span>{" "}
+              <span className="text-primary italic">Best Online Casinos</span>
             </p>
             <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-sm">
               Expert-picked casinos, verified bonuses &amp; transparent reviews.

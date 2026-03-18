@@ -87,7 +87,7 @@ const Hero = () => {
           </div>
 
           {/* Mobile */}
-          <div className="md:hidden flex flex-col items-center text-center gap-5">
+          <div className="md:hidden flex flex-col items-center text-center gap-3">
             <p className="text-[1.65rem] sm:text-3xl font-extrabold tracking-tight leading-tight px-2" aria-hidden="true">
               <span className="text-foreground">Helping Players Discover the</span>{" "}
               <span className="text-primary italic">Best Online Casinos</span>

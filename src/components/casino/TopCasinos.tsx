@@ -207,8 +207,6 @@ const TopCasinos = () => {
             <span className="text-primary">Top Rated</span> Casinos
           </h2>
         </div>
-          </p>
-        </div>
 
         {isMobile ? (
           <div>

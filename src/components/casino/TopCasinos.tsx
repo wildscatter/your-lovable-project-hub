@@ -194,7 +194,7 @@ const TopCasinos = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <section id="top-casinos" className="py-10 sm:py-12 md:py-16">
+    <section id="top-casinos" className="pt-4 sm:pt-8 md:pt-16 pb-10 sm:pb-12 md:pb-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-primary mb-4 glow-pulse-subtle">

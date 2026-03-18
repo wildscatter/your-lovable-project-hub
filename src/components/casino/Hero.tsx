@@ -118,17 +118,17 @@ const Hero = () => {
               <span className="absolute -top-2 -right-3 bg-emerald-500 text-[7px] font-extrabold text-white px-1.5 py-[1px] rounded-full uppercase tracking-wide animate-pulse shadow-sm shadow-emerald-500/30">vip</span>
             </div>
             
-            <div className="flex items-center gap-4 bg-card/60 rounded-lg px-4 py-2 border border-border w-full max-w-xs">
+            <div className="flex items-center gap-3 bg-card/60 rounded-lg px-3 py-1.5 border border-border w-full max-w-[260px]">
               <div className="text-center flex-1">
-                <p className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground">Claimed Today</p>
-                <p className="text-lg font-extrabold text-primary italic tabular-nums">{formatClaimed(claimed)}</p>
+                <p className="text-[8px] uppercase tracking-[0.12em] text-muted-foreground">Claimed Today</p>
+                <p className="text-sm font-extrabold text-primary italic tabular-nums">{formatClaimed(claimed)}</p>
               </div>
-              <div className="w-px h-7 bg-border" />
+              <div className="w-px h-5 bg-border" />
               <div className="text-center flex-1">
-                <p className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground">Online Now</p>
-                <div className="flex items-center justify-center gap-1.5">
+                <p className="text-[8px] uppercase tracking-[0.12em] text-muted-foreground">Online Now</p>
+                <div className="flex items-center justify-center gap-1">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-                  <p className="text-lg font-extrabold text-primary italic tabular-nums">{online}</p>
+                  <p className="text-sm font-extrabold text-primary italic tabular-nums">{online}</p>
                 </div>
               </div>
             </div>

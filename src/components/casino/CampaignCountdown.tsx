@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Clock, Flame } from "lucide-react";
 
 // ── Campaign end date (change this to set the deadline) ──
-const CAMPAIGN_END = new Date("2026-03-19T00:00:00Z");
+const CAMPAIGN_END = new Date("2026-03-28T00:00:00Z");
 
 interface TimeLeft {
   d: number;

@@ -196,19 +196,16 @@ const TopCasinos = () => {
   return (
     <section id="top-casinos" className="pt-4 sm:pt-8 md:pt-16 pb-10 sm:pb-12 md:pb-16">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-8 sm:mb-10">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-5 py-2 text-xs font-bold uppercase tracking-widest text-primary mb-4 glow-pulse-subtle">
             <Flame className="h-4 w-4 animate-pulse text-accent" />
             <span>Today's Deals</span>
             <Flame className="h-4 w-4 animate-pulse text-accent" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold">
             <span className="text-primary">Top Rated</span> Casinos
           </h2>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
-            Hand-picked and verified by our team of experts. More casinos coming soon — stay tuned!
-          </p>
         </div>
 
         {isMobile ? (

@@ -28,7 +28,7 @@ const Hero = () => {
 
   return (
     <>
-      <section className="relative overflow-hidden py-8 sm:py-10 md:py-14 mb-0">
+      <section className="relative overflow-hidden py-4 sm:py-8 md:py-14 mb-0">
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-secondary/20 via-transparent to-primary/5" />
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.06),transparent_70%)]" />
 

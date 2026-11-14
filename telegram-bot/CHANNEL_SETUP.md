@@ -7,14 +7,14 @@ Channel: https://t.me/+3yyjBIiCXTJiYWY8
 - Description: Independent VIP information, selected partner terms and human support. 18+ only (or higher local legal age). Partner eligibility and restrictions apply. Affiliate disclosure: WildScatter may earn commissions. Play responsibly.
 - Set posting to admins only. Disable member discussions until moderated.
 - Do not make the bot a channel admin until a verified posting workflow is needed; this bot does not automatically publish promotions.
-- Pin the first post and edit in the actual bot username once created.
+- Pin the first post with the official bot link https://t.me/WSHelperBot.
 
 ## Post 1: Pin this
 ✨ WELCOME TO WILDSCATTER VIP CLUB
 
 This channel shares general VIP service information, partner terms and important updates.
 
-🤖 Need help? Chat with our automated VIP Assistant: https://t.me/REPLACE_WITH_BOT_USERNAME
+🤖 Need help? Chat with our automated VIP Assistant: https://t.me/WSHelperBot
 It can answer FAQs and help request human support.
 
 WildScatter may earn affiliate commissions. Offers depend on partner terms, eligibility and your location. We never guarantee gambling results.

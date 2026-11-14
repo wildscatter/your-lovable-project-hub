@@ -10,8 +10,9 @@ An informational Telegram assistant hosted as a separate Cloudflare Worker. **No
 TELEGRAM_BOT_TOKEN=<get this from BotFather>
 TELEGRAM_WEBHOOK_SECRET=<generate a long random token using letters numbers underscore hyphen>
 ADMIN_CHAT_ID=<optional private chat ID>
+OPENAI_API_KEY=<optional OpenAI API key for conversational AI>
 ```
-The current bot uses predefined FAQ answers and is not yet powered by a generative AI model.
+The bot uses approved FAQ answers and can also answer general user-initiated questions with an OpenAI model when OPENAI_API_KEY is configured. Do not disclose secrets or private user information to the bot. AI responses must not promote gambling.
 
 ## Deploy a separate Worker
 1. Authenticate to your own Cloudflare account: `npx wrangler login`.
@@ -27,5 +28,7 @@ The webhook endpoint rejects missing or mismatched `X-Telegram-Bot-Api-Secret-To
 - The bot uses Telegram's API, not admin access to the channel. It cannot publish posts until added as an admin and given explicit approval.
 - Human handoff sends a notification to `ADMIN_CHAT_ID` only when a user requests it; an admin must then communicate through an appropriate official channel.
 - No chat persistence or analytics is enabled. Basic deterministic FAQ replies operate even without an AI API key.
-- This version uses approved FAQ responses only and cannot verify live partner terms or account status.
+- This version uses approved FAQ responses and optional AI for general conversations only. It cannot verify live partner terms or account status.
+- Telegram bots cannot start private conversations with channel subscribers. Have visitors tap https://t.me/WSHelperBot?start=channel to open the bot and press Start. A channel welcome post or website button should provide the opt-in link.
+- OPENAI_API_KEY is optional. Without it, the bot uses fixed FAQ messages.
 - Protect and rotate secrets; keep the bot's privacy notice consistent with actual operational practices.

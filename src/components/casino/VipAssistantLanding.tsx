@@ -1,70 +1,88 @@
-import { ArrowDownRight, ArrowUpRight, Check, Send, Sparkles, Zap } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, CheckCircle2, Gift, Send, Sparkles, Star } from "lucide-react";
 
 const telegramUrl = (import.meta.env.VITE_TELEGRAM_URL as string | undefined) || "https://t.me/+3yyjBIiCXTJiYWY8";
 
-const features = [
-  { number: "01", title: "Curated VIP deals", detail: "A handpicked selection of partner promotions." },
-  { number: "02", title: "Personal VIP guidance", detail: "Get help exploring what is available." },
-  { number: "03", title: "One-tap direct access", detail: "Connect with our Telegram community." },
+const perks = [
+  { icon: Gift, title: "Special VIP bonuses", description: "Discover handpicked partner offers.", tone: "bg-[#FCE5D9]" },
+  { icon: Star, title: "Personal recommendations", description: "Explore offers that suit your interests.", tone: "bg-[#E6E0FD]" },
+  { icon: Sparkles, title: "Easy Telegram access", description: "Everything starts with one message.", tone: "bg-[#DFF2E7]" },
 ];
 
 export default function VipAssistantLanding() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#090C0A] text-[#F8FAF4] selection:bg-[#C7FF31] selection:text-[#11190B]">
-      <header className="mx-auto flex max-w-[1500px] items-center justify-between border-b border-white/10 px-5 py-6 sm:px-10 lg:px-20">
-        <a href="/" aria-label="WildScatter homepage" className="text-base font-black uppercase tracking-[-.03em] sm:text-xl">WILD<span className="text-[#C7FF31]">SCATTER</span><span className="ml-2 align-middle text-[10px] font-bold tracking-[.16em] text-[#9CA99B]">VIP</span></a>
-        <a href="#vip-bonuses" className="flex items-center gap-1 text-[11px] font-black uppercase tracking-[.12em] text-[#D7DDD2] transition hover:text-[#C7FF31]">Explore bonuses <ArrowDownRight size={15} /></a>
+    <div className="min-h-screen bg-[#F9F8F4] text-[#25253D] selection:bg-[#DED4FC]">
+      <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8 lg:px-12">
+        <a href="/" className="text-xl font-black tracking-[-.07em]" aria-label="WildScatter homepage">
+          wild<span className="text-[#7665D8]">scatter</span><span className="ml-2 align-middle text-[11px] font-semibold tracking-normal text-[#716C83]">VIP</span>
+        </a>
+        <a href="#vip-bonuses" className="flex items-center gap-1 text-xs font-bold text-[#57516D] transition hover:text-[#7665D8]">
+          VIP bonuses <ArrowDownRight size={15} />
+        </a>
       </header>
 
       <main>
-        <section aria-labelledby="vip-title" className="relative mx-auto grid max-w-[1500px] items-center gap-16 px-5 pb-24 pt-16 sm:px-10 lg:min-h-[720px] lg:grid-cols-[1.12fr_.88fr] lg:gap-10 lg:px-20 lg:pb-28 lg:pt-20">
-          <div aria-hidden="true" className="pointer-events-none absolute -left-[360px] -top-[300px] h-[650px] w-[650px] rounded-full bg-[#C7FF31]/[.055] blur-[100px]" />
-          <div className="order-2 relative z-10 lg:order-1">
-            <p className="mb-7 inline-flex items-center gap-3 rounded-full border border-[#C7FF31]/30 bg-[#C7FF31]/10 px-4 py-2 text-[10px] font-black uppercase tracking-[.17em] text-[#C7FF31]"><Sparkles size={14} /> Your private VIP assistant</p>
-            <h1 id="vip-title" className="max-w-[760px] text-[clamp(3.35rem,7.4vw,7.6rem)] font-black uppercase leading-[.9] tracking-[-.075em]">LEVEL UP<br /><span className="text-[#C7FF31]">YOUR VIP</span><br />EXPERIENCE<span className="text-[#C7FF31]">.</span></h1>
-            <p className="mt-8 max-w-[510px] text-[15px] leading-8 text-[#ABB4A8] sm:text-lg">Discover exclusive VIP bonuses and tailored recommendations. Your next opportunity is only a message away.</p>
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[62px] w-full items-center justify-center gap-3 rounded-2xl bg-[#229ED9] px-7 text-sm font-extrabold uppercase tracking-[.04em] text-white shadow-[0_16px_46px_rgba(34,158,217,.2)] transition hover:-translate-y-1 hover:bg-[#2AABEE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2AABEE] sm:w-auto"><Send size={20} /> Go to Telegram <ArrowUpRight size={17} /></a>
-              <a href="#vip-bonuses" className="inline-flex min-h-12 items-center justify-center gap-2 text-sm font-bold text-[#C7FF31] hover:text-white">Explore VIP bonuses <ArrowDownRight size={17} /></a>
+        <section className="mx-auto grid max-w-7xl items-center gap-11 px-5 pb-20 pt-10 sm:px-8 md:grid-cols-[1.08fr_.92fr] md:gap-8 lg:px-12 lg:pb-24 lg:pt-20" aria-labelledby="vip-title">
+          <div className="order-2 md:order-1">
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#EEEAFD] px-4 py-2 text-xs font-bold text-[#6F5CC5]"><Sparkles size={15}/> Your VIP assistant is here</p>
+            <h1 id="vip-title" className="max-w-[720px] text-[clamp(3.2rem,6vw,5.8rem)] font-extrabold leading-[1.04] tracking-[-.07em]">
+              More fun.<br/>Better <span className="text-[#7665D8]">perks.</span><br/>Just for you.
+            </h1>
+            <p className="mt-6 max-w-[500px] text-base leading-8 text-[#686477] sm:text-lg">
+              Enjoy a simpler way to discover VIP bonuses and curated offers. Connect with us on Telegram to get started.
+            </p>
+            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+              <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[58px] w-full items-center justify-center gap-3 rounded-2xl bg-[#229ED9] px-7 text-sm font-bold text-white shadow-[0_12px_26px_rgba(34,158,217,.15)] transition hover:-translate-y-0.5 hover:bg-[#168FC8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#229ED9] sm:w-auto">
+                <Send size={19} /> Chat on Telegram <ArrowUpRight size={17} />
+              </a>
+              <a href="#vip-bonuses" className="inline-flex items-center gap-2 px-1 py-3 text-sm font-bold text-[#6653BD] hover:text-[#3C326F]">See VIP bonuses <ArrowDownRight size={17}/></a>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-[10px] font-bold uppercase tracking-[.13em] text-[#929D8D]"><span className="inline-flex items-center gap-2"><Check size={14} className="text-[#C7FF31]" /> Direct access</span><span className="inline-flex items-center gap-2"><Check size={14} className="text-[#C7FF31]" /> Private community</span><span>18+ only</span></div>
+            <p className="mt-7 flex items-center gap-2 text-xs text-[#807D8C]"><CheckCircle2 size={15} className="text-[#32A889]"/> Easy access <span aria-hidden="true">·</span> 18+ <span aria-hidden="true">·</span> Partner terms apply</p>
           </div>
-          <div className="order-1 mx-auto w-full max-w-[500px] lg:order-2">
-            <div className="relative mx-auto aspect-square w-[min(78vw,455px)] max-w-full">
-              <div className="absolute -inset-3 rounded-full border border-[#C7FF31]/25" aria-hidden="true" />
-              <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_20deg,#C7FF31,#3B573D,#1B241D,#C7FF31)] p-[3px] shadow-[0_0_90px_rgba(199,255,49,.075)]">
-                <div className="flex h-full w-full flex-col items-center justify-center rounded-full bg-[#18211A] text-center">
-                  {/* Empty image placeholder. Replace this content with an image when ready. */}
-                  <span className="flex h-16 w-16 items-center justify-center rounded-full border border-[#C7FF31]/30 text-4xl font-light text-[#C7FF31]/70" aria-hidden="true">+</span>
-                  <span className="mt-5 text-xs font-bold uppercase tracking-[.23em] text-white/70">Your photo here</span>
-                  <span className="mt-2 text-xs text-[#899588]">Add an image whenever you're ready</span>
+          <div className="order-1 flex flex-col items-center justify-center pb-6 pt-3 md:order-2">
+            <div className="relative aspect-square w-[min(75vw,430px)]">
+              <div className="absolute inset-0 rounded-full bg-[#E7DFFA] p-[9px]">
+                <div className="flex h-full w-full flex-col items-center justify-center rounded-full border-2 border-dashed border-[#B7A9E6] bg-[#F0ECFD] text-center">
+                  {/* Empty picture area. Replace with your own portrait later. */}
+                  <span aria-hidden="true" className="text-5xl font-light text-[#9987DA]">+</span>
+                  <span className="mt-2 text-sm font-bold text-[#7164A6]">Your photo</span>
+                  <span className="mt-1 text-xs text-[#8B83A6]">Add it later</span>
                 </div>
               </div>
-              <div className="absolute bottom-[-14px] left-1/2 z-20 flex -translate-x-1/2 items-center gap-2.5 whitespace-nowrap rounded-full border-[6px] border-[#090C0A] bg-[#C7FF31] px-7 py-3 text-[11px] font-black uppercase tracking-[.16em] text-[#131C0D] shadow-[0_12px_32px_rgba(199,255,49,.18)]"><span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#17320A]" /> Online now</div>
+              <div className="absolute -bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border-[5px] border-[#F9F8F4] bg-[#DFF5E7] px-6 py-3 text-xs font-extrabold text-[#257853] shadow-sm">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#36B37E]" /> ONLINE NOW
+              </div>
             </div>
-            <p className="mt-12 text-center text-[10px] font-semibold uppercase tracking-[.2em] text-[#889487]">A direct line to your VIP experience</p>
           </div>
         </section>
 
-        <section id="vip-bonuses" aria-labelledby="vip-bonuses-title" className="bg-[#C7FF31] px-5 py-16 text-[#11190D] sm:px-10 md:py-24 lg:px-20">
-          <div className="mx-auto max-w-[1340px]">
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-              <div><p className="mb-5 flex items-center gap-2 text-[11px] font-black uppercase tracking-[.22em]"><Zap size={17} /> Curated for you</p><h2 id="vip-bonuses-title" className="text-[clamp(3.5rem,8.5vw,8rem)] font-black uppercase leading-[.87] tracking-[-.08em]">VIP<br />BONUSES<span className="text-[#528521]">.</span></h2></div>
-              <p className="max-w-[280px] text-sm font-medium leading-7 text-[#334621]">Less searching. More clarity. Find your next VIP offer with a direct line to our Telegram community.</p>
+        <section id="vip-bonuses" aria-labelledby="bonuses-title" className="bg-[#EEEAFB] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-9 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="mb-3 text-xs font-bold text-[#7566BC]">THE GOOD STUFF ✨</p>
+                <h2 id="bonuses-title" className="text-4xl font-extrabold tracking-[-.055em] sm:text-5xl">VIP bonuses<span className="text-[#8D79DA]">.</span></h2>
+              </div>
+              <p className="max-w-xs text-sm leading-6 text-[#767089]">A few extra perks to make your experience more enjoyable.</p>
             </div>
-            <div className="grid gap-3 md:grid-cols-3">
-              {features.map((feature) => <div key={feature.number} className="group flex min-h-[225px] flex-col justify-between rounded-[26px] bg-[#121A12] p-7 text-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <div className="flex items-start justify-between"><span className="text-xs font-black tracking-[.16em] text-[#C7FF31]">{feature.number} / VIP</span><ArrowUpRight size={20} className="text-[#C7FF31]" /></div>
-                <div><h3 className="text-xl font-extrabold tracking-[-.04em] sm:text-2xl">{feature.title}</h3><p className="mt-2 text-sm leading-6 text-[#ADB8A9]">{feature.detail}</p></div>
-              </div>)}
+            <div className="grid gap-4 md:grid-cols-3">
+              {perks.map(({ icon: Icon, title, description, tone }) => (
+                <article key={title} className="rounded-[24px] border border-[#E5DFF0] bg-white p-6 shadow-[0_6px_26px_rgba(69,48,130,.04)] transition hover:-translate-y-1 hover:shadow-lg">
+                  <div className={`mb-6 flex h-12 w-12 items-center justify-center rounded-2xl ${tone}`}><Icon size={23} className="text-[#5946A6]"/></div>
+                  <h3 className="text-lg font-extrabold tracking-[-.025em]">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#777285]">{description}</p>
+                </article>
+              ))}
             </div>
-            <div className="mt-9 flex flex-wrap items-center justify-between gap-5"><p className="max-w-[690px] text-xs leading-6 text-[#395126]">18+ · Offers and eligibility depend on partner terms · This site may earn affiliate commissions</p><a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[56px] items-center gap-3 rounded-2xl bg-[#229ED9] px-7 text-sm font-extrabold uppercase tracking-[.04em] text-white transition hover:bg-[#168DC5]"><Send size={19} /> Join on Telegram <ArrowUpRight size={17} /></a></div>
+            <div className="mt-9 flex flex-wrap items-center justify-between gap-5">
+              <p className="max-w-lg text-xs leading-6 text-[#777186]">18+ only. Bonuses and eligibility depend on partner terms. We may earn affiliate commissions.</p>
+              <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[52px] items-center gap-2 rounded-2xl bg-[#229ED9] px-6 text-sm font-bold text-white transition hover:bg-[#168FC8]"><Send size={18}/> Join Telegram <ArrowUpRight size={16}/></a>
+            </div>
           </div>
         </section>
       </main>
-      <footer className="mx-auto flex max-w-[1500px] flex-wrap justify-between gap-5 px-5 py-8 text-[11px] text-[#939C90] sm:px-10 lg:px-20">
-        <p>© {new Date().getFullYear()} WildScatter. 18+ only. Play responsibly.</p>
-        <nav aria-label="Legal links" className="flex flex-wrap gap-5"><a href="/privacy-policy" className="hover:text-white">Privacy</a><a href="/terms" className="hover:text-white">Terms</a><a href="/responsible-gambling" className="hover:text-white">Responsible gaming</a></nav>
+      <footer className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-8 text-xs text-[#868190] sm:px-8 lg:px-12">
+        <span>© {new Date().getFullYear()} WildScatter · 18+ · Play responsibly.</span>
+        <nav aria-label="Legal pages" className="flex flex-wrap gap-5"><a href="/privacy-policy" className="hover:text-[#7665D8]">Privacy</a><a href="/terms" className="hover:text-[#7665D8]">Terms</a><a href="/responsible-gambling" className="hover:text-[#7665D8]">Responsible gaming</a></nav>
       </footer>
     </div>
   );

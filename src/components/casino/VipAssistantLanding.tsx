@@ -1,6 +1,6 @@
 import { ArrowUpRight, Send, ShieldCheck, Sparkles } from "lucide-react";
 
-const telegramUrl = import.meta.env.VITE_TELEGRAM_URL as string | undefined;
+const telegramUrl = (import.meta.env.VITE_TELEGRAM_URL as string | undefined) || "https://t.me/+3yyjBIiCXTJiYWY8";
 const validTelegramUrl = telegramUrl && /^https:\/\/t\.me\/[A-Za-z0-9_+/-]+(?:\?.*)?$/.test(telegramUrl);
 
 export default function VipAssistantLanding() {

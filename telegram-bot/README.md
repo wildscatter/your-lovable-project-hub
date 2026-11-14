@@ -1,4 +1,4 @@
-# WildScatter VIP Assistant bot
+# WildScatter VIP Assistant bot (@WSHelperBot)
 
 An informational Telegram assistant hosted as a separate Cloudflare Worker. **No marketing broadcasts or personalized gambling recommendations.** It does not modify the React website, existing SEO or legal pages.
 
@@ -10,9 +10,8 @@ An informational Telegram assistant hosted as a separate Cloudflare Worker. **No
 TELEGRAM_BOT_TOKEN=<get this from BotFather>
 TELEGRAM_WEBHOOK_SECRET=<generate a long random token using letters numbers underscore hyphen>
 ADMIN_CHAT_ID=<optional private chat ID>
-OPENAI_API_KEY=<optional: enable AI for general support questions>
 ```
-Bot code requires only the token and webhook secret. AI is optional. AI-generated responses cannot invent partner offers.
+The current bot uses predefined FAQ answers and is not yet powered by a generative AI model.
 
 ## Deploy a separate Worker
 1. Authenticate to your own Cloudflare account: `npx wrangler login`.
@@ -20,7 +19,7 @@ Bot code requires only the token and webhook secret. AI is optional. AI-generate
 3. Run `npm run deploy`. Note the HTTPS workers.dev URL.
 4. With your secret stored locally (never post tokens publicly), register a webhook using Telegram Bot API `setWebhook`, URL `https://YOUR-WORKER.workers.dev/webhook`, `secret_token` set to exactly the configured webhook secret, and allowed updates `message,callback_query`.
 5. Test `/start`, `/help`, `/privacy`, the menu, a custom question and handoff.
-6. Insert the real bot username into the pinned channel post.
+6. Pin the welcome post from CHANNEL_SETUP.md and include https://t.me/WSHelperBot.
 
 The webhook endpoint rejects missing or mismatched `X-Telegram-Bot-Api-Secret-Token` headers. The GET `/health` endpoint is safe for monitoring.
 
@@ -28,5 +27,5 @@ The webhook endpoint rejects missing or mismatched `X-Telegram-Bot-Api-Secret-To
 - The bot uses Telegram's API, not admin access to the channel. It cannot publish posts until added as an admin and given explicit approval.
 - Human handoff sends a notification to `ADMIN_CHAT_ID` only when a user requests it; an admin must then communicate through an appropriate official channel.
 - No chat persistence or analytics is enabled. Basic deterministic FAQ replies operate even without an AI API key.
-- AI is restricted to general FAQs and cannot know live partner terms or account status. Review outputs before trusting them for important decisions.
+- This version uses approved FAQ responses only and cannot verify live partner terms or account status.
 - Protect and rotate secrets; keep the bot's privacy notice consistent with actual operational practices.

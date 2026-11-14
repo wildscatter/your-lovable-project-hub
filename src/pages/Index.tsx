@@ -1,70 +1,26 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import Header from "@/components/casino/Header";
 import VipAssistantLanding from "@/components/casino/VipAssistantLanding";
-import TopCasinos from "@/components/casino/TopCasinos";
-import HowWeRate from "@/components/casino/HowWeRate";
-import WhyTrustUs from "@/components/casino/WhyTrustUs";
-import SafePlayTips from "@/components/casino/SafePlayTips";
-import FAQ from "@/components/casino/FAQ";
-import ResponsibleGambling from "@/components/casino/ResponsibleGambling";
-import TrustBanner from "@/components/casino/TrustBanner";
-import Footer from "@/components/casino/Footer";
 import CookieConsent from "@/components/casino/CookieConsent";
-import FloatingCTA from "@/components/casino/FloatingCTA";
-import Chatbot from "@/components/casino/Chatbot";
 import SEOHead from "@/components/SEOHead";
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "WildScatter",
-  "url": "https://wildscatter.com",
-  "description": "Best online casino reviews, bonuses and VIP offers in 2026",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://wildscatter.com/?s={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
+  name: "WildScatter",
+  url: "https://wildscatter.com",
+  description: "VIP casino bonuses, independent recommendations and direct VIP guidance on Telegram",
 };
 
-const Index = () => {
-  const { hash } = useLocation();
-
-  useEffect(() => {
-    if (hash) {
-      setTimeout(() => {
-        const el = document.querySelector(hash);
-        el?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    }
-  }, [hash]);
-
+export default function Index() {
   return (
-  <div className="min-h-screen bg-background">
-    <SEOHead
-      title="WildScatter VIP Assistant — Exclusive Offers & Personal Guidance"
-      description="Explore curated VIP offers, independent casino reviews and personal guidance. Connect with the WildScatter VIP assistant on Telegram."
-      canonical="https://wildscatter.com/"
-      jsonLd={websiteJsonLd}
-    />
-    <Header />
-    <main>
+    <div className="min-h-screen bg-[#090C0A]">
+      <SEOHead
+        title="WildScatter VIP Assistant — VIP Bonuses & Telegram Access"
+        description="Discover curated VIP bonuses and exclusive partner offers. Connect directly with the WildScatter VIP assistant through Telegram. 18+ only."
+        canonical="https://wildscatter.com/"
+        jsonLd={websiteJsonLd}
+      />
       <VipAssistantLanding />
-      <TopCasinos />
-      <HowWeRate />
-      <WhyTrustUs />
-      <SafePlayTips />
-      <FAQ />
-      <TrustBanner />
-      <ResponsibleGambling />
-    </main>
-    <Footer />
-    <CookieConsent />
-    <FloatingCTA />
-    <Chatbot />
-  </div>
+      <CookieConsent />
+    </div>
   );
-};
-
-export default Index;
+}

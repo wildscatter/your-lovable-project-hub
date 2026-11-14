@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "@/components/casino/Header";
-import Hero from "@/components/casino/Hero";
+import VipAssistantLanding from "@/components/casino/VipAssistantLanding";
 import TopCasinos from "@/components/casino/TopCasinos";
 import HowWeRate from "@/components/casino/HowWeRate";
 import WhyTrustUs from "@/components/casino/WhyTrustUs";
@@ -43,14 +43,14 @@ const Index = () => {
   return (
   <div className="min-h-screen bg-background">
     <SEOHead
-      title="WildScatter — Best Online Casino Reviews & Exclusive Offers 2026"
-      description="Expert-picked casinos, verified bonuses & transparent reviews. Find the best online casinos in 2026 with fast payouts and fair terms."
+      title="WildScatter VIP Assistant — Exclusive Offers & Personal Guidance"
+      description="Explore curated VIP offers, independent casino reviews and personal guidance. Connect with the WildScatter VIP assistant on Telegram."
       canonical="https://wildscatter.com/"
       jsonLd={websiteJsonLd}
     />
     <Header />
     <main>
-      <Hero />
+      <VipAssistantLanding />
       <TopCasinos />
       <HowWeRate />
       <WhyTrustUs />

@@ -1,4 +1,4 @@
-import { Menu, Send, Sparkles } from "lucide-react";
+import { Menu, Send } from "lucide-react";
 
 const telegramUrl = (import.meta.env.VITE_TELEGRAM_URL as string | undefined) || "https://t.me/+3yyjBIiCXTJiYWY8";
 

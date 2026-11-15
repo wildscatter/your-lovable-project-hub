@@ -4,7 +4,7 @@ import VipOfferWizard from "./VipOfferWizard";
 
 const FloatingCTA = () => {
   const [vipOpen, setVipOpen] = useState(false);
-  const telegramUrl = "YOUR_TELEGRAM_LINK_HERE";
+  const telegramUrl = "https://t.me/LUCKYMIABOT?start=wildscatter";
 
   return (
     <>

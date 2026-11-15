@@ -33,7 +33,7 @@ const Header = () => {
     }
   };
 
-  const telegramUrl = "YOUR_TELEGRAM_LINK_HERE";
+  const telegramUrl = "https://t.me/LUCKYMIABOT?start=wildscatter";
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-2xl">

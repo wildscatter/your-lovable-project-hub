@@ -23,7 +23,7 @@ export default function VipAssistantLanding() {
             <div className="aspect-square rounded-full border-[3px] border-[#e1fb50] p-[13px] shadow-[0_0_35px_rgba(222,255,70,.09)]">
               <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#34303d] via-[#24202d] to-[#191521]">
                 <img
-                  src="/images/vip-assistant.jpg"
+                  src="/images/vip-assistant-portrait.jpg"
                   alt="Portrait of the WildScatter VIP assistant"
                   className="h-full w-full object-contain object-center"
                   loading="eager"

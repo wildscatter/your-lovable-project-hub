@@ -1,9 +1,11 @@
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/casino/Header";
 import Footer from "@/components/casino/Footer";
 import { ShieldCheck } from "lucide-react";
 
 const AboutUs = () => (
   <div className="min-h-screen bg-background">
+    <SEOHead title="About WildScatter" description="Learn about WildScatter, our affiliate disclosures and approach to casino information." canonical="https://wildscatter.com/about" />
     <Header />
     <main className="py-12 md:py-20">
       <div className="container mx-auto px-4 max-w-3xl">

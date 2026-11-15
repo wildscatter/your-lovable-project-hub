@@ -1,14 +1,22 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, CalendarDays, User } from "lucide-react";
 import Header from "@/components/casino/Header";
 import Footer from "@/components/casino/Footer";
 import { blogPosts } from "@/data/blogPosts";
+import NotFound from "./NotFound";
 import SEOHead from "@/components/SEOHead";
 
 const linkify = (text: string) =>
   text.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer nofollow sponsored" class="text-primary font-semibold hover:underline">$1</a>'
+    (_match, label: string, href: string) => {
+      const url = new URL(href, "https://wildscatter.com");
+      if (!["https:", "http:"].includes(url.protocol)) return label;
+      const external = url.origin !== "https://wildscatter.com";
+      const attributes = external ? ' target="_blank" rel="noopener noreferrer sponsored"' : "";
+      const safeHref = href.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+      return `<a href="${safeHref}"${attributes} class="text-primary font-semibold hover:underline">${label}</a>`;
+    }
   );
 
 const boldify = (text: string) =>
@@ -42,7 +50,7 @@ const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = blogPosts.find((p) => p.slug === slug);
 
-  if (!post) return <Navigate to="/blog" replace />;
+  if (!post) return <NotFound />;
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -67,6 +75,7 @@ const BlogPost = () => {
         title={`${post.title} | WildScatter`}
         description={post.metaDescription || post.excerpt}
         canonical={`https://wildscatter.com/blog/${post.slug}`}
+        type="article"
         jsonLd={articleJsonLd}
       />
       <Header />
@@ -88,6 +97,7 @@ const BlogPost = () => {
               <CalendarDays className="h-4 w-4" />
               <time dateTime={post.date}>
                 {new Date(post.date).toLocaleDateString("en-US", {
+                  timeZone: "UTC",
                   year: "numeric",
                   month: "long",
                   day: "numeric",

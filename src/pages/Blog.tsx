@@ -32,7 +32,8 @@ const Blog = () => (
                 <CalendarDays className="h-4 w-4" />
                 <time dateTime={post.date}>
                   {new Date(post.date).toLocaleDateString("en-US", {
-                    year: "numeric",
+                    timeZone: "UTC",
+                  year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}

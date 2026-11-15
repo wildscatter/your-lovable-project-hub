@@ -1,1 +1,2 @@
-/*    /index.html   200
+# Public and utility routes are generated as HTML during the build.
+# Cloudflare Pages serves 404.html for unknown routes.

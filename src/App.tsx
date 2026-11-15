@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ChatbotProvider } from "@/hooks/use-chatbot";
 import { AuthProvider } from "@/contexts/AuthContext";
+import SEOHead from "@/components/SEOHead";
 import Index from "./pages/Index";
 import AboutUs from "./pages/AboutUs";
 import Support from "./pages/Support";
@@ -21,20 +22,20 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+export const AppContent = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
         <ChatbotProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/spin" element={<SpinWheelPage />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/email-sent" element={<EmailSent />} />
+              <Route path="/auth" element={<><SEOHead title="Sign in | WildScatter" description="Sign in on WildScatter." noindex /><Auth /></>} />
+              <Route path="/spin" element={<><SEOHead title="Spin Wheel | WildScatter" description="Spin Wheel on WildScatter." noindex /><SpinWheelPage /></>} />
+              <Route path="/reset-password" element={<><SEOHead title="Reset Password | WildScatter" description="Reset Password on WildScatter." noindex /><ResetPassword /></>} />
+              <Route path="/email-sent" element={<><SEOHead title="Check Your Email | WildScatter" description="Check Your Email on WildScatter." noindex /><EmailSent /></>} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<Blog />} />
@@ -45,11 +46,13 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserRouter>
+
         </ChatbotProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
+
+const App = () => <BrowserRouter><AppContent /></BrowserRouter>;
 
 export default App;

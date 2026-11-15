@@ -1,0 +1,10 @@
+name = "wildscatter-vip-bot"
+main = "src/index.ts"
+compatibility_date = "2026-11-14"
+workers_dev = true
+
+[vars]
+CHANNEL_URL = "https://t.me/+3yyjBIiCXTJiYWY8"
+
+# Configure TELEGRAM_BOT_TOKEN, TELEGRAM_WEBHOOK_SECRET and optionally
+# ADMIN_CHAT_ID, OPENAI_API_KEY as Cloudflare Worker secrets, not vars.

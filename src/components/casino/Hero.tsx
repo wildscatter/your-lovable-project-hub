@@ -1,30 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Gift, ArrowDown } from "lucide-react";
 import VipOfferWizard from "@/components/casino/VipOfferWizard";
 
 const Hero = () => {
-  const [claimed, setClaimed] = useState(10000);
-  const [online, setOnline] = useState(70);
   const [wizardOpen, setWizardOpen] = useState(false);
-
-  useEffect(() => {
-    const claimedInterval = setInterval(() => {
-      setClaimed((prev) => prev + Math.floor(Math.random() * 15) + 3);
-    }, 3000);
-    const onlineInterval = setInterval(() => {
-      setOnline((prev) => Math.max(40, prev + Math.floor(Math.random() * 7) - 3));
-    }, 5000);
-    return () => {
-      clearInterval(claimedInterval);
-      clearInterval(onlineInterval);
-    };
-  }, []);
-
-  const formatClaimed = (n: number) => {
-    if (n >= 1000) return `$${(n / 1000).toFixed(1)}K`;
-    return `$${n}`;
-  };
 
   return (
     <>
@@ -33,10 +13,8 @@ const Hero = () => {
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.06),transparent_70%)]" />
 
         <div className="w-full px-4 sm:px-6 md:px-12 lg:px-20 relative z-10">
-          {/* Desktop */}
-          <div className="hidden md:flex items-center justify-between gap-10">
-            <div className="flex-1 max-w-xl">
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight leading-[1.1]">
+            <div className="max-w-xl mx-auto md:mx-0 text-center md:text-left mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight leading-[1.1]">
                 <span className="text-foreground">Helping Players Discover the</span><br />
                 <span className="text-primary italic">Best Online Casinos</span>
               </h1>
@@ -45,6 +23,8 @@ const Hero = () => {
               </p>
             </div>
 
+          {/* Desktop */}
+          <div className="hidden md:flex items-center justify-between gap-10">
             <div className="flex flex-col items-center gap-4">
               <Button
                 size="lg"
@@ -70,32 +50,10 @@ const Hero = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-8">
-              <div className="text-center">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Claimed Today</p>
-                <p className="text-3xl font-extrabold text-primary italic tabular-nums">{formatClaimed(claimed)}</p>
-              </div>
-              <div className="w-px h-12 bg-border" />
-              <div className="text-center">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-1">Online Now</p>
-                <div className="flex items-center justify-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-                  <p className="text-3xl font-extrabold text-primary italic tabular-nums">{online}</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Mobile */}
           <div className="md:hidden flex flex-col items-center text-center gap-2">
-            <p className="text-[1.4rem] sm:text-3xl font-extrabold tracking-tight leading-tight px-2" aria-hidden="true">
-              <span className="text-foreground">Helping Players Discover the</span>{" "}
-              <span className="text-primary italic">Best Online Casinos</span>
-            </p>
-            <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed max-w-sm">
-              Expert-picked casinos, verified bonuses &amp; transparent reviews.
-            </p>
-            
             <div className="flex items-center gap-2 w-full max-w-xs mt-1">
               <Button
                 className="glow-pulse-btn bg-gradient-to-r from-primary to-gold-dim text-primary-foreground font-bold text-sm flex-1 py-4 rounded-xl hover:opacity-90 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all min-h-[44px]"
@@ -120,20 +78,6 @@ const Hero = () => {
               </div>
             </div>
             
-            <div className="flex items-center gap-3 bg-card/60 rounded-lg px-3 py-1 border border-border w-full max-w-[220px] mt-0.5">
-              <div className="text-center flex-1">
-                <p className="text-[7px] uppercase tracking-[0.1em] text-muted-foreground">Claimed Today</p>
-                <p className="text-xs font-extrabold text-primary italic tabular-nums">{formatClaimed(claimed)}</p>
-              </div>
-              <div className="w-px h-4 bg-border" />
-              <div className="text-center flex-1">
-                <p className="text-[7px] uppercase tracking-[0.1em] text-muted-foreground">Online Now</p>
-                <div className="flex items-center justify-center gap-1">
-                  <span className="h-1 w-1 rounded-full bg-accent animate-pulse" />
-                  <p className="text-xs font-extrabold text-primary italic tabular-nums">{online}</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>

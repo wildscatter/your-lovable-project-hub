@@ -20,12 +20,7 @@ const websiteJsonLd = {
   "@type": "WebSite",
   "name": "WildScatter",
   "url": "https://wildscatter.com",
-  "description": "Best online casino reviews, bonuses and VIP offers in 2026",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://wildscatter.com/?s={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
+  "description": "Best online casino reviews, bonuses and VIP offers in 2026"
 };
 
 const Index = () => {

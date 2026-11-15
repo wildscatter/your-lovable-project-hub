@@ -27,7 +27,7 @@ export default function VipAssistantLanding() {
                 alt="Portrait of the WildScatter VIP assistant"
                 width={720}
                 height={1280}
-                className="absolute inset-0 m-auto h-[82%] w-auto object-contain"
+                className="absolute inset-0 m-auto h-[96%] w-auto object-contain"
                 loading="eager"
                 decoding="async"
               />

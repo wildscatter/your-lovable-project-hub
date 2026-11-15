@@ -1,10 +1,10 @@
+import { telegramUrl } from "@/lib/telegram";
 import { Send, Gift } from "lucide-react";
 import { useState } from "react";
 import VipOfferWizard from "./VipOfferWizard";
 
 const FloatingCTA = () => {
   const [vipOpen, setVipOpen] = useState(false);
-  const telegramUrl = "YOUR_TELEGRAM_LINK_HERE";
 
   return (
     <>

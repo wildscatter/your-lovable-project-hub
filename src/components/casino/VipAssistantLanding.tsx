@@ -1,6 +1,6 @@
+import { telegramUrl } from "@/lib/telegram";
 import { Menu, Send } from "lucide-react";
 
-const telegramUrl = (import.meta.env.VITE_TELEGRAM_URL as string | undefined) || "https://t.me/+3yyjBIiCXTJiYWY8";
 
 export default function VipAssistantLanding() {
   return (

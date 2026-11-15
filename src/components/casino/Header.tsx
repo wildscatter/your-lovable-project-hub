@@ -1,3 +1,4 @@
+import { telegramUrl } from "@/lib/telegram";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Send, MessageCircle, LogIn, LogOut, User } from "lucide-react";
@@ -33,7 +34,6 @@ const Header = () => {
     }
   };
 
-  const telegramUrl = "YOUR_TELEGRAM_LINK_HERE";
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-2xl">

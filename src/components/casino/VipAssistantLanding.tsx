@@ -22,9 +22,13 @@ export default function VipAssistantLanding() {
           <div className="relative mb-12 w-[min(72vw,420px)] sm:mb-16">
             <div className="aspect-square rounded-full border-[3px] border-[#e1fb50] p-[13px] shadow-[0_0_35px_rgba(222,255,70,.09)]">
               <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#34303d] via-[#24202d] to-[#191521]">
-                {/* Portrait placeholder: insert your own portrait when ready. */}
-                <span aria-hidden="true" className="text-6xl font-extralight text-white/30">+</span>
-                <span className="mt-2 text-sm font-semibold uppercase tracking-[.22em] text-white/60">Your photo</span>
+                <img
+                  src="/images/vip-assistant.jpg"
+                  alt="Portrait of the WildScatter VIP assistant"
+                  className="h-full w-full object-contain object-center"
+                  loading="eager"
+                  decoding="async"
+                />
               </div>
             </div>
             <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border-[5px] border-[#120e1b] bg-[#223a30] px-5 py-2.5 text-xs font-extrabold tracking-[.12em] text-[#a8f3bb] shadow-lg">

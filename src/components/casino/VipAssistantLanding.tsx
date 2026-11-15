@@ -19,17 +19,17 @@ export default function VipAssistantLanding() {
         <div aria-hidden="true" className="pointer-events-none absolute right-[-25%] top-[5%] -z-10 h-[600px] w-[700px] rounded-full bg-[#57215d]/20 blur-[120px]"/>
 
         <section aria-labelledby="vip-title" className="mx-auto flex max-w-6xl flex-col items-center px-5 pb-24 pt-14 text-center sm:px-10 sm:pt-20">
-          <div className="relative mb-12 w-[min(72vw,420px)] sm:mb-16">
-            <div className="aspect-square rounded-full border-[3px] border-[#e1fb50] p-[13px] shadow-[0_0_35px_rgba(222,255,70,.09)]">
-              <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#34303d] via-[#24202d] to-[#191521]">
-                <img
-                  src="/images/vip-assistant-portrait.jpg"
-                  alt="Portrait of the WildScatter VIP assistant"
-                  className="h-full w-full object-contain object-center"
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
+          <div className="relative mb-12 w-[min(78vw,340px)] sm:mb-16">
+            <div className="rounded-2xl border-[3px] border-[#e1fb50] bg-[#191521] p-2 shadow-[0_0_35px_rgba(222,255,70,.09)]">
+              <img
+                src="/images/vip-assistant-full.webp"
+                alt="Portrait of the WildScatter VIP assistant"
+                width={720}
+                height={1280}
+                className="block h-auto w-full"
+                loading="eager"
+                decoding="async"
+              />
             </div>
             <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border-[5px] border-[#120e1b] bg-[#223a30] px-5 py-2.5 text-xs font-extrabold tracking-[.12em] text-[#a8f3bb] shadow-lg">
               <span className="h-2.5 w-2.5 rounded-full bg-[#71e79a] shadow-[0_0_10px_#71e79a]"/> ONLINE NOW

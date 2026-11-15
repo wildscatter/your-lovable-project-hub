@@ -17,7 +17,32 @@ async function reply(env: Env, chatId: number, text: string) {
   });
   if (!result.ok) console.error("Telegram sendMessage failed", result.status);
 }
+const channel = "@wildscatter";
+const affiliateUrl = "https://gamdom.com/r/wildscatter";
+const dailyPosts = [
+  `Partner link: Gamdom
+If you’re comparing offers, check the official terms for eligibility, wagering and withdrawal limits before deciding.
+${affiliateUrl}
+Affiliate disclosure: WildScatter may earn a commission. 18+. Gambling involves risk.`,
+  "WildScatter tip: Before claiming a bonus, check whether the wagering multiplier applies to the bonus alone or to the deposit plus bonus.",
+  "WildScatter tip: Check withdrawal minimums, fees, and identity verification rules before using a platform.",
+  "WildScatter tip: Set a time and spending limit before playing. Take a break when you reach either limit.",
+  "WildScatter tip: Check which games count toward a bonus and how much each game contributes.",
+  "WildScatter tip: When reading an offer, look for the expiry date, maximum bet, and any cashout cap.",
+  "WildScatter tip: If gambling stops being enjoyable, taking a break or using self-exclusion can help. https://wildscatter.com/responsible-gambling",
+];
+
 export default {
+  async scheduled(event: { scheduledTime: number }, env: Env): Promise<void> {
+    const weekday = new Date(event.scheduledTime + 4 * 60 * 60 * 1000).getUTCDay();
+    const result = await telegram(env.TELEGRAM_BOT_TOKEN, "sendMessage", {
+      chat_id: channel,
+      text: dailyPosts[weekday],
+    });
+    if (!result.ok) throw new Error(`Telegram channel post failed (HTTP ${result.status})`);
+  },
+
+
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method !== "POST" || new URL(request.url).pathname !== "/webhook") return new Response("Not found", { status: 404 });
     if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_WEBHOOK_SECRET || !env.AI) return new Response("Missing configuration", { status: 503 });

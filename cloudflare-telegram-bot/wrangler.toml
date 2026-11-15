@@ -7,3 +7,6 @@ binding = "AI"
 
 [vars]
 SITE_URL = "https://wildscatter.com"
+
+[triggers]
+crons = ["0 15 * * *"]

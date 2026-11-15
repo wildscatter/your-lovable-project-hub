@@ -1,0 +1,9 @@
+name = "wildscatter-lucky-mia"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+[ai]
+binding = "AI"
+
+[vars]
+SITE_URL = "https://wildscatter.com"

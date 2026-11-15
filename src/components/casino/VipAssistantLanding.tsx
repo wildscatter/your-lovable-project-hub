@@ -31,7 +31,7 @@ export default function VipAssistantLanding() {
                 decoding="async"
               />
             </div>
-            <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border-[5px] border-[#120e1b] bg-[#223a30] px-5 py-2.5 text-xs font-extrabold tracking-[.12em] text-[#a8f3bb] shadow-lg">
+            <div className="mx-auto mt-3 flex w-fit items-center gap-2 whitespace-nowrap rounded-full border-[5px] border-[#120e1b] bg-[#223a30] px-5 py-2.5 text-xs font-extrabold tracking-[.12em] text-[#a8f3bb] shadow-lg">
               <span className="h-2.5 w-2.5 rounded-full bg-[#71e79a] shadow-[0_0_10px_#71e79a]"/> ONLINE NOW
             </div>
           </div>

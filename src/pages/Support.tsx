@@ -1,9 +1,11 @@
+import SEOHead from "@/components/SEOHead";
 import Header from "@/components/casino/Header";
 import Footer from "@/components/casino/Footer";
 import { Mail, Clock, MessageCircle } from "lucide-react";
 
 const Support = () => (
   <div className="min-h-screen bg-background">
+    <SEOHead title="Contact WildScatter" description="Contact WildScatter about reviews, corrections, partnerships and general questions." canonical="https://wildscatter.com/support" />
     <Header />
     <main className="py-8 sm:py-12 md:py-20">
       <div className="container mx-auto px-4 max-w-3xl">

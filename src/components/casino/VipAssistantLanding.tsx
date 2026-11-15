@@ -45,7 +45,7 @@ export default function VipAssistantLanding() {
             href={telegramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded-xl bg-[#279bd0] px-4 py-3 text-sm font-black text-white shadow-lg focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#e1fb50] sm:hidden"
+            className="order-first mb-4 flex min-h-12 w-full max-w-xs items-center justify-center gap-2 rounded-xl bg-[#279bd0] px-4 py-3 text-sm font-black text-white shadow-lg focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-[#e1fb50] sm:hidden"
           >
             <Send size={20} fill="white" strokeWidth={1.6} /> CHAT ON TELEGRAM
           </a>

@@ -51,17 +51,16 @@ async function callTelegram(env: Env, method: string, body: Record<string, unkno
 }
 
 async function welcomeAndApprove(env: Env, join: JoinRequest) {
-  const target = await callTelegram(env, "getChat", { chat_id: channel });
-  if (join.chat.id !== target.id) return;
-  const member = await callTelegram(env, "getChatMember", { chat_id: target.id, user_id: join.from.id });
-  if (["member", "administrator", "creator"].includes(member.status)) return;
+  // A join request already identifies the destination and pending user.
+  // Avoid extra membership lookups before Telegram's short DM window closes.
+  if (join.chat.id !== channel) return;
   // Telegram closes the private messaging window once the request is approved.
   await callTelegram(env, "sendMessage", {
     chat_id: join.user_chat_id,
     text: welcome,
     reply_markup: { inline_keyboard: [[{ text: "Start chatting", url: "https://t.me/LUCKYMIABOT?start=vip_welcome" }]] },
   });
-  await callTelegram(env, "approveChatJoinRequest", { chat_id: target.id, user_id: join.from.id });
+  await callTelegram(env, "approveChatJoinRequest", { chat_id: channel, user_id: join.from.id });
 }
 
 async function setupChannel(env: Env, userId: number, webhookUrl: string) {
@@ -81,6 +80,30 @@ async function setupChannel(env: Env, userId: number, webhookUrl: string) {
     chat_id: channel, name: "Mia VIP welcome", creates_join_request: true,
   });
   return `Mia’s request → welcome → approve flow is configured.\n\nUse this request-to-join link on the website:\n${invite.invite_link}`;
+}
+
+
+async function channelStatus(env: Env, userId: number, webhookUrl: string) {
+  const owner = await callTelegram(env, "getChatMember", { chat_id: channel, user_id: userId });
+  if (owner.status !== "creator") return "Only the WildScatter channel owner can check this setup.";
+  const bot = await callTelegram(env, "getMe", {});
+  const member = await callTelegram(env, "getChatMember", { chat_id: channel, user_id: bot.id });
+  const info = await callTelegram(env, "getWebhookInfo", {});
+  let lastError = String(info.last_error_message || "None reported");
+  for (const secret of [env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_WEBHOOK_SECRET]) {
+    if (secret) lastError = lastError.split(secret).join("[redacted]");
+  }
+  return [
+    `Channel: ${channel}`,
+    `Mia: @${bot.username || "unknown"}`,
+    `Approve requests permission: ${member.can_invite_users ? "yes" : "NO"}`,
+    `Webhook matches this Worker: ${info.url === webhookUrl ? "yes" : "NO"}`,
+    `Join request updates enabled: ${info.allowed_updates?.includes("chat_join_request") ? "yes" : "NO"}`,
+    `Pending webhook updates: ${info.pending_update_count || 0}`,
+    `Last webhook error: ${lastError.slice(0, 400)}`,
+    `Last error time: ${info.last_error_date ? new Date(info.last_error_date * 1000).toISOString() : "None"}`,
+    "Pending webhook updates are delivery events, not a count of people waiting to join.",
+  ].join("\n");
 }
 
 const affiliateUrl = "https://gamdom.com/r/wildscatter";
@@ -129,6 +152,15 @@ export default {
     const chatId = message.chat.id;
     const text = message.text.trim().slice(0, 2000);
     if (!text) return new Response("OK");
+    if (/^\/channelstatus(?:\s|$)/.test(text)) {
+      try {
+        await reply(env, chatId, await channelStatus(env, message.from?.id || chatId, new URL("/webhook", request.url).href));
+      } catch (error) {
+        const detail = error instanceof TelegramSetupError ? error.message : "Unexpected status error. Please retry.";
+        await reply(env, chatId, `Channel check failed.\n\n${detail}`);
+      }
+      return new Response("OK");
+    }
     if (/^\/setupchannel(?:\s|$)/.test(text)) {
       try {
         await reply(env, chatId, await setupChannel(env, message.from?.id || chatId, new URL("/webhook", request.url).href));

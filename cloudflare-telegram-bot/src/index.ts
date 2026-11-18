@@ -3,6 +3,7 @@ export interface Env {
   TELEGRAM_WEBHOOK_SECRET: string;
   AI: Ai;
   SITE_URL?: string;
+  MIA_RECOVERY_KEY?: string;
 }
 type TelegramMessage = { chat?: { id: number; type: string }; text?: string; from?: { id: number; first_name?: string }; message_id?: number };
 type JoinRequest = {
@@ -132,6 +133,40 @@ export default {
 
 
   async fetch(request: Request, env: Env): Promise<Response> {
+    if (new URL(request.url).pathname === "/recover") {
+      const headers = { "Cache-Control": "no-store" };
+      if (request.method !== "POST" || !env.MIA_RECOVERY_KEY ||
+          request.headers.get("Authorization") !== `Bearer ${env.MIA_RECOVERY_KEY}`) {
+        return new Response("Not found", { status: 404, headers });
+      }
+      if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_WEBHOOK_SECRET) {
+        return Response.json({ ok: false, error: "Missing Telegram token or webhook secret in this Worker." }, { status: 503, headers });
+      }
+      try {
+        const bot = await callTelegram(env, "getMe", {});
+        if (String(bot.username).toLowerCase() !== "luckymiabot") {
+          return Response.json({ ok: false, error: "This Worker token belongs to a different bot. Webhook unchanged." }, { status: 409, headers });
+        }
+        const member = await callTelegram(env, "getChatMember", { chat_id: channel, user_id: bot.id });
+        const webhookUrl = "https://wildscatter-vip-bot.butrus300.workers.dev/webhook";
+        await callTelegram(env, "setWebhook", {
+          url: webhookUrl, secret_token: env.TELEGRAM_WEBHOOK_SECRET,
+          allowed_updates: ["message", "chat_join_request"],
+          drop_pending_updates: false,
+        });
+        const info = await callTelegram(env, "getWebhookInfo", {});
+        return Response.json({
+          ok: info.url === webhookUrl && info.allowed_updates?.includes("chat_join_request"),
+          bot: bot.username,
+          webhookMatches: info.url === webhookUrl,
+          canApprove: !!member.can_invite_users,
+          pendingUpdates: info.pending_update_count || 0,
+          nextStep: "Send /start to Mia, then cancel and resend your pending join request.",
+        }, { headers });
+      } catch (error) {
+        return Response.json({ ok: false, error: error instanceof TelegramSetupError ? error.message : "Recovery failed." }, { status: 502, headers });
+      }
+    }
     if (request.method !== "POST" || new URL(request.url).pathname !== "/webhook") return new Response("Not found", { status: 404 });
     if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_WEBHOOK_SECRET) return new Response("Missing configuration", { status: 503 });
     if (request.headers.get("X-Telegram-Bot-Api-Secret-Token") !== env.TELEGRAM_WEBHOOK_SECRET) return new Response("Forbidden", { status: 403 });

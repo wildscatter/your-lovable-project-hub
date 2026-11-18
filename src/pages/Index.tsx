@@ -1,5 +1,4 @@
 import VipAssistantLanding from "@/components/casino/VipAssistantLanding";
-import CookieConsent from "@/components/casino/CookieConsent";
 import SEOHead from "@/components/SEOHead";
 
 const websiteJsonLd = {
@@ -12,7 +11,7 @@ const websiteJsonLd = {
 
 export default function Index() {
   return (
-    <div className="min-h-screen bg-[#090C0A]">
+    <div className="min-h-screen bg-background">
       <SEOHead
         title="WildScatter VIP Assistant — VIP Bonuses & Telegram Access"
         description="Discover curated VIP bonuses and exclusive partner offers. Connect directly with the WildScatter VIP assistant through Telegram. 18+ only."
@@ -20,7 +19,6 @@ export default function Index() {
         jsonLd={websiteJsonLd}
       />
       <VipAssistantLanding />
-      <CookieConsent />
     </div>
   );
 }

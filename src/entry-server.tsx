@@ -2,6 +2,7 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider, type HelmetServerState } from "react-helmet-async";
 import { AppContent } from "./App";
+import { HomeContent } from "./HomeApp";
 import { blogPosts } from "./data/blogPosts";
 
 export const publicRoutes = [
@@ -14,7 +15,7 @@ export function render(url: string) {
   const context = {} as { helmet: HelmetServerState };
   const html = renderToString(
     <HelmetProvider context={context}>
-      <StaticRouter location={url}><AppContent /></StaticRouter>
+      <StaticRouter location={url}>{url === "/" ? <HomeContent /> : <AppContent />}</StaticRouter>
     </HelmetProvider>
   );
   const { helmet } = context;

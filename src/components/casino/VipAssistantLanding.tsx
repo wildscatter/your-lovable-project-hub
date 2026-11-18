@@ -10,8 +10,8 @@ export default function VipAssistantLanding() {
 
       <main className="relative isolate">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 opacity-60" style={{backgroundImage:"linear-gradient(rgba(255,255,255,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.075) 1px,transparent 1px)",backgroundSize:"clamp(32px, 7.7vw, 72px) clamp(32px, 7.7vw, 72px)",maskImage:"linear-gradient(to bottom,black,transparent 80%)"}}/>
-        <div aria-hidden="true" className="pointer-events-none absolute left-[-20%] top-[45%] -z-10 h-[650px] w-[700px] rounded-full bg-[#c9a94b]/15 blur-[130px]"/>
-        <div aria-hidden="true" className="pointer-events-none absolute right-[-25%] top-[5%] -z-10 h-[600px] w-[700px] rounded-full bg-[#57215d]/20 blur-[120px]"/>
+        <div aria-hidden="true" className="pointer-events-none absolute left-[-20%] top-[45%] -z-10 h-[650px] w-[700px] rounded-full" style={{ background: "radial-gradient(ellipse,rgba(201,169,75,.12),transparent 68%)" }}/>
+        <div aria-hidden="true" className="pointer-events-none absolute right-[-25%] top-[5%] -z-10 h-[600px] w-[700px] rounded-full" style={{ background: "radial-gradient(ellipse,rgba(87,33,93,.16),transparent 68%)" }}/>
 
         <section aria-labelledby="vip-title" className="mx-auto flex max-w-6xl flex-col items-center px-5 pb-14 pt-5 text-center sm:px-10 sm:pb-24 sm:pt-12">
           <div className="flex flex-col items-center">

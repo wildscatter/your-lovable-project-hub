@@ -135,9 +135,11 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (new URL(request.url).pathname === "/recover") {
       const headers = { "Cache-Control": "no-store" };
-      if (request.method !== "POST" || !env.MIA_RECOVERY_KEY ||
-          request.headers.get("Authorization") !== `Bearer ${env.MIA_RECOVERY_KEY}`) {
-        return new Response("Not found", { status: 404, headers });
+      if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers });
+      const recoveryKey = env.MIA_RECOVERY_KEY?.trim();
+      if (!recoveryKey) return Response.json({ ok: false, error: "Recovery key not configured on this deployment." }, { status: 503, headers });
+      if (request.headers.get("Authorization")?.trim() !== `Bearer ${recoveryKey}`) {
+        return Response.json({ ok: false, error: "Recovery key mismatch." }, { status: 401, headers });
       }
       if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_WEBHOOK_SECRET) {
         return Response.json({ ok: false, error: "Missing Telegram token or webhook secret in this Worker." }, { status: 503, headers });

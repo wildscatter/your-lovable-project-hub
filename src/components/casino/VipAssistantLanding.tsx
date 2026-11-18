@@ -23,10 +23,16 @@ export default function VipAssistantLanding() {
             <div className="relative aspect-square w-[min(68vw,32svh,240px)] overflow-hidden rounded-full border-2 border-[#e1fb50] bg-[#24202d] shadow-[0_0_35px_rgba(222,255,70,.09)] sm:w-[min(46vw,400px)]">
               <img
                 src="/images/vip-assistant-full.webp"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full scale-110 object-cover opacity-50 blur-xl"
+              />
+              <img
+                src="/images/vip-assistant-full.webp"
                 alt="Portrait of the WildScatter VIP assistant"
                 width={720}
                 height={1280}
-                className="absolute inset-0 h-full w-full rounded-full object-cover object-[50%_20%]"
+                className="absolute inset-0 h-full w-full object-contain object-center"
                 loading="eager"
                 decoding="async"
               />

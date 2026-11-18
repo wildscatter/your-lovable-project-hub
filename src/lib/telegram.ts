@@ -1,1 +1,2 @@
-export const telegramUrl = import.meta.env.VITE_TELEGRAM_URL || "https://t.me/+3yyjBIiCXTJiYWY8";
+// Use Mia’s request-to-join invite so she can welcome users before approval.
+export const telegramUrl = "https://t.me/+6YRGOICeN485Y2Q0";

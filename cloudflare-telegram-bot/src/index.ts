@@ -5,7 +5,13 @@ export interface Env {
   SITE_URL?: string;
 }
 type TelegramMessage = { chat?: { id: number; type: string }; text?: string; from?: { id: number; first_name?: string }; message_id?: number };
-type TelegramUpdate = { update_id?: number; message?: TelegramMessage };
+type JoinRequest = {
+  chat: { id: number; type: string; username?: string };
+  from: { id: number };
+  user_chat_id: number;
+  date: number;
+};
+type TelegramUpdate = { update_id?: number; message?: TelegramMessage; chat_join_request?: JoinRequest };
 const telegram = (token: string, method: string, body: Record<string, unknown>) =>
   fetch(`https://api.telegram.org/bot${token}/${method}`, {
     method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
@@ -18,6 +24,47 @@ async function reply(env: Env, chatId: number, text: string) {
   if (!result.ok) console.error("Telegram sendMessage failed", result.status);
 }
 const channel = "@wildscatter";
+const welcome = "Hey, welcome to WildScatter! 👋 I’m Mia, your AI VIP assistant.\n\nI can help you understand VIP programs, compare their benefits, and check the terms of available offers.\n\nAlready using a platform, or just exploring? Tell me what you’d like help with 💬\n\nTap Start chatting to continue. 18+ only. Gambling involves risk.";
+async function callTelegram(env: Env, method: string, body: Record<string, unknown>) {
+  const response = await telegram(env.TELEGRAM_BOT_TOKEN, method, body);
+  const data = await response.json() as { ok: boolean; result?: any; error_code?: number };
+  if (!response.ok || !data.ok) throw new Error(`Telegram ${method} failed (${data.error_code || response.status})`);
+  return data.result;
+}
+
+async function welcomeAndApprove(env: Env, join: JoinRequest) {
+  const target = await callTelegram(env, "getChat", { chat_id: channel });
+  if (join.chat.id !== target.id) return;
+  const member = await callTelegram(env, "getChatMember", { chat_id: target.id, user_id: join.from.id });
+  if (["member", "administrator", "creator"].includes(member.status)) return;
+  // Telegram closes the private messaging window once the request is approved.
+  await callTelegram(env, "sendMessage", {
+    chat_id: join.user_chat_id,
+    text: welcome,
+    reply_markup: { inline_keyboard: [[{ text: "Start chatting", url: "https://t.me/LUCKYMIABOT?start=vip_welcome" }]] },
+  });
+  await callTelegram(env, "approveChatJoinRequest", { chat_id: target.id, user_id: join.from.id });
+}
+
+async function setupChannel(env: Env, userId: number, webhookUrl: string) {
+  const owner = await callTelegram(env, "getChatMember", { chat_id: channel, user_id: userId });
+  if (owner.status !== "creator") return "Only the WildScatter channel owner can configure this flow.";
+  const bot = await callTelegram(env, "getMe", {});
+  const member = await callTelegram(env, "getChatMember", { chat_id: channel, user_id: bot.id });
+  if (!member.can_invite_users) return "Please enable Invite Users / Approve Join Requests for Mia in the channel, then send /setupchannel again.";
+  const info = await callTelegram(env, "getWebhookInfo", {});
+  if (info.url && info.url !== webhookUrl) return "Webhook belongs to another address. Please check the existing bot deployment.";
+  await callTelegram(env, "setWebhook", {
+    url: webhookUrl,
+    secret_token: env.TELEGRAM_WEBHOOK_SECRET,
+    allowed_updates: [...new Set([...(info.allowed_updates || ["message"]), "message", "chat_join_request"])],
+  });
+  const invite = await callTelegram(env, "createChatInviteLink", {
+    chat_id: channel, name: "Mia VIP welcome", creates_join_request: true,
+  });
+  return `Mia’s request → welcome → approve flow is configured.\n\nUse this request-to-join link on the website:\n${invite.invite_link}`;
+}
+
 const affiliateUrl = "https://gamdom.com/r/wildscatter";
 const dailyPosts = [
   `Partner link: Gamdom
@@ -45,16 +92,34 @@ export default {
 
   async fetch(request: Request, env: Env): Promise<Response> {
     if (request.method !== "POST" || new URL(request.url).pathname !== "/webhook") return new Response("Not found", { status: 404 });
-    if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_WEBHOOK_SECRET || !env.AI) return new Response("Missing configuration", { status: 503 });
+    if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_WEBHOOK_SECRET) return new Response("Missing configuration", { status: 503 });
     if (request.headers.get("X-Telegram-Bot-Api-Secret-Token") !== env.TELEGRAM_WEBHOOK_SECRET) return new Response("Forbidden", { status: 403 });
     if (Number(request.headers.get("content-length") || 0) > 65536) return new Response("Too large", { status: 413 });
     let update: TelegramUpdate;
     try { update = await request.json() as TelegramUpdate; } catch { return new Response("Bad request", { status: 400 }); }
+    if (update.chat_join_request) {
+      try {
+        await welcomeAndApprove(env, update.chat_join_request);
+        return new Response("OK");
+      } catch (error) {
+        console.error(error instanceof Error ? error.message : "Join request failed");
+        return new Response("Join request failed", { status: 503 });
+      }
+    }
     const message = update.message;
     if (!message?.chat || message.chat.type !== "private" || typeof message.text !== "string") return new Response("OK");
     const chatId = message.chat.id;
     const text = message.text.trim().slice(0, 2000);
     if (!text) return new Response("OK");
+    if (/^\/setupchannel(?:\s|$)/.test(text)) {
+      try {
+        await reply(env, chatId, await setupChannel(env, message.from?.id || chatId, new URL("/webhook", request.url).href));
+      } catch (error) {
+        console.error(error instanceof Error ? error.message : "Setup failed");
+        await reply(env, chatId, "Channel setup failed. Check Mia’s channel administrator permissions and retry.");
+      }
+      return new Response("OK");
+    }
     const site = env.SITE_URL || "https://wildscatter.com";
     if (/^\/start(?:\s|$)/.test(text)) {
       await reply(env, chatId, "👋 Welcome to Lucky Mia, WildScatter's AI assistant! Ask me about casino reviews, bonus terms, safety, or navigating the website. WildScatter is an affiliate review site, not a casino. 18+ only. Gambling involves risk.");

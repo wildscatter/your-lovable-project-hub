@@ -25,10 +25,28 @@ async function reply(env: Env, chatId: number, text: string) {
 }
 const channel = "@wildscatter";
 const welcome = "Hey, welcome to WildScatter! 👋 I’m Mia, your AI VIP assistant.\n\nI can help you understand VIP programs, compare their benefits, and check the terms of available offers.\n\nAlready using a platform, or just exploring? Tell me what you’d like help with 💬\n\nTap Start chatting to continue. 18+ only. Gambling involves risk.";
+class TelegramSetupError extends Error {}
 async function callTelegram(env: Env, method: string, body: Record<string, unknown>) {
-  const response = await telegram(env.TELEGRAM_BOT_TOKEN, method, body);
-  const data = await response.json() as { ok: boolean; result?: any; error_code?: number };
-  if (!response.ok || !data.ok) throw new Error(`Telegram ${method} failed (${data.error_code || response.status})`);
+  let response: Response;
+  try {
+    response = await telegram(env.TELEGRAM_BOT_TOKEN, method, body);
+  } catch {
+    // Network errors can contain the request URL, including the bot token.
+    throw new TelegramSetupError(`Telegram ${method}: connection failed. Please retry.`);
+  }
+  let data: { ok: boolean; result?: any; error_code?: number; description?: string };
+  try {
+    data = await response.json() as typeof data;
+  } catch {
+    throw new TelegramSetupError(`Telegram ${method}: invalid response (HTTP ${response.status}). Please retry.`);
+  }
+  if (!response.ok || !data.ok) {
+    let description = typeof data.description === "string" ? data.description : "Request rejected";
+    for (const secret of [env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_WEBHOOK_SECRET]) {
+      if (secret) description = description.split(secret).join("[redacted]");
+    }
+    throw new TelegramSetupError(`Telegram ${method} (${data.error_code || response.status}): ${description.slice(0, 400)}`);
+  }
   return data.result;
 }
 
@@ -115,8 +133,9 @@ export default {
       try {
         await reply(env, chatId, await setupChannel(env, message.from?.id || chatId, new URL("/webhook", request.url).href));
       } catch (error) {
-        console.error(error instanceof Error ? error.message : "Setup failed");
-        await reply(env, chatId, "Channel setup failed. Check Mia’s channel administrator permissions and retry.");
+        const detail = error instanceof TelegramSetupError ? error.message : "Unexpected setup error. Please retry.";
+        console.error("Channel setup failed:", detail);
+        await reply(env, chatId, `Channel setup failed.\n\n${detail}`);
       }
       return new Response("OK");
     }

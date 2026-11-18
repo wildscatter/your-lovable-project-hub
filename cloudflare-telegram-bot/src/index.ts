@@ -23,7 +23,7 @@ async function reply(env: Env, chatId: number, text: string) {
   });
   if (!result.ok) console.error("Telegram sendMessage failed", result.status);
 }
-const channel = "@wildscatter";
+const channel = -1003852722896;
 const welcome = "Hey, welcome to WildScatter! 👋 I’m Mia, your AI VIP assistant.\n\nI can help you understand VIP programs, compare their benefits, and check the terms of available offers.\n\nAlready using a platform, or just exploring? Tell me what you’d like help with 💬\n\nTap Start chatting to continue. 18+ only. Gambling involves risk.";
 class TelegramSetupError extends Error {}
 async function callTelegram(env: Env, method: string, body: Record<string, unknown>) {

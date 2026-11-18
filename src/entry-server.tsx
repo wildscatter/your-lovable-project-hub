@@ -8,7 +8,7 @@ export const publicRoutes = [
   "/", "/about", "/support", "/blog", "/responsible-gambling", "/privacy-policy", "/terms",
   ...blogPosts.map(post => `/blog/${post.slug}`),
 ];
-export const privateRoutes = ["/auth", "/spin", "/reset-password", "/email-sent"];
+export const privateRoutes = ["/auth", "/reset-password", "/email-sent"];
 
 export function render(url: string) {
   const context = {} as { helmet: HelmetServerState };

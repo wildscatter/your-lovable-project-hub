@@ -1,3 +1,4 @@
+import Header from "@/components/casino/Header";
 import SEOHead from "@/components/SEOHead";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -10,7 +11,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
+    <div><Header /><div className="flex min-h-screen items-center justify-center bg-muted">
       <SEOHead title="Page Not Found | WildScatter" description="This page could not be found. Browse WildScatter for casino information and guides." noindex />
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold">404</h1>
@@ -19,7 +20,7 @@ const NotFound = () => {
           Return to Home
         </a>
       </div>
-    </div>
+    </div></div>
   );
 };
 

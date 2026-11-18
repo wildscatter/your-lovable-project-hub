@@ -1,3 +1,4 @@
+import Header from "@/components/casino/Header";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,7 +13,6 @@ import Support from "./pages/Support";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Auth from "./pages/Auth";
-import SpinWheelPage from "./pages/SpinWheelPage";
 import ResetPassword from "./pages/ResetPassword";
 import EmailSent from "./pages/EmailSent";
 import ResponsibleGamblingPage from "./pages/ResponsibleGambling";
@@ -32,10 +32,9 @@ export const AppContent = () => (
 
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<><SEOHead title="Sign in | WildScatter" description="Sign in on WildScatter." noindex /><Auth /></>} />
-              <Route path="/spin" element={<><SEOHead title="Spin Wheel | WildScatter" description="Spin Wheel on WildScatter." noindex /><SpinWheelPage /></>} />
-              <Route path="/reset-password" element={<><SEOHead title="Reset Password | WildScatter" description="Reset Password on WildScatter." noindex /><ResetPassword /></>} />
-              <Route path="/email-sent" element={<><SEOHead title="Check Your Email | WildScatter" description="Check Your Email on WildScatter." noindex /><EmailSent /></>} />
+              <Route path="/auth" element={<><SEOHead title="Sign in | WildScatter" description="Sign in on WildScatter." noindex /><Header /><Auth /></>} />
+              <Route path="/reset-password" element={<><SEOHead title="Reset Password | WildScatter" description="Reset Password on WildScatter." noindex /><Header /><ResetPassword /></>} />
+              <Route path="/email-sent" element={<><SEOHead title="Check Your Email | WildScatter" description="Check Your Email on WildScatter." noindex /><Header /><EmailSent /></>} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<Blog />} />

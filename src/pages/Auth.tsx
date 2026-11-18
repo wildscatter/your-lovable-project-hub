@@ -135,12 +135,6 @@ const Auth = () => {
         </button>
 
         <div className="mb-10">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-2xl font-extrabold tracking-tight italic">
-              <span className="text-primary">Wild</span>
-              <span className="text-foreground">Scatter</span>
-            </span>
-          </div>
 
           {isForgot ? (
             <>

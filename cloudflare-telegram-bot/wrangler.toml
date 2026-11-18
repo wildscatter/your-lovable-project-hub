@@ -1,4 +1,4 @@
-name = "wildscatter-lucky-mia"
+name = "wildscatter-vip-bot"
 main = "src/index.ts"
 compatibility_date = "2026-11-01"
 
@@ -10,3 +10,6 @@ SITE_URL = "https://wildscatter.com"
 
 [triggers]
 crons = ["0 15 * * *"]
+
+[observability]
+enabled = true

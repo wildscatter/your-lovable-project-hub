@@ -9,7 +9,7 @@ binding = "AI"
 SITE_URL = "https://wildscatter.com"
 
 [triggers]
-crons = ["0 15 * * *"]
+crons = ["0 7,15 * * *"]
 
 [observability]
 enabled = true

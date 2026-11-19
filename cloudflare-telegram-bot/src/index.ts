@@ -132,7 +132,7 @@ async function handleSupport(env: Env, message: TelegramMessage, text: string): 
   const fromMia = previous?.from?.is_bot === true && previous.from.username?.toLowerCase() === "luckymiabot";
   const isQuestion = fromMia && previous?.text === supportQuestion;
   const isPreview = fromMia && previous?.text?.startsWith(supportPreview) && previous.text.endsWith(supportConsent);
-  const start = /^\/human(?:@LUCKYMIABOT)?(?:\s|$)/i.test(text) || /^(?:(?:please|can i|could i|i want to|i need to|i would like to)\s+)?(?:(?:talk|speak|chat)\s+(?:to|with)\s+(?:a\s+)?(?:human|person|agent|the team|support)|(?:contact\s+)?(?:human support|customer support|the team|support)|human)[.!?\s]*$/i.test(text);
+  const start = /^\/start(?:@LUCKYMIABOT)?\s+human\s*$/i.test(text) || /^\/human(?:@LUCKYMIABOT)?(?:\s|$)/i.test(text) || /^(?:(?:please|can i|could i|i want to|i need to|i would like to)\s+)?(?:(?:talk|speak|chat)\s+(?:to|with)\s+(?:a\s+)?(?:human|person|agent|the team|support)|(?:contact\s+)?(?:human support|customer support|the team|support)|human)[.!?\s]*$/i.test(text);
   if (/^\/cancel(?:\s|$)/i.test(text)) {
     await reply(env, chatId, "Cancelled. No new support request was shared.");
     return true;
@@ -198,6 +198,7 @@ export default {
     const result = await telegram(env.TELEGRAM_BOT_TOKEN, "sendMessage", {
       chat_id: channel,
       text: new Date(event.scheduledTime).getUTCHours() === 7 ? morningPosts[weekday] : dailyPosts[weekday],
+      reply_markup: { inline_keyboard: [[{ text: "💬 Ask Mia", url: "https://t.me/LUCKYMIABOT?start=human" }]] },
     });
     if (!result.ok) throw new Error(`Telegram channel post failed (HTTP ${result.status})`);
   },

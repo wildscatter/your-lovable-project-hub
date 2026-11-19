@@ -111,7 +111,7 @@ async function channelStatus(env: Env, userId: number, webhookUrl: string) {
 
 const supportQuestion = "Mia support request ✨\nReply to this message with a short question for the WildScatter team. Do not include passwords, payment details or sensitive personal information. Nothing is shared until you confirm the preview. Use /cancel to stop.";
 const supportPreview = "Mia support handoff preview\n\n";
-const supportConsent = "\n\nReply YES to share the question and Telegram contact shown above with the WildScatter team for this support request only. Reply NO or /cancel to cancel. This is not consent for marketing.";
+const supportConsent = "\n\nReply YES to share the question and Telegram contact shown above with the WildScatter channel owner for this support request only. Reply NO or /cancel to cancel. This is not consent for marketing.";
 async function supportPrompt(env: Env, chatId: number, text: string) {
   await callTelegram(env, "sendMessage", { chat_id: chatId, text, reply_markup: { force_reply: true, selective: true } });
 }
@@ -127,10 +127,6 @@ async function handleSupport(env: Env, message: TelegramMessage, text: string): 
     return true;
   }
   if (!start && !isQuestion && !isPreview) return false;
-  if (!/^[1-9]\d*$/.test(env.ADMIN_CHAT_ID || "")) {
-    await reply(env, chatId, "Human support handoff is currently unavailable. Nothing has been shared. You can contact the team at https://wildscatter.com/support.");
-    return true;
-  }
   if (start) {
     await supportPrompt(env, chatId, supportQuestion);
     return true;
@@ -152,8 +148,11 @@ async function handleSupport(env: Env, message: TelegramMessage, text: string): 
   }
   const approved = previous!.text!.slice(supportPreview.length, -supportConsent.length);
   try {
+    const admins = await callTelegram(env, "getChatAdministrators", { chat_id: channel });
+    const owner = Array.isArray(admins) ? admins.find(member => member.status === "creator" && !member.user?.is_bot) : undefined;
+    if (!owner?.user?.id || !Number.isSafeInteger(owner.user.id) || owner.user.id <= 0) throw new Error("Channel owner unavailable");
     await callTelegram(env, "sendMessage", {
-      chat_id: env.ADMIN_CHAT_ID,
+      chat_id: owner.user.id,
       text: "Mia: user-requested human support\n\n" + approved + "\n\nThe user explicitly confirmed sharing this request and contact. No marketing consent.",
       link_preview_options: { is_disabled: true },
     });

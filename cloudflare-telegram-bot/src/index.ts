@@ -172,12 +172,8 @@ async function handleSupport(env: Env, message: TelegramMessage, text: string): 
   return true;
 }
 
-const affiliateUrl = "https://gamdom.com/r/wildscatter";
 const dailyPosts = [
-  `Partner link: Gamdom
-If you’re comparing offers, check the official terms for eligibility, wagering and withdrawal limits before deciding.
-${affiliateUrl}
-Affiliate disclosure: WildScatter may earn a commission. 18+. Gambling involves risk.`,
+  "WildScatter tip: Treat rewards as extras, not a reason to spend more. Check eligibility and conditions first.",
   "WildScatter tip: Before claiming a bonus, check whether the wagering multiplier applies to the bonus alone or to the deposit plus bonus.",
   "WildScatter tip: Check withdrawal minimums, fees, and identity verification rules before using a platform.",
   "WildScatter tip: Set a time and spending limit before playing. Take a break when you reach either limit.",
@@ -186,12 +182,22 @@ Affiliate disclosure: WildScatter may earn a commission. 18+. Gambling involves 
   "WildScatter tip: If gambling stops being enjoyable, taking a break or using self-exclusion can help.",
 ];
 
+const morningPosts = [
+  "Morning check-in ✨ Keep your plans within your budget—rewards should never decide your spending.",
+  "Quick tip: A bonus headline rarely tells the whole story. Read the conditions before making any decision.",
+  "Keep your account safe: use a unique password and turn on two-factor authentication where available.",
+  "A little reminder 😊 You don’t need to spend or play to keep up with anyone else.",
+  "Not sure what an offer means? Ask for its written terms before sharing account or payment information.",
+  "Stay alert: genuine support should never ask you to send your password or one-time login codes.",
+  "Weekend check-in ✨ Taking a break is always an option. Your time and wellbeing come first."
+];
+
 export default {
   async scheduled(event: { scheduledTime: number }, env: Env): Promise<void> {
     const weekday = new Date(event.scheduledTime + 4 * 60 * 60 * 1000).getUTCDay();
     const result = await telegram(env.TELEGRAM_BOT_TOKEN, "sendMessage", {
       chat_id: channel,
-      text: dailyPosts[weekday],
+      text: new Date(event.scheduledTime).getUTCHours() === 7 ? morningPosts[weekday] : dailyPosts[weekday],
     });
     if (!result.ok) throw new Error(`Telegram channel post failed (HTTP ${result.status})`);
   },

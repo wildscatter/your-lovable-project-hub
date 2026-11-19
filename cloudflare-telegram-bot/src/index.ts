@@ -108,7 +108,6 @@ async function channelStatus(env: Env, userId: number, webhookUrl: string) {
 }
 
 
-const supportOffer = "Would you like someone from the WildScatter team to help? Reply YES or NO ✨ Nothing is shared without your confirmation.";
 // Best-effort session counter: isolate restarts, eviction or routing changes can reset it.
 const chatSessions = new Map<number, { count: number; offered: boolean; touched: number; lastUpdate?: number }>();
 function chatSession(chatId: number) {
@@ -124,7 +123,7 @@ function chatSession(chatId: number) {
 }
 const supportQuestion = "Mia support request ✨\nReply to this message with a short question for the WildScatter team. Do not include passwords, payment details or sensitive personal information. Nothing is shared until you confirm the preview. Use /cancel to stop.";
 const supportPreview = "Mia support handoff preview\n\n";
-const supportConsent = "\n\nReply YES to share the question and Telegram contact shown above with the WildScatter channel owner for this support request only. Reply NO or /cancel to cancel. This is not consent for marketing.";
+const supportConsent = "\n\nSend this question and your Telegram contact to the WildScatter channel owner for this request? Reply YES or NO ✨";
 async function supportPrompt(env: Env, chatId: number, text: string) {
   await callTelegram(env, "sendMessage", { chat_id: chatId, text, reply_markup: { force_reply: true, selective: true } });
 }
@@ -132,7 +131,6 @@ async function handleSupport(env: Env, message: TelegramMessage, text: string): 
   const chatId = message.chat!.id;
   const previous = message.reply_to_message;
   const fromMia = previous?.from?.is_bot === true && previous.from.username?.toLowerCase() === "luckymiabot";
-  const isOffer = fromMia && previous?.text === supportOffer;
   const isQuestion = fromMia && previous?.text === supportQuestion;
   const isPreview = fromMia && previous?.text?.startsWith(supportPreview) && previous.text.endsWith(supportConsent);
   const start = /^\/human(?:@LUCKYMIABOT)?(?:\s|$)/i.test(text);
@@ -140,13 +138,8 @@ async function handleSupport(env: Env, message: TelegramMessage, text: string): 
     await reply(env, chatId, "Cancelled. No new support request was shared.");
     return true;
   }
-  if (!start && !isOffer && !isQuestion && !isPreview) return false;
-  if (isOffer && /^no$/i.test(text)) {
-    await reply(env, chatId, "Of course—we can keep chatting here ✨");
-    return true;
-  }
-  if (isOffer && !/^yes$/i.test(text)) return false;
-  if (start || isOffer) {
+  if (!start && !isQuestion && !isPreview) return false;
+  if (start) {
     await supportPrompt(env, chatId, supportQuestion);
     return true;
   }
@@ -310,7 +303,9 @@ export default {
       }
       if (session.count >= 2 && !session.offered) {
         try {
-          await supportPrompt(env, chatId, supportOffer);
+          const question = text.length > 160 ? text.slice(0, 160) + "…" : text;
+          const contact = (message.from?.username ? "@" + message.from.username + " · " : "") + "Telegram ID: " + chatId;
+          await supportPrompt(env, chatId, supportPreview + "Question: " + question + "\nContact: " + contact + supportConsent);
           session.offered = true;
         } catch {
           console.error("Support offer could not be delivered");

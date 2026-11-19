@@ -25,7 +25,7 @@ async function reply(env: Env, chatId: number, text: string) {
   if (!result.ok) console.error("Telegram sendMessage failed", result.status);
 }
 const channel = -1003852722896;
-const welcome = "Hey, welcome to WildScatter! 👋 I’m Mia, your AI VIP assistant.\n\nI can help you understand VIP programs, compare their benefits, and check the terms of available offers.\n\nAlready using a platform, or just exploring? Tell me what you’d like help with 💬\n\nTap Start chatting to continue. 18+ only. Gambling involves risk.";
+const welcome = "Hey you, welcome to WildScatter ✨ I’m Mia, your AI VIP assistant\n\nLooking for the VIP treatment? I’ll help you explore VIP programs, understand the perks, and check what it takes to qualify.\n\nAlready have a favourite platform, or shall we explore the options together? 😉";
 class TelegramSetupError extends Error {}
 async function callTelegram(env: Env, method: string, body: Record<string, unknown>) {
   let response: Response;
@@ -210,7 +210,7 @@ export default {
     }
     const site = env.SITE_URL || "https://wildscatter.com";
     if (/^\/start(?:\s|$)/.test(text)) {
-      await reply(env, chatId, "👋 Welcome to Lucky Mia, WildScatter's AI assistant! Ask me about casino reviews, bonus terms, safety, or navigating the website. WildScatter is an affiliate review site, not a casino. 18+ only. Gambling involves risk.");
+      await reply(env, chatId, welcome);
       return new Response("OK");
     }
     if (/^\/help(?:\s|$)/.test(text)) {

@@ -59,7 +59,6 @@ async function welcomeAndApprove(env: Env, join: JoinRequest) {
   await callTelegram(env, "sendMessage", {
     chat_id: join.user_chat_id,
     text: welcome,
-    reply_markup: { inline_keyboard: [[{ text: "Start chatting", url: "https://t.me/LUCKYMIABOT?start=vip_welcome" }]] },
   });
   await callTelegram(env, "approveChatJoinRequest", { chat_id: channel, user_id: join.from.id });
 }

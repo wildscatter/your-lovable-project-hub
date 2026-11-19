@@ -3,9 +3,10 @@ export interface Env {
   TELEGRAM_WEBHOOK_SECRET: string;
   AI: Ai;
   SITE_URL?: string;
+  ADMIN_CHAT_ID?: string;
   MIA_RECOVERY_KEY?: string;
 }
-type TelegramMessage = { chat?: { id: number; type: string }; text?: string; from?: { id: number; first_name?: string }; message_id?: number };
+type TelegramMessage = { chat?: { id: number; type: string }; text?: string; from?: { id: number; first_name?: string; username?: string; is_bot?: boolean }; message_id?: number; reply_to_message?: TelegramMessage };
 type JoinRequest = {
   chat: { id: number; type: string; username?: string };
   from: { id: number };
@@ -107,6 +108,63 @@ async function channelStatus(env: Env, userId: number, webhookUrl: string) {
   ].join("\n");
 }
 
+
+const supportQuestion = "Mia support request ✨\nReply to this message with a short question for the WildScatter team. Do not include passwords, payment details or sensitive personal information. Nothing is shared until you confirm the preview. Use /cancel to stop.";
+const supportPreview = "Mia support handoff preview\n\n";
+const supportConsent = "\n\nReply YES to share the question and Telegram contact shown above with the WildScatter team for this support request only. Reply NO or /cancel to cancel. This is not consent for marketing.";
+async function supportPrompt(env: Env, chatId: number, text: string) {
+  await callTelegram(env, "sendMessage", { chat_id: chatId, text, reply_markup: { force_reply: true, selective: true } });
+}
+async function handleSupport(env: Env, message: TelegramMessage, text: string): Promise<boolean> {
+  const chatId = message.chat!.id;
+  const previous = message.reply_to_message;
+  const fromMia = previous?.from?.is_bot === true && previous.from.username?.toLowerCase() === "luckymiabot";
+  const isQuestion = fromMia && previous?.text === supportQuestion;
+  const isPreview = fromMia && previous?.text?.startsWith(supportPreview) && previous.text.endsWith(supportConsent);
+  const start = /^\/human(?:@LUCKYMIABOT)?(?:\s|$)/i.test(text);
+  if (/^\/cancel(?:\s|$)/i.test(text)) {
+    await reply(env, chatId, "Cancelled. No new support request was shared.");
+    return true;
+  }
+  if (!start && !isQuestion && !isPreview) return false;
+  if (!/^[1-9]\d*$/.test(env.ADMIN_CHAT_ID || "")) {
+    await reply(env, chatId, "Human support handoff is currently unavailable. Nothing has been shared. You can contact the team at https://wildscatter.com/support.");
+    return true;
+  }
+  if (start) {
+    await supportPrompt(env, chatId, supportQuestion);
+    return true;
+  }
+  if (isQuestion) {
+    const question = text.slice(0, 1000);
+    const username = message.from?.username;
+    const contact = (username ? "@" + username + " · " : "") + "Telegram ID: " + chatId;
+    await supportPrompt(env, chatId, supportPreview + "Contact: " + contact + "\n\nQuestion:\n" + question + supportConsent);
+    return true;
+  }
+  if (/^no$/i.test(text)) {
+    await reply(env, chatId, "Cancelled. Your question and contact were not shared.");
+    return true;
+  }
+  if (!/^yes$/i.test(text)) {
+    await reply(env, chatId, "Nothing has been shared. Reply YES to the preview to send it, or NO to cancel.");
+    return true;
+  }
+  const approved = previous!.text!.slice(supportPreview.length, -supportConsent.length);
+  try {
+    await callTelegram(env, "sendMessage", {
+      chat_id: env.ADMIN_CHAT_ID,
+      text: "Mia: user-requested human support\n\n" + approved + "\n\nThe user explicitly confirmed sharing this request and contact. No marketing consent.",
+      link_preview_options: { is_disabled: true },
+    });
+  } catch {
+    await reply(env, chatId, "I couldn't deliver your request, so I can't confirm that the team received it. You can try again or contact https://wildscatter.com/support.");
+    return true;
+  }
+  await reply(env, chatId, "Your question and Telegram contact have been sent to the WildScatter team ✨ I can't promise a response time.");
+  return true;
+}
+
 const affiliateUrl = "https://gamdom.com/r/wildscatter";
 const dailyPosts = [
   `Partner link: Gamdom
@@ -189,6 +247,7 @@ export default {
     const chatId = message.chat.id;
     const text = message.text.trim().slice(0, 2000);
     if (!text) return new Response("OK");
+    if (await handleSupport(env, message, text)) return new Response("OK");
     if (/^\/channelstatus(?:\s|$)/.test(text)) {
       try {
         await reply(env, chatId, await channelStatus(env, message.from?.id || chatId, new URL("/webhook", request.url).href));
@@ -214,13 +273,13 @@ export default {
       return new Response("OK");
     }
     if (/^\/help(?:\s|$)/.test(text)) {
-      await reply(env, chatId, "Ask a question in your own words. I can explain wagering requirements, promotions, casino reviews, and safer gambling. I cannot access accounts, guarantee winnings, or verify live offers.");
+      await reply(env, chatId, "Ask a question in your own words. I can explain wagering requirements, promotions, casino reviews, and safer gambling. I cannot access accounts, guarantee winnings, or verify live offers. For human support, send /human. You will review and confirm what is shared before the team is notified.");
       return new Response("OK");
     }
     try {
       const result = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fast", {
         messages: [
-          { role: "system", content: `You are Lucky Mia, an informational assistant for WildScatter (${site}), an independent casino affiliate review website. Reply in the user's language. Be clear, concise, helpful, and transparent that the website may earn affiliate commissions. Explain bonus terms, wagering requirements, safety and site navigation. Do not invent offers, licenses, casino rankings, or current promotions; direct users to verify current details on the operator's official terms. Never promise winnings, urge deposits, use pressure or urgency, or claim gambling is a way to earn income. Do not encourage minors or users indicating gambling harm to gamble; instead offer supportive safer-gambling resources. Do not ask for credentials, payment details, or sensitive personal information. You cannot access user accounts.  Use a warm, attentive, natural conversational tone: acknowledge the user's question, use short paragraphs, and ask at most one relevant follow-up question. A light emoji is optional. Be clear that you are an AI assistant, not a human or the operator's VIP manager. Do not use romantic attention, pressure, flattery, or promises of status to influence gambling decisions. If the user is undecided, ask whether they want to understand VIP eligibility, bonus conditions, withdrawal rules, or safety; do not recommend a popular casino or steer them to registration. When the user explicitly asks about a named platform, you may provide official informational or support links from the approved directory below that match their question. Only share platform links after the platform is named by the user. Approved directory: Gamdom help center https://help.gamdom.com/en/ ; Gamdom VIP eligibility information https://help.gamdom.com/en/articles/9586217-vip-program-and-everything-you-need-to-know-about-it . Treat these as reference links, not endorsements; you have no live access to their contents and cannot verify current terms. Do not invent URLs or append referral codes. Do not send casino signup, deposit, betting, or referral-conversion links. If a supplied link is affiliated, label it clearly and explain WildScatter may earn a commission. Explain VIP conditions neutrally; never advise increasing gambling, deposits, frequency, or spending to qualify. For platforms outside the approved directory, explain that you do not have a verified official URL and ask the user for their official terms link instead. Keep replies under 180 words.` },
+          { role: "system", content: `You are Lucky Mia, an informational assistant for WildScatter (${site}), an independent casino affiliate review website. Reply in the user's language. Be clear, concise, helpful, and transparent that the website may earn affiliate commissions. Explain bonus terms, wagering requirements, safety and site navigation. Do not invent offers, licenses, casino rankings, or current promotions; direct users to verify current details on the operator's official terms. Never promise winnings, urge deposits, use pressure or urgency, or claim gambling is a way to earn income. Do not encourage minors or users indicating gambling harm to gamble; instead offer supportive safer-gambling resources. Do not ask for credentials, payment details, or sensitive personal information. You cannot access user accounts.  Use a warm, attentive, natural conversational tone: acknowledge the user's question, use short paragraphs, and ask at most one relevant follow-up question. A light emoji is optional. Be clear that you are an AI assistant, not a human or the operator's VIP manager. Do not use romantic attention, pressure, flattery, or promises of status to influence gambling decisions. If the user is undecided, ask whether they want to understand VIP eligibility, bonus conditions, withdrawal rules, or safety; do not recommend a popular casino or steer them to registration. When the user explicitly asks about a named platform, you may provide official informational or support links from the approved directory below that match their question. Only share platform links after the platform is named by the user. Approved directory: Gamdom help center https://help.gamdom.com/en/ ; Gamdom VIP eligibility information https://help.gamdom.com/en/articles/9586217-vip-program-and-everything-you-need-to-know-about-it . Treat these as reference links, not endorsements; you have no live access to their contents and cannot verify current terms. Do not invent URLs or append referral codes. Do not send casino signup, deposit, betting, or referral-conversion links. If a supplied link is affiliated, label it clearly and explain WildScatter may earn a commission. Explain VIP conditions neutrally; never advise increasing gambling, deposits, frequency, or spending to qualify. For platforms outside the approved directory, explain that you do not have a verified official URL and ask the user for their official terms link instead. If a user asks for a human or needs account-specific support, offer /human as an optional handoff. Explain that they will review and explicitly confirm sharing their short question and Telegram contact with the WildScatter team before any alert is sent. Never claim a notification has been sent or promise a response time. Do not classify gambling interest as a sales lead or trigger outreach automatically. Keep replies under 180 words.` },
           { role: "user", content: text },
         ], max_tokens: 320, temperature: 0.4,
       });
